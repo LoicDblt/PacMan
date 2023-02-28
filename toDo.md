@@ -2,17 +2,24 @@
 # Marquer [OK] si fait
 
 ## Base
-### Gentil fantôme
-[NOK] Arrêter de faire bouger le fantôme dans le coin
+### PacMan
+[OK] Ajouter PacMan
 [NOK] Le faire bouger en fonction des touches
-[NOK] Vérifier les cases si accessibles ou non avant de bouger
+[NOK] Centrer le déplacement
+[NOK] Vérifier si les cases sont accessibles ou non avant de bouger
 
-### Méchants fantômes
+### Fantômes
+[OK] Arrêter de faire bouger le fantôme dans le coin
+	=> Trouvé mais laissé tel quel
+[NOK] Lui attribuer son comportement
 [NOK] Ajouter un autre fantôme
-[NOK] Lui attribure son comportement
-[NOK] Faire en sorte qu'on perde s'il touche notre fantôme
+[NOK] Faire en sorte qu'on perde s'il touche PacMan
 
 [NOK] Ajouter les autres méchants vilains fantômes
+
+# Récupération d'objets
+[NOK] Pièces
+[NOK] Fruits
 
 ## Stats
 [NOK] Temps
@@ -20,5 +27,5 @@
 [NOK] Nom
 [NOK] Classement
 
-## Bonus
-[NOK] Les fruits
+## Divers
+[NOK] Gérer les retours de fonctions
