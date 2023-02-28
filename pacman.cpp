@@ -1,19 +1,20 @@
 #include <SDL.h>
 
+#include <cstdlib>
 #include <iostream>
 
 SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
 
-SDL_Rect src_bg = { 200,3, 168,216 };	// x,y, w,h (0,0) en haut à gauche
-SDL_Rect bg = { 4,4, 672,864 };			// ici scale x4
+SDL_Rect src_bg = {200, 3, 168, 216};	// x ,y, w, h (0,0) [en haut à gauche]s
+SDL_Rect bg = {4, 4, 672, 864};			// Mise à l'échelle x4
 
-SDL_Rect ghost_r = { 3,123, 16,16 };
-SDL_Rect ghost_l = { 37,123, 16,16 };
-SDL_Rect ghost_d = { 105,123, 16,16 };
-SDL_Rect ghost_u = { 71,123, 16,16 };
-SDL_Rect ghost = { 34,34, 32,32 };	// ici scale x2
+SDL_Rect ghost_r = {3, 123, 16, 16};
+SDL_Rect ghost_l = {37, 123, 16, 16};
+SDL_Rect ghost_d = {105, 123, 16, 16};
+SDL_Rect ghost_u = {71, 123, 16, 16};
+SDL_Rect ghost = {34, 34, 32, 32};	// Mise à l'échelle x2
 
 int count;
 
@@ -72,7 +73,7 @@ int main(int argc, char** argv) {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cerr <<"Echec de l'initialisation de la SDL "<<SDL_GetError()
 			<< std::endl;
-		return 1;
+		return EXIT_FAILURE;
 	}
 
 	init();
@@ -83,10 +84,11 @@ int main(int argc, char** argv) {
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
 			switch (event.type) {
-			case SDL_QUIT:
-				quit = true;
-				break;
-			default: break;
+				case SDL_QUIT:
+					quit = true;
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -95,18 +97,23 @@ int main(int argc, char** argv) {
 		const Uint8* keys = SDL_GetKeyboardState(&nbk);
 		if (keys[SDL_SCANCODE_ESCAPE])
 			quit = true;
-		if (keys[SDL_SCANCODE_LEFT])
+		else if (keys[SDL_SCANCODE_LEFT])
 			puts("LEFT");
-		if (keys[SDL_SCANCODE_RIGHT])
+		else if (keys[SDL_SCANCODE_RIGHT])
 			puts("RIGHT");
+		else if (keys[SDL_SCANCODE_UP])
+			puts("UP");
+		else if (keys[SDL_SCANCODE_DOWN])
+			puts("DOWN");
 
 		// Affichage
 		draw();
 		SDL_UpdateWindowSurface(pWindow);
+
 		// Limite à 60 FPS
 		SDL_Delay(16); // Utiliser SDL_GetTicks64() pour plus de précisions
 	}
 	SDL_Quit(); // On quitte SDL
 
-	return 0;
+	return EXIT_SUCCESS;
 }
