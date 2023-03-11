@@ -1,3 +1,5 @@
+#include "person.h"
+
 #include <SDL.h>
 
 #include <cstdlib>
@@ -33,6 +35,14 @@ void init() {
 
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
 	count = 0;
+/*
+	Person pacou = {324, 
+			644, 
+			30, 
+			30, 
+			5, 
+			Person::DOWN
+	};*/
 }
 
 // Fonction mettant à jour la surface de la fenêtre "win_surf"
@@ -93,6 +103,22 @@ int main(int argc, char** argv) {
 
 	init();
 
+	/***************************/
+		/* Test ajout PacMan */
+
+		SDL_Rect* pac_in = nullptr; 
+		pac_in = &(pac_b);
+		pac.x = 336 - 12;
+			/*
+				Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
+				Peut être le pixel ciblé où on va mettre pacman, 1 pixel de
+				débort du cadre à gauche et la même à droite
+			 */
+		pac.y = 656 - 12;
+		SDL_BlitScaled(plancheSprites, pac_in, win_surf, &pac);
+
+	/***************************/
+
 	// Boucle principale
 	bool quit = false;
 	while (!quit) {
@@ -118,46 +144,35 @@ int main(int argc, char** argv) {
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT]) {
 			puts("RIGHT");
+			pac.x++;
 			// count = 0;
 		}
 
 		// Bas
 		else if (keys[SDL_SCANCODE_DOWN]) {
 			puts("DOWN");
+			pac.y++;
 			// count = 132;
 		}
 
 		// Gauche
 		else if (keys[SDL_SCANCODE_LEFT]) {
 			puts("LEFT");
+			pac.x--;
 			// count = 264;
 		}
 
 		// Haut
 		else if (keys[SDL_SCANCODE_UP]) {
 			puts("UP");
+			pac.y--;
 			// count = 396;
 		}
 
 		// Affichage
 		draw();
-		
-		/***************************/
-		/* Test ajout PacMan */
 
-		SDL_Rect* pac_in = nullptr; 
-		pac_in = &(pac_b);
-		pac.x = 336 - 12;
-			/*
-				Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
-				Peut être le pixel ciblé où on va mettre pacman, 1 pixel de
-				débort du cadre à gauche et la même à droite
-			 */
-		pac.y = 656 - 12;
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf, &pac);
-
-		/***************************/
-
 		SDL_UpdateWindowSurface(pWindow);
 
 		// Limite à 60 FPS
