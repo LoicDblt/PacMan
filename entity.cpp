@@ -1,18 +1,16 @@
 #include "entity.h"
 
-Entity::Entity(){};
-
 Entity::Entity(
 	float x,
 	float y,
 	float width,
 	float height,
-	EntityPicture entityPicture
+	SDL_Rect entityPicture
 ):
 	x_{x},
 	y_{y},
 	width_{width},
-	heigh_{heigh_},
+	heigh_{height},
 	entityPicture_{entityPicture}
 {};
 
@@ -23,3 +21,5 @@ Entity::Entity(const Entity& other):
 	heigh_{other.heigh_},
 	entityPicture_{other.entityPicture_}
 {};
+
+Entity::~Entity() {};

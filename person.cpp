@@ -1,13 +1,11 @@
 #include "person.h"
 
-Person::Person(){};
-
 Person::Person(
 	float x,
 	float y,
 	float width,
 	float heigh,
-	EntityPicture entityPicture,
+	SDL_Rect entityPicture,
 	float speed,
 	Direction direction
 ):
@@ -15,3 +13,5 @@ Person::Person(
 	speed_{speed},
 	direction_{direction}
 {};
+
+Person::~Person() {};

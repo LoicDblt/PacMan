@@ -33,15 +33,6 @@ void init() {
 
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
 	count = 0;
-	/*
-	Person pacou = {324, 
-			644, 
-			30, 
-			30, 
-			5, 
-			Person::DOWN
-	};
-	*/
 }
 
 // Fonction mettant à jour la surface de la fenêtre "win_surf"
@@ -103,18 +94,23 @@ int main(int argc, char** argv) {
 	init();
 
 	/***************************/
-		/* Test ajout PacMan */
+		/* Ajout de Pacou */
+
+		Person pacou = {336, 656, 30, 30, pac_b, 1, Person::UP};
 
 		SDL_Rect* pac_in = nullptr;
-		pac_in = &(pac_b);
-		pac.x = 336 - 12;
-			/*
-				Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
-				Peut être le pixel ciblé où on va mettre pacman, 1 pixel de
-				débort du cadre à gauche et la même à droite
-			 */
-		pac.y = 656 - 12;
-		SDL_BlitScaled(plancheSprites, pac_in, win_surf, &pac);
+		SDL_Rect tampon = pacou.getEntityPic();	// On ne peut pas récupérer
+												// l'adresse temporaire
+
+		pac_in = &(tampon);
+
+		/*
+			Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
+			Peut être le pixel ciblé où on va mettre pacman, 1 pixel de
+			débort du cadre à gauche et la même à droite
+			*/
+		pac.x = pacou.getX() - 12;
+		pac.y = pacou.getY() - 12;
 
 	/***************************/
 

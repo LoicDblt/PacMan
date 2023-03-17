@@ -3,16 +3,21 @@
 
 #include "entity.h"
 
-class Person : public Entity
-{
-	enum Direction {UP, DOWN, RIGHT, LEFT};
+#include <iostream>
+
+class Person : public Entity {
+	public:
+		enum Direction {UP, DOWN, RIGHT, LEFT};
 
 	private:
+		float x;
+		float y;
 		float speed_;
 		Direction direction_;
 
+	/* Constructors */
 	public:
-		Person();
+		Person() = default;
 		Person(
 			float speed,
 			enum Direction direction
@@ -22,7 +27,7 @@ class Person : public Entity
 			float y,
 			float width,
 			float heigh,
-			EntityPicture entityPicture,
+			SDL_Rect entityPicture,
 			float speed,
 			Direction direction
 		);
