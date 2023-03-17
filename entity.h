@@ -8,28 +8,30 @@ using EntityPicture = std::vector<SDL_Rect>;
 
 class Entity
 {
+	private:
+		float x_{0};
+		float y_{0};
+		float width_{0};
+		float heigh_{0};
+		EntityPicture entityPicture_{};
 
-    private:
-        float x_{0};
-        float y_{0};
-        float width_{0};
-        float heigh_{0};
-        EntityPicture entityPicture_{};
-    
-    public:
-        Entity();       // default constructor
-        Entity(
-            float x,
-            float y,
-            float width,
-            float heigh,
-            EntityPicture entityPicture
-        );   // alternate constructor
-        Entity(const Entity& other);       // copy constructor
+	public:
+		// default constructor
+		Entity();
 
-        ~Entity();  
+		// alternate constructor
+		Entity(		
+			float x,
+			float y,
+			float width,
+			float heigh,
+			EntityPicture entityPicture
+		);
 
+		// copy constructor
+		Entity(const Entity& other);
 
+		~Entity();
 };
 
 #endif

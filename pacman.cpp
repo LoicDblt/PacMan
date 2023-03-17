@@ -1,7 +1,5 @@
 #include "person.h"
 
-#include <SDL.h>
-
 #include <cstdlib>
 #include <iostream>
 
@@ -35,14 +33,15 @@ void init() {
 
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
 	count = 0;
-/*
+	/*
 	Person pacou = {324, 
 			644, 
 			30, 
 			30, 
 			5, 
 			Person::DOWN
-	};*/
+	};
+	*/
 }
 
 // Fonction mettant à jour la surface de la fenêtre "win_surf"
@@ -51,7 +50,7 @@ void draw() {
 	SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
 
 	// De quoi faire tourner le fantôme
-	SDL_Rect* ghost_in = nullptr; // La direct du fantôme à utiliser
+	SDL_Rect* ghost_in = nullptr; // La direction du fantôme à afficher
 	switch (count/132) {
 		// Droite
 		case 0:
@@ -106,7 +105,7 @@ int main(int argc, char** argv) {
 	/***************************/
 		/* Test ajout PacMan */
 
-		SDL_Rect* pac_in = nullptr; 
+		SDL_Rect* pac_in = nullptr;
 		pac_in = &(pac_b);
 		pac.x = 336 - 12;
 			/*

@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.7)
 
 project(PacMan LANGUAGES CXX)
+set (CMAKE_CXX_STANDARD 17)
 
 find_package(SDL2 REQUIRED)
 
 add_executable(${PROJECT_NAME} "")
-target_sources(${PROJECT_NAME} 
-		PRIVATE 
+target_sources(${PROJECT_NAME}
+		PRIVATE
 		person.cpp
 		entity.cpp
 		person.h
@@ -14,8 +15,8 @@ target_sources(${PROJECT_NAME}
 		pacman.cpp
 		)
 
-target_include_directories(${PROJECT_NAME} 
-		PRIVATE 
+target_include_directories(${PROJECT_NAME}
+		PRIVATE
 		${SDL2_INCLUDE_DIRS}
 		${CMAKE_CURRENT_SOURCE_DIR}
 		)
