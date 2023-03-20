@@ -7,7 +7,7 @@
 
 class Person : public Entity {
 	public:
-		enum Direction {UP, DOWN, RIGHT, LEFT};
+		enum Direction {UP, DOWN, RIGHT, LEFT, NONE};
 
 	private:
 		float x;
@@ -32,6 +32,18 @@ class Person : public Entity {
 			Direction direction
 		);
 		~Person();
+
+	/* Getter */
+	public:
+		inline Direction getDirection() const {
+			return direction_;
+		}
+
+	/* Setter */
+	public:
+		inline void setDirection(Direction direction) {
+			direction_ = direction;
+		}
 };
 
 #endif

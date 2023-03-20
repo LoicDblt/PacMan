@@ -4,32 +4,52 @@
 #include <vector>
 #include <SDL.h>
 
-using EntityPicture = std::vector<SDL_Rect>;
+#include <iostream>
 
-class Entity
-{
+class Entity {
+	private:
+		float x_{0};
+		float y_{0};
+		float width_{0};
+		float heigh_{0};
+		SDL_Rect entityPicture_{};
 
-    private:
-        float x_{0};
-        float y_{0};
-        float width_{0};
-        float heigh_{0};
-        EntityPicture entityPicture_{};
-    
-    public:
-        Entity();       // default constructor
-        Entity(
-            float x,
-            float y,
-            float width,
-            float heigh,
-            EntityPicture entityPicture
-        );   // alternate constructor
-        Entity(const Entity& other);       // copy constructor
+	/* Constructors */
+	public:
+		// default constructor
+		Entity() = default;
 
-        ~Entity();  
+		// alternate constructor
+		Entity(
+			float x,
+			float y,
+			float width,
+			float heigh,
+			SDL_Rect entityPicture
+		);
 
+		// copy constructor
+		Entity(const Entity& other);
 
+		~Entity();
+
+	/* Getter */
+	public:
+		inline SDL_Rect getEntityPic() const {
+			return entityPicture_;
+		}
+		inline float getX() const {
+			return x_;
+		}
+		inline float getY() const {
+			return y_;
+		}
+
+	/* Setter */
+	public:
+		inline void setEntityPic(SDL_Rect entityPicture) {
+			entityPicture_ = entityPicture;
+		}
 };
 
 #endif

@@ -7,21 +7,21 @@ SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
 
-SDL_Rect src_bg = {200, 3, 168, 216};	// x ,y, w, h (0,0) [en haut à gauche]
-SDL_Rect bg = {4, 4, 672, 864};			// Mise à l'échelle x4
+SDL_Rect src_bg =	{200, 3, 168, 216};	// x ,y, w, h (0,0) [en haut à gauche]
+SDL_Rect bg =		{4, 4, 672, 864};	// Mise à l'échelle x4
 
-SDL_Rect ghost_r = {3, 123, 16, 16};
-SDL_Rect ghost_l = {37, 123, 16, 16};
-SDL_Rect ghost_d = {105, 123, 16, 16};
-SDL_Rect ghost_u = {71, 123, 16, 16};
-SDL_Rect ghost = {34, 34, 32, 32};	// Mise à l'échelle x2
+SDL_Rect ghost_r =	{3, 123, 16, 16};
+SDL_Rect ghost_l =	{37, 123, 16, 16};
+SDL_Rect ghost_d =	{105, 123, 16, 16};
+SDL_Rect ghost_u =	{71, 123, 16, 16};
+SDL_Rect ghost =	{34, 34, 32, 32};	// Mise à l'échelle x2
 
-SDL_Rect pac_b = {3, 89, 16, 16};
-SDL_Rect pac_r = {20, 89, 16, 16};
-SDL_Rect pac_l = {47, 89, 16, 16};
-SDL_Rect pac_d = {75, 90, 16, 16};
-SDL_Rect pac_u = {109, 90, 16, 16};
-SDL_Rect pac = {34, 34, 32, 32};	// Mise à l'échelle x2
+SDL_Rect pac_b =	{3, 89, 16, 16};
+SDL_Rect pac_r =	{20, 89, 16, 16};
+SDL_Rect pac_l =	{47, 89, 16, 16};
+SDL_Rect pac_d =	{109, 90, 16, 16};
+SDL_Rect pac_u =	{75, 90, 16, 16};
+SDL_Rect pac =		{34, 34, 32, 32};	// Mise à l'échelle x2
 
 int count;
 
@@ -96,7 +96,8 @@ int main(int argc, char** argv) {
 	/***************************/
 		/* Ajout de Pacou */
 
-		Person pacou = {336, 656, 30, 30, pac_b, 1, Person::UP};
+		// On ne bouge pas au départ
+		Person pacou = {336, 656, 30, 30, pac_b, 1, Person::NONE}; 
 
 		SDL_Rect* pac_in = nullptr;
 		SDL_Rect tampon = pacou.getEntityPic();	// On ne peut pas récupérer
@@ -108,7 +109,7 @@ int main(int argc, char** argv) {
 			Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
 			Peut être le pixel ciblé où on va mettre pacman, 1 pixel de
 			débort du cadre à gauche et la même à droite
-			*/
+		*/
 		pac.x = pacou.getX() - 12;
 		pac.y = pacou.getY() - 12;
 
@@ -139,30 +140,56 @@ int main(int argc, char** argv) {
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT]) {
 			puts("RIGHT");
-			pac.x++;
-			// count = 0;
+			pacou.setDirection(Person::RIGHT);
+			pacou.setEntityPic(pac_r);
 		}
 
 		// Bas
 		else if (keys[SDL_SCANCODE_DOWN]) {
 			puts("DOWN");
-			pac.y++;
-			// count = 132;
+			pacou.setDirection(Person::DOWN);
+			pacou.setEntityPic(pac_d);
 		}
 
 		// Gauche
 		else if (keys[SDL_SCANCODE_LEFT]) {
 			puts("LEFT");
-			pac.x--;
-			// count = 264;
+			pacou.setDirection(Person::LEFT);
+			pacou.setEntityPic(pac_l);
 		}
 
 		// Haut
 		else if (keys[SDL_SCANCODE_UP]) {
 			puts("UP");
-			pac.y--;
-			// count = 396;
+			pacou.setDirection(Person::UP);
+			pacou.setEntityPic(pac_u);
 		}
+		
+		// On fait bouger Pacou
+		switch(pacou.getDirection()) {
+			case Person::RIGHT:
+				pac.x++;
+				break;
+
+			case Person::DOWN:
+				pac.y++;
+				break;
+
+			case Person::LEFT:
+				pac.x--;
+				break;
+
+			case Person::UP:
+				pac.y--;
+				break;
+
+			default:
+				break;
+		}
+
+		// Recharge la tête adaptée à la direction de pacou
+		SDL_Rect tampon = pacou.getEntityPic();
+		pac_in = &(tampon);
 
 		// Affichage
 		draw();
