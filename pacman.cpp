@@ -20,8 +20,8 @@ SDL_Rect ghost =	{34, 34, 32, 32};	// Mise à l'échelle x2
 
 SDL_Rect pac_b =	{3, 89, 16, 16};
 
-SDL_Rect pac_r =	{20, 89, 16, 15};
-SDL_Rect pac_ra =	{35, 89, 16, 11};
+SDL_Rect pac_r =	{20, 89, 15, 16};
+SDL_Rect pac_ra =	{35, 89, 11, 16};
 
 SDL_Rect pac_l =	{47, 89, 16, 16};
 SDL_Rect pac_d =	{109, 90, 16, 16};
@@ -195,7 +195,6 @@ int main(int argc, char** argv) {
 		}
 
 		// Recharge la tête adaptée à la direction de pacou
-		
 		tampon = pacou.getEntityPic();
 
 		// Codé en dur pour l'animation, pour tester

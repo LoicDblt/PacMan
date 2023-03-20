@@ -16,10 +16,10 @@ class Entity {
 
 	/* Constructors */
 	public:
-		// default constructor
+		// Default constructor
 		Entity() = default;
 
-		// alternate constructor
+		// Alternate constructor
 		Entity(
 			float x,
 			float y,
@@ -28,7 +28,7 @@ class Entity {
 			SDL_Rect entityPicture
 		);
 
-		// copy constructor
+		// Copy constructor
 		Entity(const Entity& other);
 
 		~Entity();
