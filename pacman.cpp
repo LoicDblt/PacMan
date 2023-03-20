@@ -7,6 +7,8 @@ SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
 
+// Format : {x, y, w, h}, on sélectionne avec un pixel de marge "noir" autour
+
 SDL_Rect src_bg =	{200, 3, 168, 216};	// x ,y, w, h (0,0) [en haut à gauche]
 SDL_Rect bg =		{4, 4, 672, 864};	// Mise à l'échelle x4
 
@@ -17,7 +19,10 @@ SDL_Rect ghost_u =	{71, 123, 16, 16};
 SDL_Rect ghost =	{34, 34, 32, 32};	// Mise à l'échelle x2
 
 SDL_Rect pac_b =	{3, 89, 16, 16};
-SDL_Rect pac_r =	{20, 89, 16, 16};
+
+SDL_Rect pac_r =	{20, 89, 16, 15};
+SDL_Rect pac_ra =	{35, 89, 16, 11};
+
 SDL_Rect pac_l =	{47, 89, 16, 16};
 SDL_Rect pac_d =	{109, 90, 16, 16};
 SDL_Rect pac_u =	{75, 90, 16, 16};
@@ -166,6 +171,8 @@ int main(int argc, char** argv) {
 		}
 		
 		// On fait bouger Pacou
+		// Vu qu'on doit garder la direction de déplacement quand l'utilisateur
+		// appuie pas sur une touche, on le sépare de l'entrée clavier
 		switch(pacou.getDirection()) {
 			case Person::RIGHT:
 				pac.x++;
@@ -188,7 +195,13 @@ int main(int argc, char** argv) {
 		}
 
 		// Recharge la tête adaptée à la direction de pacou
-		SDL_Rect tampon = pacou.getEntityPic();
+		
+		tampon = pacou.getEntityPic();
+
+		// Codé en dur pour l'animation, pour tester
+		if ((count/4)%2)
+			tampon = pac_ra;
+
 		pac_in = &(tampon);
 
 		// Affichage
