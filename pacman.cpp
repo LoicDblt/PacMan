@@ -9,7 +9,7 @@ SDL_Surface* plancheSprites = nullptr;
 
 // Format : {x, y, w, h}, on sélectionne avec un pixel de marge "noir" autour
 
-SDL_Rect src_bg =	{200, 3, 168, 216};	// x ,y, w, h (0,0) [en haut à gauche]
+SDL_Rect src_bg =	{200, 3, 168, 216};	// x ,y, w, h (0, 0) [en haut à gauche]
 SDL_Rect bg =		{4, 4, 672, 864};	// Mise à l'échelle x4
 
 SDL_Rect ghost_r =	{3, 123, 16, 16};
@@ -27,6 +27,13 @@ SDL_Rect pac_l =	{47, 89, 16, 16};
 SDL_Rect pac_d =	{109, 90, 16, 16};
 SDL_Rect pac_u =	{75, 90, 16, 16};
 SDL_Rect pac =		{34, 34, 32, 32};	// Mise à l'échelle x2
+
+/************************************/
+/* Test de mur à la droite de Pacou */
+
+SDL_Rect mur_droite_pacou = {329, 176, 6, 30}; // x, y, w, h
+
+/************************************/
 
 int count;
 
@@ -98,27 +105,27 @@ int main(int argc, char** argv) {
 
 	init();
 
-	/***************************/
-		/* Ajout de Pacou */
+	/****************************/
+	/*		Ajout de Pacou		*/
 
-		// On ne bouge pas au départ
-		Person pacou = {336, 656, 30, 30, pac_b, 1, Person::NONE}; 
+	// On ne bouge pas au départ
+	Person pacou = {336, 656, 30, 30, pac_b, 1, Person::NONE}; 
 
-		SDL_Rect* pac_in = nullptr;
-		SDL_Rect tampon = pacou.getEntityPic();	// On ne peut pas récupérer
-												// l'adresse temporaire
+	SDL_Rect* pac_in = nullptr;
+	SDL_Rect tampon = pacou.getEntityPic();	// On ne peut pas récupérer
+											// l'adresse temporaire
 
-		pac_in = &(tampon);
+	pac_in = &(tampon);
 
-		/*
-			Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
-			Peut être le pixel ciblé où on va mettre pacman, 1 pixel de
-			débort du cadre à gauche et la même à droite
-		*/
-		pac.x = pacou.getX() - 12;
-		pac.y = pacou.getY() - 12;
+	/*
+		Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
+		Peut être le pixel ciblé où on va mettre pacman, 1 pixel de
+		débort du cadre à gauche et la même à droite
+	*/
+	pac.x = pacou.getX() - 12;
+	pac.y = pacou.getY() - 12;
 
-	/***************************/
+	/****************************/
 
 	// Boucle principale
 	bool quit = false;
@@ -169,25 +176,45 @@ int main(int argc, char** argv) {
 			pacou.setDirection(Person::UP);
 			pacou.setEntityPic(pac_u);
 		}
-		
+
+		/*
+			==> Pour le mur à l'extrémité droite (x)
+			672 - 4*4*2 - 8*4 (8px = largeur mur, 4 = largeur hors du cadre, x2
+			vu que bordures droite et gauche, le tout scale x4)
+
+			==> Pour le mur à l'extrémité basse (y)
+			864 - 4*4*2 - 8*4 (8px = largeur mur, 4 = largeur hors du cadre, x2
+		*/
+		if (
+			pac.x > 608 || pac.x < 36 ||
+			pac.y > 800 || pac.y < 36
+			) {
+			puts("Pacou est sorti de la carte !");
+			// pacou.setDirection(Person::NONE);
+		}
+
 		// On fait bouger Pacou
 		// Vu qu'on doit garder la direction de déplacement quand l'utilisateur
 		// appuie pas sur une touche, on le sépare de l'entrée clavier
 		switch(pacou.getDirection()) {
 			case Person::RIGHT:
-				pac.x++;
+				if (pac.x < 608)
+					pac.x++;
 				break;
 
 			case Person::DOWN:
-				pac.y++;
+				if (pac.y < 800)
+					pac.y++;
 				break;
 
 			case Person::LEFT:
-				pac.x--;
+				if (pac.x > 36)
+					pac.x--;
 				break;
 
 			case Person::UP:
-				pac.y--;
+				if (pac.y > 36)
+					pac.y--;
 				break;
 
 			default:
@@ -198,8 +225,8 @@ int main(int argc, char** argv) {
 		tampon = pacou.getEntityPic();
 
 		// Codé en dur pour l'animation, pour tester
-		if ((count/4)%2)
-			tampon = pac_ra;
+		// if ((count/4)%2)
+			// tampon = pac_ra;
 
 		pac_in = &(tampon);
 
@@ -207,10 +234,11 @@ int main(int argc, char** argv) {
 		draw();
 
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf, &pac);
+		// SDL_BlitScaled(plancheSprites, &(mur_droite_pacou), win_surf, NULL);
 		SDL_UpdateWindowSurface(pWindow);
 
 		// Limite à 60 FPS
-		SDL_Delay(16); // Utiliser SDL_GetTicks64() pour plus de précision
+		// SDL_Delay(16); // Utiliser SDL_GetTicks64() pour plus de précision
 	}
 	SDL_Quit(); // On quitte SDL
 
