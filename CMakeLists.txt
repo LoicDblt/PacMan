@@ -10,6 +10,7 @@ target_sources(${PROJECT_NAME}
 		PRIVATE
 		person.cpp
 		entity.cpp
+		coordinate.h
 		person.h
 		entity.h
 		pacman.cpp
