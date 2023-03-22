@@ -1,4 +1,5 @@
 #include "person.h"
+#include "coordinate.h"
 
 #include <cstdlib>
 #include <iostream>
