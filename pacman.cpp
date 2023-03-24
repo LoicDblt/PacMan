@@ -10,7 +10,7 @@ SDL_Surface* plancheSprites = nullptr;
 
 // Format : {x, y, w, h}, on sélectionne avec un pixel de marge "noir" autour
 
-SDL_Rect src_bg =	{200, 3, 168, 216};	// x ,y, w, h (0,0) [en haut à gauche]
+SDL_Rect src_bg =	{200, 3, 168, 216};	// x ,y, w, h (0, 0) [en haut à gauche]
 SDL_Rect bg =		{4, 4, 672, 864};	// Mise à l'échelle x4
 
 SDL_Rect ghost_r =	{3, 123, 16, 16};
@@ -19,7 +19,7 @@ SDL_Rect ghost_d =	{105, 123, 16, 16};
 SDL_Rect ghost_u =	{71, 123, 16, 16};
 SDL_Rect ghost =	{34, 34, 32, 32};	// Mise à l'échelle x2
 
-SDL_Rect pac_b =	{3, 89, 16, 16};
+SDL_Rect pac_n =	{3, 89, 16, 16};
 
 SDL_Rect pac_r =	{20, 89, 15, 16};
 SDL_Rect pac_ra =	{35, 89, 11, 16};
@@ -27,7 +27,14 @@ SDL_Rect pac_ra =	{35, 89, 11, 16};
 SDL_Rect pac_l =	{47, 89, 16, 16};
 SDL_Rect pac_d =	{109, 90, 16, 16};
 SDL_Rect pac_u =	{75, 90, 16, 16};
-SDL_Rect pac =		{34, 34, 32, 32};	// Mise à l'échelle x2
+SDL_Rect pac =		{34, 34, 32, 32};
+
+/******************************************************************************/
+/* Test de mur à la droite de Pacou */
+
+SDL_Rect mur_droite_pacou = {516, 612, 32, 128}; // x, y, w, h
+
+/******************************************************************************/
 
 int count;
 
@@ -99,31 +106,41 @@ int main(int argc, char** argv) {
 
 	init();
 
-	/***************************/
-		/* Ajout de Pacou */
+/******************************************************************************/
 
-		// On ne bouge pas au départ
-		Person pacou = {336, 656, 30, 30, pac_b, 1, Person::NONE}; 
+	/****************************/
+	/*		Ajout de Pacou		*/
 
-		SDL_Rect* pac_in = nullptr;
-		SDL_Rect tampon = pacou.getEntityPic();	// On ne peut pas récupérer
-												// l'adresse temporaire
+	// ==> Position de base de Pacou
+	// 336 = 84*4 (largeur jusqu'au centre, avec débord de 1, puis scale 4)
+	// (30/2)/2 = 8 (/2 pour le scale, puis pour moitié largeur de pacou)
+	// 4 de marge de bordure de carte (car scale x4)
+	// d'où : 8+4 = 12 🤯
+	// Ainsi, 336 - 12 = 324
+	// Identique pour la hauteur
+	Person pacou = {324, 644, 30, 30, pac_n, 1, Person::NONE};
 
-		pac_in = &(tampon);
+	SDL_Rect* pac_in = nullptr;
+	SDL_Rect tampon = pacou.getEntityPic();	// On ne peut pas récupérer
+											// l'adresse temporaire
 
-		/*
-			Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
-			Peut être le pixel ciblé où on va mettre pacman, 1 pixel de
-			débort du cadre à gauche et la même à droite
-		*/
-		pac.x = pacou.getX() - 12;
-		pac.y = pacou.getY() - 12;
+	pac_in = &(tampon);
 
-	/***************************/
+	/*
+		Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
+		Peut être le pixel ciblé où on va mettre pacman, 1 pixel de
+		débort du cadre à gauche et la même à droite
+	*/
+	pac.x = pacou.getX();
+	pac.y = pacou.getY();
+
+	/****************************/
 
 	// Boucle principale
 	bool quit = false;
 	while (!quit) {
+
+/******************************************************************************/
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -170,37 +187,108 @@ int main(int argc, char** argv) {
 			pacou.setDirection(Person::UP);
 			pacou.setEntityPic(pac_u);
 		}
-		
-		// On fait bouger Pacou
+
+/******************************************************************************/
+
+		/*
+			==> Pour le mur à l'extrémité droite (x)
+			672 - 4*4*2 - 8*4 (8px = largeur mur, 4 = largeur hors du cadre, x2
+			vu que bordures droite et gauche, le tout scale x4)
+
+			==> Pour le mur à l'extrémité basse (y)
+			864 - 4*4*2 - 8*4 (8px = largeur mur, 4 = largeur hors du cadre, x2
+		*/
+		if (
+			pac.x > 608 || pac.x < 36 ||
+			pac.y > 800 || pac.y < 36
+		)
+			puts("Pacou est sorti de la carte !");
+
+		if (SDL_HasIntersection(&pac, &mur_droite_pacou))
+			puts("Et paf un mur !");
+
+		// ==> On fait bouger Pacou
 		// Vu qu'on doit garder la direction de déplacement quand l'utilisateur
 		// appuie pas sur une touche, on le sépare de l'entrée clavier
 		switch(pacou.getDirection()) {
-			case Person::RIGHT:
+			case Person::RIGHT: {
+				// On part du principe que le mouvement est possible
+				// On simule le déplacement (il ne sera pas affiché)
+				bool canMove = true;
 				pac.x++;
-				break;
 
-			case Person::DOWN:
+				// On vérifie qu'il reste bien dans le cadre (bord extrême)
+				if (pac.x > 608)
+					canMove = false;
+
+				// On vérifie s'il y a une collision avec un mur
+				else if (SDL_HasIntersection(&pac, &mur_droite_pacou))
+					canMove = false;
+
+				// Si le mouvement n'est pas faisable, on annule le déplacement
+				if (canMove == false)
+					pac.x--;
+				break;
+			}
+
+			case Person::DOWN: {
+				bool canMove = true;
 				pac.y++;
-				break;
 
-			case Person::LEFT:
+				if (pac.y > 800)
+					canMove = false;
+
+				else if (SDL_HasIntersection(&pac, &mur_droite_pacou))
+					canMove = false;
+
+				if (canMove == false)
+					pac.y--;
+				break;
+			}
+
+			case Person::LEFT: {
+				bool canMove = true;
 				pac.x--;
-				break;
 
-			case Person::UP:
-				pac.y--;
+				if (pac.x < 36)
+					canMove = false;
+
+				else if (SDL_HasIntersection(&pac, &mur_droite_pacou))
+					canMove = false;
+
+				if (canMove == false)
+					pac.x++;
 				break;
+			}
+
+			case Person::UP: {
+				bool canMove = true;
+				pac.y--;
+
+				if (pac.y < 36)
+					canMove = false;
+
+				else if (SDL_HasIntersection(&pac, &mur_droite_pacou))
+					canMove = false;
+
+				if (canMove == false)
+					pac.y++;
+				break;
+			}
 
 			default:
 				break;
 		}
 
+/******************************************************************************/
+
 		// Recharge la tête adaptée à la direction de pacou
 		tampon = pacou.getEntityPic();
 
-		// Codé en dur pour l'animation, pour tester
-		if ((count/4)%2)
-			tampon = pac_ra;
+		// ==> Animation
+		// Codé en dur pour tester
+		// if ((count/4)%2)
+			// tampon = pac_ra;
 
 		pac_in = &(tampon);
 
@@ -210,10 +298,10 @@ int main(int argc, char** argv) {
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf, &pac);
 		SDL_UpdateWindowSurface(pWindow);
 
-		// Limite à 60 FPS
-		SDL_Delay(16); // Utiliser SDL_GetTicks64() pour plus de précision
+		// ==> Limite à 60 FPS
+		// SDL_Delay(16); // Utiliser SDL_GetTicks64() pour plus de précision
 	}
-	SDL_Quit(); // On quitte SDL
+	SDL_Quit();
 
 	return EXIT_SUCCESS;
 }
