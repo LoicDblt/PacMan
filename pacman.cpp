@@ -13,7 +13,8 @@ SDL_Surface* plancheSprites = nullptr;
 SDL_Rect src_bg =	{200, 3, 168, 216};	// x ,y, w, h (0, 0) [en haut à gauche]
 SDL_Rect bg =		{4, 4, 672, 864};	// Mise à l'échelle x4
 
-SDL_Rect ghost_r =	{3, 123, 16, 16};
+//SDL_Rect ghost_r =	{3, 123, 16, 16};
+SDL_Rect ghost_r = Coordinate::ghost_red_r[0];
 SDL_Rect ghost_l =	{37, 123, 16, 16};
 SDL_Rect ghost_d =	{105, 123, 16, 16};
 SDL_Rect ghost_u =	{71, 123, 16, 16};
