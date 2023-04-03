@@ -14,6 +14,7 @@ class Person : public Entity {
 		float y;
 		float speed_;
 		Direction direction_;
+		int pointsDeVie_;
 
 	/* Constructors */
 	public:
@@ -29,7 +30,8 @@ class Person : public Entity {
 			float heigh,
 			SDL_Rect entityPicture,
 			float speed,
-			Direction direction
+			Direction direction,
+			int pointsDeVie
 		);
 		~Person();
 
@@ -39,10 +41,18 @@ class Person : public Entity {
 			return direction_;
 		}
 
+		inline int getPointsDeVie() const {
+			return pointsDeVie_;
+		}
+
 	/* Setter */
 	public:
 		inline void setDirection(Direction direction) {
 			direction_ = direction;
+		}
+
+		inline void pertePointDeVie(void) {
+			pointsDeVie_ -= 1;
 		}
 };
 

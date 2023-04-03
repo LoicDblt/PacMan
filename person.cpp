@@ -7,11 +7,13 @@ Person::Person(
 	float heigh,
 	SDL_Rect entityPicture,
 	float speed,
-	Direction direction
+	Direction direction,
+	int pointsDeVie
 ):
 	Entity{x, y, width, heigh, entityPicture},
 	speed_{speed},
-	direction_{direction}
+	direction_{direction},
+	pointsDeVie_{pointsDeVie}
 {};
 
 Person::~Person() {};

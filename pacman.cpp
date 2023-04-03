@@ -9,25 +9,12 @@ SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
 
 // Format : {x, y, w, h}, on sélectionne avec un pixel de marge "noir" autour
-
+// Carte
 SDL_Rect src_bg =	{200, 3, 168, 216};	// x ,y, w, h (0, 0) [en haut à gauche]
 SDL_Rect bg =		{4, 4, 672, 864};	// Mise à l'échelle x4
 
-//SDL_Rect ghost_r =	{3, 123, 16, 16};
-SDL_Rect ghost_r = Coordinate::ghost_red_r[0];
-SDL_Rect ghost_l =	{37, 123, 16, 16};
-SDL_Rect ghost_d =	{105, 123, 16, 16};
-SDL_Rect ghost_u =	{71, 123, 16, 16};
-SDL_Rect ghost =	{34, 34, 32, 32};	// Mise à l'échelle x2
-
-SDL_Rect pac_n =	{3, 89, 16, 16};
-
-SDL_Rect pac_r =	{20, 89, 15, 16};
-SDL_Rect pac_ra =	{35, 89, 11, 16};
-
-SDL_Rect pac_l =	{47, 89, 16, 16};
-SDL_Rect pac_d =	{109, 90, 16, 16};
-SDL_Rect pac_u =	{75, 90, 16, 16};
+// Personnages (mise à l'échelle x2)
+SDL_Rect ghost =	{34, 34, 32, 32};
 SDL_Rect pac =		{34, 34, 32, 32};
 
 /******************************************************************************/
@@ -59,25 +46,25 @@ void draw() {
 	switch (count/132) {
 		// Droite
 		case 0:
-			ghost_in = &(ghost_r);
+			ghost_in = &(Coordinate::ghost_red_r[0]);
 			ghost.x++;
 			break;
 
 		// Bas
 		case 1:
-			ghost_in = &(ghost_d);
+			ghost_in = &(Coordinate::ghost_red_d[0]);
 			ghost.y++;
 			break;
 
 		// Gauche
 		case 2:
-			ghost_in = &(ghost_l);
+			ghost_in = &(Coordinate::ghost_red_l[0]);
 			ghost.x--;
 			break;
 
 		// Haut
 		case 3:
-			ghost_in = &(ghost_u);
+			ghost_in = &(Coordinate::ghost_red_u[0]);
 			ghost.y--;
 			break;
 
@@ -96,6 +83,25 @@ void draw() {
 
 	// Copie du sprite zoomé
 	SDL_BlitScaled(plancheSprites, &ghost_in2, win_surf, &ghost);
+}
+
+bool colliFantome(Person* pacou, SDL_Rect* pac) {
+	pacou->pertePointDeVie();
+
+	if (pacou->getPointsDeVie() == 0) {
+		puts("Pacou est mort !");
+		return true;
+	}
+	else 
+		printf("Il reste %d vies à Pacou\n", pacou->getPointsDeVie());
+
+	// Reset pacou à sa position d'origine
+	pac->x = 324;
+	pac->y = 644;
+	pacou->setDirection(Person::NONE);
+	pacou->setEntityPic(Coordinate::pac_b[0]);
+
+	return false;
 }
 
 int main(int argc, char** argv) {
@@ -119,7 +125,7 @@ int main(int argc, char** argv) {
 	// d'où : 8+4 = 12 🤯
 	// Ainsi, 336 - 12 = 324
 	// Identique pour la hauteur
-	Person pacou = {324, 644, 30, 30, pac_n, 1, Person::NONE};
+	Person pacou = {324, 644, 30, 30, Coordinate::pac_b[0], 1, Person::NONE, 3};
 
 	SDL_Rect* pac_in = nullptr;
 	SDL_Rect tampon = pacou.getEntityPic();	// On ne peut pas récupérer
@@ -163,30 +169,26 @@ int main(int argc, char** argv) {
 
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT]) {
-			puts("RIGHT");
 			pacou.setDirection(Person::RIGHT);
-			pacou.setEntityPic(pac_r);
+			pacou.setEntityPic(Coordinate::pac_r[0]);
 		}
 
 		// Bas
 		else if (keys[SDL_SCANCODE_DOWN]) {
-			puts("DOWN");
 			pacou.setDirection(Person::DOWN);
-			pacou.setEntityPic(pac_d);
+			pacou.setEntityPic(Coordinate::pac_d[0]);
 		}
 
 		// Gauche
 		else if (keys[SDL_SCANCODE_LEFT]) {
-			puts("LEFT");
 			pacou.setDirection(Person::LEFT);
-			pacou.setEntityPic(pac_l);
+			pacou.setEntityPic(Coordinate::pac_l[0]);
 		}
 
 		// Haut
 		else if (keys[SDL_SCANCODE_UP]) {
-			puts("UP");
 			pacou.setDirection(Person::UP);
-			pacou.setEntityPic(pac_u);
+			pacou.setEntityPic(Coordinate::pac_u[0]);
 		}
 
 /******************************************************************************/
@@ -283,13 +285,34 @@ int main(int argc, char** argv) {
 
 /******************************************************************************/
 
+	// S'il y a une collision avce le fantôme rouge
+	if (SDL_HasIntersection(&pac, &ghost)) {
+		quit = colliFantome(&pacou, &pac);
+	}
+
+/******************************************************************************/
 		// Recharge la tête adaptée à la direction de pacou
 		tampon = pacou.getEntityPic();
 
-		// ==> Animation
-		// Codé en dur pour tester
-		// if ((count/4)%2)
-			// tampon = pac_ra;
+		// Animation de Pacou
+		if ((count/4)%2) {
+			switch(pacou.getDirection()) {
+				case Person::RIGHT:
+					tampon = Coordinate::pac_r[1];
+					break;
+				case Person::DOWN:
+					tampon = Coordinate::pac_d[1];;
+					break;
+				case Person::LEFT:
+					tampon = Coordinate::pac_l[1];;
+					break;
+				case Person::UP:
+					tampon = Coordinate::pac_u[1];;
+					break;
+				default:
+					break;
+			}
+		}
 
 		pac_in = &(tampon);
 
