@@ -122,7 +122,7 @@ int main(int argc, char** argv) {
 	// 336 = 84*4 (largeur jusqu'au centre, avec débord de 1, puis scale 4)
 	// (30/2)/2 = 8 (/2 pour le scale, puis pour moitié largeur de pacou)
 	// 4 de marge de bordure de carte (car scale x4)
-	// d'où : 8+4 = 12 🤯
+	// d'où : 8+4 = 12 
 	// Ainsi, 336 - 12 = 324
 	// Identique pour la hauteur
 	Person pacou = {324, 644, 30, 30, Coordinate::pac_b[0], 1, Person::NONE, 3};
