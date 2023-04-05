@@ -18,9 +18,9 @@ SDL_Rect ghost =	{34, 34, 32, 32};
 SDL_Rect pac =		{34, 34, 32, 32};
 
 /******************************************************************************/
-/* Test de mur à la droite de Pacou */
+/* Test de mur à la droite de PacMan */
 
-SDL_Rect mur_droite_pacou = {516, 612, 32, 128}; // x, y, w, h
+SDL_Rect mur_droite_pacman = {516, 612, 32, 128}; // x, y, w, h
 
 /******************************************************************************/
 
@@ -85,33 +85,29 @@ void draw() {
 	SDL_BlitScaled(plancheSprites, &ghost_in2, win_surf, &ghost);
 }
 
-bool colliFantome(Person* pacou, SDL_Rect* pac) {
-	pacou->pertePointDeVie();
+bool colliFantome(Person* pacman, SDL_Rect* pac) {
+	pacman->pertePointDeVie();
 
-	if (pacou->getPointsDeVie() == 0) {
-		puts("Pacou est mort !");
+	if (pacman->getPointsDeVie() == 0) {
+		puts("PacMan est mort !");
 		return true;
 	}
 	else 
-		printf("Il reste %d vies à Pacou\n", pacou->getPointsDeVie());
+		printf("Il reste %d vies à PacMan\n", pacman->getPointsDeVie());
 
-	// Reset pacou à sa position d'origine
+	// Reset PacMan à sa position d'origine
 	pac->x = 324;
 	pac->y = 644;
-	pacou->setDirection(Person::NONE);
-	pacou->setEntityPic(Coordinate::pac_b[0]);
+	pacman->setDirection(Person::NONE);
+	pacman->setEntityPic(Coordinate::pac_b[0]);
 
 	return false;
 }
 
-void animation(Person* pacou, SDL_Rect& tampon) {
-	switch(pacou->getDirection()) {
+void animation(Person* pacman, SDL_Rect& tampon) {
+	switch(pacman->getDirection()) {
 		case Person::RIGHT:
 			tampon = Coordinate::pac_r[1];
-			break;
-
-		case Person::DOWN:
-			tampon = Coordinate::pac_d[1];
 			break;
 
 		case Person::LEFT:
@@ -120,6 +116,10 @@ void animation(Person* pacou, SDL_Rect& tampon) {
 
 		case Person::UP:
 			tampon = Coordinate::pac_u[1];
+			break;
+
+		case Person::DOWN:
+			tampon = Coordinate::pac_d[1];
 			break;
 
 		default:
@@ -136,38 +136,25 @@ int main(int argc, char** argv) {
 
 	init();
 
-/******************************************************************************/
-
-	/****************************/
-	/*		Ajout de Pacou		*/
-
-	// ==> Position de base de Pacou
+	// ==> Position de base de PacMan
 	// 336 = 84*4 (largeur jusqu'au centre, avec débord de 1, puis scale 4)
-	// (30/2)/2 = 8 (/2 pour le scale, puis pour moitié largeur de pacou)
+	// (30/2)/2 = 8 (/2 pour le scale, puis pour moitié largeur de PacMan)
 	// 4 de marge de bordure de carte (car scale x4)
 	// d'où : 8+4 = 12 
 	// Ainsi, 336 - 12 = 324
 	// Identique pour la hauteur
-	Person pacou = {324, 644, 30, 30, Coordinate::pac_b[0], 1, Person::NONE, 3};
+	Person pacman = {324, 644, 30, 30, Coordinate::pac_b[0], 1, Person::NONE, 3};
 
 	SDL_Rect* pac_in = nullptr;
 	SDL_Rect tampon;
 
-	/*
-		Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
-		Peut être le pixel ciblé où on va mettre pacman, 1 pixel de
-		débort du cadre à gauche et la même à droite
-	*/
-	pac.x = pacou.getX();
-	pac.y = pacou.getY();
-
-	/****************************/
+	pac.x = pacman.getX();
+	pac.y = pacman.getY();
 
 	// Boucle principale
 	bool quit = false;
 	while (!quit) {
 
-/******************************************************************************/
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -189,29 +176,28 @@ int main(int argc, char** argv) {
 
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT]) {
-			pacou.setDirection(Person::RIGHT);
-			pacou.setEntityPic(Coordinate::pac_r[0]);
-		}
-
-		// Bas
-		else if (keys[SDL_SCANCODE_DOWN]) {
-			pacou.setDirection(Person::DOWN);
-			pacou.setEntityPic(Coordinate::pac_d[0]);
+			pacman.setDirection(Person::RIGHT);
+			pacman.setEntityPic(Coordinate::pac_r[0]);
 		}
 
 		// Gauche
 		else if (keys[SDL_SCANCODE_LEFT]) {
-			pacou.setDirection(Person::LEFT);
-			pacou.setEntityPic(Coordinate::pac_l[0]);
+			pacman.setDirection(Person::LEFT);
+			pacman.setEntityPic(Coordinate::pac_l[0]);
 		}
 
 		// Haut
 		else if (keys[SDL_SCANCODE_UP]) {
-			pacou.setDirection(Person::UP);
-			pacou.setEntityPic(Coordinate::pac_u[0]);
+			pacman.setDirection(Person::UP);
+			pacman.setEntityPic(Coordinate::pac_u[0]);
 		}
 
-/******************************************************************************/
+		// Bas
+		else if (keys[SDL_SCANCODE_DOWN]) {
+			pacman.setDirection(Person::DOWN);
+			pacman.setEntityPic(Coordinate::pac_d[0]);
+		}
+
 
 		/*
 			==> Pour le mur à l'extrémité droite (x)
@@ -225,15 +211,15 @@ int main(int argc, char** argv) {
 			pac.x > 608 || pac.x < 36 ||
 			pac.y > 800 || pac.y < 36
 		)
-			puts("Pacou est sorti de la carte !");
+			std::cerr << "PacMan est sorti de la carte !" << std::endl;
 
-		if (SDL_HasIntersection(&pac, &mur_droite_pacou))
+		if (SDL_HasIntersection(&pac, &mur_droite_pacman))
 			puts("Et paf un mur !");
 
-		// ==> On fait bouger Pacou
+		// ==> On fait bouger PacMan
 		// Vu qu'on doit garder la direction de déplacement quand l'utilisateur
 		// appuie pas sur une touche, on le sépare de l'entrée clavier
-		switch(pacou.getDirection()) {
+		switch(pacman.getDirection()) {
 			case Person::RIGHT: {
 				// On part du principe que le mouvement est possible
 				// On simule le déplacement (il ne sera pas affiché)
@@ -245,27 +231,12 @@ int main(int argc, char** argv) {
 					canMove = false;
 
 				// On vérifie s'il y a une collision avec un mur
-				else if (SDL_HasIntersection(&pac, &mur_droite_pacou))
+				else if (SDL_HasIntersection(&pac, &mur_droite_pacman))
 					canMove = false;
 
 				// Si le mouvement n'est pas faisable, on annule le déplacement
 				if (canMove == false)
 					pac.x--;
-				break;
-			}
-
-			case Person::DOWN: {
-				bool canMove = true;
-				pac.y++;
-
-				if (pac.y > 800)
-					canMove = false;
-
-				else if (SDL_HasIntersection(&pac, &mur_droite_pacou))
-					canMove = false;
-
-				if (canMove == false)
-					pac.y--;
 				break;
 			}
 
@@ -276,7 +247,7 @@ int main(int argc, char** argv) {
 				if (pac.x < 36)
 					canMove = false;
 
-				else if (SDL_HasIntersection(&pac, &mur_droite_pacou))
+				else if (SDL_HasIntersection(&pac, &mur_droite_pacman))
 					canMove = false;
 
 				if (canMove == false)
@@ -291,7 +262,7 @@ int main(int argc, char** argv) {
 				if (pac.y < 36)
 					canMove = false;
 
-				else if (SDL_HasIntersection(&pac, &mur_droite_pacou))
+				else if (SDL_HasIntersection(&pac, &mur_droite_pacman))
 					canMove = false;
 
 				if (canMove == false)
@@ -299,30 +270,45 @@ int main(int argc, char** argv) {
 				break;
 			}
 
+			case Person::DOWN: {
+				bool canMove = true;
+				pac.y++;
+
+				if (pac.y > 800)
+					canMove = false;
+
+				else if (SDL_HasIntersection(&pac, &mur_droite_pacman))
+					canMove = false;
+
+				if (canMove == false)
+					pac.y--;
+				break;
+			}
+
 			default:
 				break;
 		}
 
-/******************************************************************************/
 
 	// S'il y a une collision avce le fantôme rouge
 	if (SDL_HasIntersection(&pac, &ghost))
-		quit = colliFantome(&pacou, &pac);
+		quit = colliFantome(&pacman, &pac);
 
-/******************************************************************************/
-		// Recharge la tête adaptée à la direction de pacou
+		// Recharge la tête adaptée à la direction de PacMan
 		if (!((count/4)%2))
-			tampon = pacou.getEntityPic();
+			tampon = pacman.getEntityPic();
 
-		// Animation de Pacou
+		// Animation de PacMan
 		if ((count/4)%2)
-			animation(&pacou, tampon);
+			animation(&pacman, tampon);
 
 		pac_in = &(tampon);
 
 		// Affichage
 		draw();
 
+		// pac_in => la sprite a afficher
+		// pac => la position où le placer
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf, &pac);
 		SDL_UpdateWindowSurface(pWindow);
 
