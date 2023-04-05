@@ -1,37 +1,36 @@
 # Je ne connais pas les règles, à adapter !
-# Marquer [OK] si fait
+# Balise [P], si prioritaire
+# Marquer [OK], si fait
+# Marquer [WIP], si en cours
 
 ## Base
 ### PacMan
-[OK] Ajouter PacMan
-[OK] Le faire bouger en fonction des touches
-[NOK] Animer le déplacement
-[NOK] Centrer le déplacement
-[NOK] Vérifier si les cases sont accessibles ou non avant de bouger
+> [OK] Ajouter PacMan
+> [OK] Le faire bouger en fonction des touches
+> [OK] Animer le déplacement
+[WIP] Centrer le déplacement
+[OK] Vérifier si les cases sont accessibles ou non avant de bouger
 
 ## Map
-[NOK] Créer la map en coordonnée
+[WIP] Créer la map en coordonnée
 
 ### Fantômes
-[OK] Arrêter de faire bouger le fantôme dans le coin
-	=> Trouvé mais laissé tel quel
-[NOK] Lui attribuer son comportement
-[NOK] Ajouter un autre fantôme
-[NOK] Faire en sorte qu'on perde s'il touche PacMan
-[NOK] Etat vulnérable
-
+>[OK] Arrêter de faire bouger le fantôme dans le coin (Trouvé mais laissé tel quel)
+>[OK] Faire en sorte qu'on perde s'il touche PacMan
+[P] [NOK] Lui attribuer son comportement
+[NOK] État vulnérable
 [NOK] Ajouter les autres méchants vilains fantômes
 
 # Récupération d'objets
-[NOK] Pièces
+[P] [NOK] Pièces
 [NOK] Fruits
 
 ## Stats
+[P] [NOK] Points
 [NOK] Temps
-[NOK] Points
 [NOK] Nom
 [NOK] Classement
 
 ## Divers
 [NOK] Gérer les retours de fonctions
-[NOK] Fichier h avec toute les coordonnées
+[WIP] Fichier .h avec toute les coordonnées
