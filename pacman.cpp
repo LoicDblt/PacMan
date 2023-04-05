@@ -104,6 +104,29 @@ bool colliFantome(Person* pacou, SDL_Rect* pac) {
 	return false;
 }
 
+void animation(Person* pacou, SDL_Rect& tampon) {
+	switch(pacou->getDirection()) {
+		case Person::RIGHT:
+			tampon = Coordinate::pac_r[1];
+			break;
+
+		case Person::DOWN:
+			tampon = Coordinate::pac_d[1];
+			break;
+
+		case Person::LEFT:
+			tampon = Coordinate::pac_l[1];
+			break;
+
+		case Person::UP:
+			tampon = Coordinate::pac_u[1];
+			break;
+
+		default:
+			break;
+	}
+}
+
 int main(int argc, char** argv) {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cerr << "Echec de l'initialisation de la SDL " << SDL_GetError()
@@ -128,10 +151,7 @@ int main(int argc, char** argv) {
 	Person pacou = {324, 644, 30, 30, Coordinate::pac_b[0], 1, Person::NONE, 3};
 
 	SDL_Rect* pac_in = nullptr;
-	SDL_Rect tampon = pacou.getEntityPic();	// On ne peut pas récupérer
-											// l'adresse temporaire
-
-	pac_in = &(tampon);
+	SDL_Rect tampon;
 
 	/*
 		Pourquoi 12 ? 🤷‍♂️ (336 = la moitié de la carte en largeur)
@@ -286,33 +306,17 @@ int main(int argc, char** argv) {
 /******************************************************************************/
 
 	// S'il y a une collision avce le fantôme rouge
-	if (SDL_HasIntersection(&pac, &ghost)) {
+	if (SDL_HasIntersection(&pac, &ghost))
 		quit = colliFantome(&pacou, &pac);
-	}
 
 /******************************************************************************/
 		// Recharge la tête adaptée à la direction de pacou
-		tampon = pacou.getEntityPic();
+		if (!((count/4)%2))
+			tampon = pacou.getEntityPic();
 
 		// Animation de Pacou
-		if ((count/4)%2) {
-			switch(pacou.getDirection()) {
-				case Person::RIGHT:
-					tampon = Coordinate::pac_r[1];
-					break;
-				case Person::DOWN:
-					tampon = Coordinate::pac_d[1];;
-					break;
-				case Person::LEFT:
-					tampon = Coordinate::pac_l[1];;
-					break;
-				case Person::UP:
-					tampon = Coordinate::pac_u[1];;
-					break;
-				default:
-					break;
-			}
-		}
+		if ((count/4)%2)
+			animation(&pacou, tampon);
 
 		pac_in = &(tampon);
 
