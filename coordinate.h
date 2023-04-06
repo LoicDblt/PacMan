@@ -55,7 +55,6 @@ class Coordinate
 		/**
 		 * =============== MURS ===============================
 		*/
-<<<<<<< HEAD
 		inline static std::vector<SDL_Rect> walls{
 			{16,16,24,24},
 			{48,16,24,24},
@@ -64,10 +63,6 @@ class Coordinate
 			{128,16,24,24}
 		};
 		
-=======
-		inline static SDL_Rect m1_0{64, 608,};
-		inline static SDL_Rect m25{516, 612, 28, 124};
->>>>>>> 389c8ad54728ac4f25d1bba36847e1856353c29c
 
 	public:
 		Coordinate(/* args */);
