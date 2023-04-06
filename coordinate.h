@@ -18,6 +18,8 @@ class Coordinate
 		 * l -> "left"
 		 * d -> "down"
 		 * u -> "up"
+		 * 
+		 * Format (x, y, w, h)
 		*/
 		// Coordonnées de Pacman
 		inline static std::vector<SDL_Rect> pac_b{{3, 89, 14, 15}};
@@ -53,8 +55,13 @@ class Coordinate
 		/**
 		 * =============== MURS ===============================
 		*/
-		inline static SDL_Rect m1_0{64,608,};
-		inline static SDL_Rect m25{516,612,28,124};
+		inline static std::vector<SDL_Rect> walls{
+			{16,16,24,24},
+			{48,16,24,24},
+			{80,1,8,40},
+			{96,16,24,24},
+			{128,16,24,24}
+		};
 		
 
 	public:
