@@ -21,6 +21,7 @@ SDL_Rect pac =		{34, 34, 32, 32};
 /* Test de mur à la droite de PacMan */
 
 SDL_Rect mur_droite_pacman = {516, 612, 32, 128}; // x, y, w, h
+std::vector<SDL_Rect> walls = Coordinate::walls;
 
 /******************************************************************************/
 
@@ -34,6 +35,15 @@ void init() {
 
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
 	count = 0;
+
+	// Init les murs avec mise à l'échelle
+	for(int i=0; i<walls.size(); i++){
+		walls[i].x *= 4;
+		walls[i].y *= 4;
+		walls[i].w *= 4;
+		walls[i].h *= 4;
+	}
+
 }
 
 // Fonction mettant à jour la surface de la fenêtre "win_surf"
@@ -83,6 +93,18 @@ void draw() {
 
 	// Copie du sprite zoomé
 	SDL_BlitScaled(plancheSprites, &ghost_in2, win_surf, &ghost);
+}
+
+/**
+ * Return 
+ * true -> collision avec un mur
+ * false -> il n'y a  pas de collision
+*/
+bool detectWalls() {
+	for(int i=0; i<walls.size();i++)
+		if(SDL_HasIntersection(&pac, &walls[i]))
+			return true;
+	return false;
 }
 
 bool colliFantome(Person* pacman, SDL_Rect* pac) {
@@ -231,7 +253,7 @@ int main(int argc, char** argv) {
 					canMove = false;
 
 				// On vérifie s'il y a une collision avec un mur
-				else if (SDL_HasIntersection(&pac, &mur_droite_pacman))
+				else if (detectWalls())
 					canMove = false;
 
 				// Si le mouvement n'est pas faisable, on annule le déplacement
@@ -244,10 +266,10 @@ int main(int argc, char** argv) {
 				bool canMove = true;
 				pac.x--;
 
-				if (pac.x < 36)
+				if (pac.x < 34)
 					canMove = false;
 
-				else if (SDL_HasIntersection(&pac, &mur_droite_pacman))
+				else if (detectWalls())
 					canMove = false;
 
 				if (canMove == false)
@@ -262,7 +284,7 @@ int main(int argc, char** argv) {
 				if (pac.y < 36)
 					canMove = false;
 
-				else if (SDL_HasIntersection(&pac, &mur_droite_pacman))
+				else if (detectWalls())
 					canMove = false;
 
 				if (canMove == false)
@@ -277,7 +299,7 @@ int main(int argc, char** argv) {
 				if (pac.y > 800)
 					canMove = false;
 
-				else if (SDL_HasIntersection(&pac, &mur_droite_pacman))
+				else if (detectWalls())
 					canMove = false;
 
 				if (canMove == false)
