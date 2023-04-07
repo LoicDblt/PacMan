@@ -335,7 +335,7 @@ int main(int argc, char** argv) {
 		SDL_UpdateWindowSurface(pWindow);
 
 		// ==> Limite à 60 FPS
-		// SDL_Delay(16); // Utiliser SDL_GetTicks64() pour plus de précision
+		SDL_Delay(5); // Utiliser SDL_GetTicks64() pour plus de précision
 	}
 	SDL_Quit();
 
