@@ -22,6 +22,8 @@ SDL_Rect pac =		{34, 34, 32, 32};
 
 SDL_Rect mur_droite_pacman = {516, 612, 32, 128}; // x, y, w, h
 std::vector<SDL_Rect> walls = Coordinate::walls;
+std::vector<SDL_Rect> pacgom = Coordinate::pacgom;
+
 
 /******************************************************************************/
 
@@ -31,6 +33,7 @@ void init() {
 	// Changer les tailles casse le jeu...
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, 700, 900, SDL_WINDOW_SHOWN);
+
 	win_surf = SDL_GetWindowSurface(pWindow);
 
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
@@ -42,6 +45,14 @@ void init() {
 		walls[i].y *= 4;
 		walls[i].w *= 4;
 		walls[i].h *= 4;
+	}
+
+	// Init les pacgoms
+	for(int i=0; i<pacgom.size(); i++){
+		pacgom[i].x *= 4;
+		pacgom[i].y *= 4;
+		pacgom[i].w *= 4;
+		pacgom[i].h *= 4;
 	}
 
 }
@@ -161,11 +172,11 @@ int main(int argc, char** argv) {
 	// ==> Position de base de PacMan
 	// 336 = 84*4 (largeur jusqu'au centre, avec débord de 1, puis scale 4)
 	// (30/2)/2 = 8 (/2 pour le scale, puis pour moitié largeur de PacMan)
-	// 4 de marge de bordure de carte (car scale x4)
-	// d'où : 8+4 = 12 
+	// 4 car 2 de marge sur pacman scale x2
+	// d'où : 8+4 = 12
 	// Ainsi, 336 - 12 = 324
 	// Identique pour la hauteur
-	Person pacman = {324, 644, 30, 30, Coordinate::pac_b[0], 1, Person::NONE, 3};
+	Person pacman = {324, 644, 32, 32, Coordinate::pac_b[0], 1, Person::NONE, 3};
 
 	SDL_Rect* pac_in = nullptr;
 	SDL_Rect tampon;
@@ -234,9 +245,6 @@ int main(int argc, char** argv) {
 			pac.y > 800 || pac.y < 36
 		)
 			std::cerr << "PacMan est sorti de la carte !" << std::endl;
-
-		if (SDL_HasIntersection(&pac, &mur_droite_pacman))
-			puts("Et paf un mur !");
 
 		// ==> On fait bouger PacMan
 		// Vu qu'on doit garder la direction de déplacement quand l'utilisateur
@@ -312,9 +320,9 @@ int main(int argc, char** argv) {
 		}
 
 
-	// S'il y a une collision avce le fantôme rouge
-	if (SDL_HasIntersection(&pac, &ghost))
-		quit = colliFantome(&pacman, &pac);
+		// S'il y a une collision avce le fantôme rouge
+		if (SDL_HasIntersection(&pac, &ghost))
+			quit = colliFantome(&pacman, &pac);
 
 		// Recharge la tête adaptée à la direction de PacMan
 		if (!((count/4)%2))
@@ -329,13 +337,34 @@ int main(int argc, char** argv) {
 		// Affichage
 		draw();
 
+
+/*******************************************************************/
+		SDL_Rect gomme_droite_pacman = {364, 652, 8, 8};
+		// Collision avec les points
+		if (SDL_HasIntersection(&pac, &gomme_droite_pacman)) {
+			std::cout << "Hop une pacgomme !" << count << std::endl;
+
+			
+			SDL_Rect noir = Coordinate::ghost_orange_d[0];
+
+			SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
+
+			SDL_Rect* sprite_gom = &(noir);
+
+			SDL_Rect position_gom = {356, 644, 32, 32};
+
+			// Copie du sprite zoomé
+			SDL_BlitScaled(plancheSprites, sprite_gom, win_surf, &position_gom);
+		}
+/*******************************************************************/
+
 		// pac_in => la sprite a afficher
 		// pac => la position où le placer
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf, &pac);
 		SDL_UpdateWindowSurface(pWindow);
 
 		// ==> Limite à 60 FPS
-		SDL_Delay(5); // Utiliser SDL_GetTicks64() pour plus de précision
+		SDL_Delay(16); // Utiliser SDL_GetTicks64() pour plus de précision
 	}
 	SDL_Quit();
 
