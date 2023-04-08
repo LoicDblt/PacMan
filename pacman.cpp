@@ -10,7 +10,8 @@ SDL_Surface* plancheSprites = nullptr;
 
 // Format : {x, y, w, h}, on sélectionne avec un pixel de marge "noir" autour
 // Carte
-SDL_Rect src_bg =	{200, 3, 168, 216};	// x ,y, w, h (0, 0) [en haut à gauche]
+//SDL_Rect src_bg =	{200, 3, 168, 216};//Avec pacgomme	// x ,y, w, h (0, 0) [en haut à gauche]
+SDL_Rect src_bg =	{369, 3, 168, 216};
 SDL_Rect bg =		{4, 4, 672, 864};	// Mise à l'échelle x4
 
 // Personnages (mise à l'échelle x2)
@@ -104,6 +105,10 @@ void draw() {
 
 	// Copie du sprite zoomé
 	SDL_BlitScaled(plancheSprites, &ghost_in2, win_surf, &ghost);
+
+	for(int i=0;i<pacgom.size();i++){
+		SDL_BlitScaled(plancheSprites, &Coordinate::pacgom[i], win_surf, &pacgom[i]);
+	}
 }
 
 /**
@@ -112,9 +117,17 @@ void draw() {
  * false -> il n'y a  pas de collision
 */
 bool detectWalls() {
+	// Wall detection
 	for(int i=0; i<walls.size();i++)
 		if(SDL_HasIntersection(&pac, &walls[i]))
 			return true;
+	// Pacgomme detection
+	for(int i=0; i<pacgom.size(); i++)
+		if(SDL_HasIntersection(&pac, &pacgom[i])){
+			std::cout << "Miam pacgomme" << std::endl;
+			pacgom.erase(pacgom.begin()+i);
+		}
+
 	return false;
 }
 
@@ -188,6 +201,8 @@ int main(int argc, char** argv) {
 	bool quit = false;
 	while (!quit) {
 
+		int vitesse_debug; // <========================== A SUPPRIMER
+
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -231,20 +246,13 @@ int main(int argc, char** argv) {
 			pacman.setEntityPic(Coordinate::pac_d[0]);
 		}
 
-
-		/*
-			==> Pour le mur à l'extrémité droite (x)
-			672 - 4*4*2 - 8*4 (8px = largeur mur, 4 = largeur hors du cadre, x2
-			vu que bordures droite et gauche, le tout scale x4)
-
-			==> Pour le mur à l'extrémité basse (y)
-			864 - 4*4*2 - 8*4 (8px = largeur mur, 4 = largeur hors du cadre, x2
-		*/
-		if (
-			pac.x > 608 || pac.x < 36 ||
-			pac.y > 800 || pac.y < 36
-		)
-			std::cerr << "PacMan est sorti de la carte !" << std::endl;
+		// Debug vitesse
+		else if (keys[SDL_SCANCODE_SPACE]) {
+			if (vitesse_debug == 16)
+				vitesse_debug = 0;
+			else
+				vitesse_debug = 16;
+		}
 
 		// ==> On fait bouger PacMan
 		// Vu qu'on doit garder la direction de déplacement quand l'utilisateur
@@ -252,65 +260,33 @@ int main(int argc, char** argv) {
 		switch(pacman.getDirection()) {
 			case Person::RIGHT: {
 				// On part du principe que le mouvement est possible
-				// On simule le déplacement (il ne sera pas affiché)
-				bool canMove = true;
+				// On simule le déplacement (il ne sera pas effectué)
 				pac.x++;
 
-				// On vérifie qu'il reste bien dans le cadre (bord extrême)
-				if (pac.x > 608)
-					canMove = false;
-
 				// On vérifie s'il y a une collision avec un mur
-				else if (detectWalls())
-					canMove = false;
-
-				// Si le mouvement n'est pas faisable, on annule le déplacement
-				if (canMove == false)
+				if (detectWalls())
 					pac.x--;
+
 				break;
 			}
 
 			case Person::LEFT: {
-				bool canMove = true;
 				pac.x--;
-
-				if (pac.x < 34)
-					canMove = false;
-
-				else if (detectWalls())
-					canMove = false;
-
-				if (canMove == false)
+				if (detectWalls())
 					pac.x++;
 				break;
 			}
 
 			case Person::UP: {
-				bool canMove = true;
 				pac.y--;
-
-				if (pac.y < 36)
-					canMove = false;
-
-				else if (detectWalls())
-					canMove = false;
-
-				if (canMove == false)
+				if (detectWalls())
 					pac.y++;
 				break;
 			}
 
 			case Person::DOWN: {
-				bool canMove = true;
 				pac.y++;
-
-				if (pac.y > 800)
-					canMove = false;
-
-				else if (detectWalls())
-					canMove = false;
-
-				if (canMove == false)
+				if (detectWalls())
 					pac.y--;
 				break;
 			}
@@ -321,8 +297,8 @@ int main(int argc, char** argv) {
 
 
 		// S'il y a une collision avce le fantôme rouge
-		if (SDL_HasIntersection(&pac, &ghost))
-			quit = colliFantome(&pacman, &pac);
+		// if (SDL_HasIntersection(&pac, &ghost))
+		// 	quit = colliFantome(&pacman, &pac);
 
 		// Recharge la tête adaptée à la direction de PacMan
 		if (!((count/4)%2))
@@ -336,7 +312,6 @@ int main(int argc, char** argv) {
 
 		// Affichage
 		draw();
-
 
 /*******************************************************************/
 		SDL_Rect gomme_droite_pacman = {364, 652, 8, 8};
@@ -364,7 +339,7 @@ int main(int argc, char** argv) {
 		SDL_UpdateWindowSurface(pWindow);
 
 		// ==> Limite à 60 FPS
-		SDL_Delay(16); // Utiliser SDL_GetTicks64() pour plus de précision
+		SDL_Delay(vitesse_debug); // Utiliser SDL_GetTicks64() pour plus de précision
 	}
 	SDL_Quit();
 
