@@ -10,7 +10,6 @@ SDL_Surface* plancheSprites = nullptr;
 
 // Format : {x, y, w, h}, on sélectionne avec un pixel de marge "noir" autour
 // Carte
-//SDL_Rect src_bg =	{200, 3, 168, 216};//Avec pacgomme	// x ,y, w, h (0, 0) [en haut à gauche]
 SDL_Rect src_bg =	{369, 3, 168, 216};
 SDL_Rect bg =		{4, 4, 672, 864};	// Mise à l'échelle x4
 
@@ -18,12 +17,12 @@ SDL_Rect bg =		{4, 4, 672, 864};	// Mise à l'échelle x4
 SDL_Rect ghost =	{34, 34, 32, 32};
 SDL_Rect pac =		{34, 34, 32, 32};
 
-/******************************************************************************/
-/* Test de mur à la droite de PacMan */
-
-SDL_Rect mur_droite_pacman = {516, 612, 32, 128}; // x, y, w, h
+// Murs 
 std::vector<SDL_Rect> walls = Coordinate::walls;
-std::vector<SDL_Rect> pacgom = Coordinate::pacgom;
+
+// dotsme en anglais "dot"
+std::vector<SDL_Rect> dots = Coordinate::dots;
+std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 
 /******************************************************************************/
@@ -48,13 +47,22 @@ void init() {
 		walls[i].h *= 4;
 	}
 
-	// Init les pacgoms
-	for(int i=0; i<pacgom.size(); i++){
-		pacgom[i].x *= 4;
-		pacgom[i].y *= 4;
-		pacgom[i].w *= 4;
-		pacgom[i].h *= 4;
+	// Init les pacgommes
+	for(int i=0; i<dots.size(); i++){
+		dots[i].x = 4*(dots[i].x+1);
+		dots[i].y = 4*(dots[i].y+1);
+		dots[i].w *= 4;
+		dots[i].h *= 4;
 	}
+
+	// Init les super pacgommes
+	for(int i=0; i<energizers.size(); i++){
+		energizers[i].x = 4*(energizers[i].x+1);
+		energizers[i].y = 4*(energizers[i].y+1);
+		energizers[i].w *= 4;
+		energizers[i].h *= 4;
+	}
+
 
 }
 
@@ -106,9 +114,16 @@ void draw() {
 	// Copie du sprite zoomé
 	SDL_BlitScaled(plancheSprites, &ghost_in2, win_surf, &ghost);
 
-	for(int i=0;i<pacgom.size();i++){
-		SDL_BlitScaled(plancheSprites, &Coordinate::pacgom[i], win_surf, &pacgom[i]);
+	// Pacgommes Affichage
+	for(int i=0;i<dots.size();i++){
+		SDL_BlitScaled(plancheSprites, &Coordinate::dots_texture, win_surf, &dots[i]);
 	}
+
+	// Super Pacgommes Affichage
+	for(int i=0;i<energizers.size();i++){
+		SDL_BlitScaled(plancheSprites, &Coordinate::energizer_texture, win_surf, &energizers[i]);
+	}
+
 }
 
 /**
@@ -121,11 +136,19 @@ bool detectWalls() {
 	for(int i=0; i<walls.size();i++)
 		if(SDL_HasIntersection(&pac, &walls[i]))
 			return true;
+
 	// Pacgomme detection
-	for(int i=0; i<pacgom.size(); i++)
-		if(SDL_HasIntersection(&pac, &pacgom[i])){
-			std::cout << "Miam pacgomme" << std::endl;
-			pacgom.erase(pacgom.begin()+i);
+	for(int i=0; i<dots.size(); i++)
+		if(SDL_HasIntersection(&pac, &dots[i])){
+			std::cout << "Miam dot" << std::endl;
+			dots.erase(dots.begin()+i);
+		}
+
+	// Pacgomme detection
+	for(int i=0; i<energizers.size(); i++)
+		if(SDL_HasIntersection(&pac, &energizers[i])){
+			std::cout << "Miam energizers" << std::endl;
+			energizers.erase(energizers.begin()+i);
 		}
 
 	return false;
@@ -312,26 +335,6 @@ int main(int argc, char** argv) {
 
 		// Affichage
 		draw();
-
-/*******************************************************************/
-		SDL_Rect gomme_droite_pacman = {364, 652, 8, 8};
-		// Collision avec les points
-		if (SDL_HasIntersection(&pac, &gomme_droite_pacman)) {
-			std::cout << "Hop une pacgomme !" << count << std::endl;
-
-			
-			SDL_Rect noir = Coordinate::ghost_orange_d[0];
-
-			SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
-
-			SDL_Rect* sprite_gom = &(noir);
-
-			SDL_Rect position_gom = {356, 644, 32, 32};
-
-			// Copie du sprite zoomé
-			SDL_BlitScaled(plancheSprites, sprite_gom, win_surf, &position_gom);
-		}
-/*******************************************************************/
 
 		// pac_in => la sprite a afficher
 		// pac => la position où le placer
