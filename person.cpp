@@ -21,7 +21,6 @@ void Person::move(std::vector<SDL_Rect>& walls)
 		if(checkDirection(walls, wishDirection_)){
 			tryToTurnCmp_ = 0;
 			direction_ = wishDirection_;
-			std::cout << "Hitler" << std::endl;
 		}else
 			tryToTurnCmp_--;
 	}
