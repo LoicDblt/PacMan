@@ -4,6 +4,7 @@
 #include "entity.h"
 
 #include <iostream>
+#include <cstdlib>
 
 class Person : public Entity {
 	public:
@@ -14,7 +15,9 @@ class Person : public Entity {
 		float y;
 		float speed_;
 		Direction direction_;
+		Direction wishDirection_;
 		int pointsDeVie_;
+		int tryToTurnCmp_{50};
 
 	/* Constructors */
 	public:
@@ -24,16 +27,20 @@ class Person : public Entity {
 			enum Direction direction
 		);
 		Person(
-			float x,
-			float y,
-			float width,
-			float heigh,
+			SDL_Rect entityRect,
 			SDL_Rect entityPicture,
 			float speed,
 			Direction direction,
 			int pointsDeVie
 		);
 		~Person();
+
+	private:
+		bool checkWalls(std::vector<SDL_Rect> &walls);
+		bool checkDirection(std::vector<SDL_Rect> &walls, Direction direction);
+
+	public:
+		void move(std::vector<SDL_Rect>& walls);
 
 	/* Getter */
 	public:
@@ -49,6 +56,10 @@ class Person : public Entity {
 	public:
 		inline void setDirection(Direction direction) {
 			direction_ = direction;
+		}
+
+		inline void setWishDirection(Direction wishDirection) {
+			wishDirection_ = wishDirection;
 		}
 
 		inline void pertePointDeVie(void) {

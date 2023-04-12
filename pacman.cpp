@@ -29,7 +29,8 @@ std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 int count;
 
-void init() {
+void init() 
+{
 	// Changer les tailles casse le jeu...
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, 700, 900, SDL_WINDOW_SHOWN);
@@ -67,7 +68,8 @@ void init() {
 }
 
 // Fonction mettant à jour la surface de la fenêtre "win_surf"
-void draw() {
+void draw() 
+{
 	SDL_SetColorKey(plancheSprites, false, 0);
 	SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
 
@@ -131,7 +133,8 @@ void draw() {
  * true -> collision avec un mur
  * false -> il n'y a  pas de collision
 */
-bool detectWalls() {
+bool detectWalls() 
+{
 	// Wall detection
 	for(int i=0; i<walls.size();i++)
 		if(SDL_HasIntersection(&pac, &walls[i]))
@@ -154,7 +157,8 @@ bool detectWalls() {
 	return false;
 }
 
-bool colliFantome(Person* pacman, SDL_Rect* pac) {
+bool colliFantome(Person* pacman, SDL_Rect* pac) 
+{
 	pacman->pertePointDeVie();
 
 	if (pacman->getPointsDeVie() == 0) {
@@ -173,7 +177,8 @@ bool colliFantome(Person* pacman, SDL_Rect* pac) {
 	return false;
 }
 
-void animation(Person* pacman, SDL_Rect& tampon) {
+void animation(Person* pacman, SDL_Rect& tampon) 
+{
 	switch(pacman->getDirection()) {
 		case Person::RIGHT:
 			tampon = Coordinate::pac_r[1];
@@ -196,7 +201,8 @@ void animation(Person* pacman, SDL_Rect& tampon) {
 	}
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv) 
+{
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cerr << "Echec de l'initialisation de la SDL " << SDL_GetError()
 			<< std::endl;
@@ -212,7 +218,7 @@ int main(int argc, char** argv) {
 	// d'où : 8+4 = 12
 	// Ainsi, 336 - 12 = 324
 	// Identique pour la hauteur
-	Person pacman = {324, 644, 32, 32, Coordinate::pac_b[0], 1, Person::NONE, 3};
+	Person pacman = {SDL_Rect{324, 644, 32, 32}, Coordinate::pac_b[0], 1, Person::NONE, 3};
 
 	SDL_Rect* pac_in = nullptr;
 	SDL_Rect tampon;
@@ -247,25 +253,25 @@ int main(int argc, char** argv) {
 
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT]) {
-			pacman.setDirection(Person::RIGHT);
+			pacman.setWishDirection(Person::RIGHT);
 			pacman.setEntityPic(Coordinate::pac_r[0]);
 		}
 
 		// Gauche
 		else if (keys[SDL_SCANCODE_LEFT]) {
-			pacman.setDirection(Person::LEFT);
+			pacman.setWishDirection(Person::LEFT);
 			pacman.setEntityPic(Coordinate::pac_l[0]);
 		}
 
 		// Haut
 		else if (keys[SDL_SCANCODE_UP]) {
-			pacman.setDirection(Person::UP);
+			pacman.setWishDirection(Person::UP);
 			pacman.setEntityPic(Coordinate::pac_u[0]);
 		}
 
 		// Bas
 		else if (keys[SDL_SCANCODE_DOWN]) {
-			pacman.setDirection(Person::DOWN);
+			pacman.setWishDirection(Person::DOWN);
 			pacman.setEntityPic(Coordinate::pac_d[0]);
 		}
 
@@ -278,45 +284,7 @@ int main(int argc, char** argv) {
 		}
 
 		// ==> On fait bouger PacMan
-		// Vu qu'on doit garder la direction de déplacement quand l'utilisateur
-		// appuie pas sur une touche, on le sépare de l'entrée clavier
-		switch(pacman.getDirection()) {
-			case Person::RIGHT: {
-				// On part du principe que le mouvement est possible
-				// On simule le déplacement (il ne sera pas effectué)
-				pac.x++;
-
-				// On vérifie s'il y a une collision avec un mur
-				if (detectWalls())
-					pac.x--;
-
-				break;
-			}
-
-			case Person::LEFT: {
-				pac.x--;
-				if (detectWalls())
-					pac.x++;
-				break;
-			}
-
-			case Person::UP: {
-				pac.y--;
-				if (detectWalls())
-					pac.y++;
-				break;
-			}
-
-			case Person::DOWN: {
-				pac.y++;
-				if (detectWalls())
-					pac.y--;
-				break;
-			}
-
-			default:
-				break;
-		}
+		pacman.move(walls);
 
 
 		// S'il y a une collision avce le fantôme rouge
@@ -338,7 +306,7 @@ int main(int argc, char** argv) {
 
 		// pac_in => la sprite a afficher
 		// pac => la position où le placer
-		SDL_BlitScaled(plancheSprites, pac_in, win_surf, &pac);
+		SDL_BlitScaled(plancheSprites, pac_in, win_surf, &pacman.getEntityRect());
 		SDL_UpdateWindowSurface(pWindow);
 
 		// ==> Limite à 60 FPS

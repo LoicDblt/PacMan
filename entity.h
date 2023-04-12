@@ -8,11 +8,10 @@
 
 class Entity {
 	private:
-		float x_{0};
-		float y_{0};
-		float width_{0};
-		float heigh_{0};
 		SDL_Rect entityPicture_{};
+
+	protected:
+		SDL_Rect entityRect_{};
 
 	/* Constructors */
 	public:
@@ -21,10 +20,7 @@ class Entity {
 
 		// Alternate constructor
 		Entity(
-			float x,
-			float y,
-			float width,
-			float heigh,
+			SDL_Rect entityRect,
 			SDL_Rect entityPicture
 		);
 
@@ -39,10 +35,13 @@ class Entity {
 			return entityPicture_;
 		}
 		inline float getX() const {
-			return x_;
+			return entityRect_.x;
 		}
 		inline float getY() const {
-			return y_;
+			return entityRect_.y;
+		}
+		inline SDL_Rect& getEntityRect(){
+			return entityRect_;
 		}
 
 	/* Setter */
