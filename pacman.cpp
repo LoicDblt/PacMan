@@ -9,10 +9,9 @@ SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
 
-// Format : {x, y, w, h}, on sélectionne avec un pixel de marge "noir" autour
 // Carte
 SDL_Rect src_bg =	{369, 3, 168, 216};
-SDL_Rect bg =		{4, 4, 672, 864};	// Mise à l'échelle x4
+SDL_Rect bg =		{4, 4, 672, 864}; // Mise à l'échelle x4
 
 // Personnages (mise à l'échelle x2)
 SDL_Rect ghost =	{34, 34, 32, 32};
@@ -24,9 +23,6 @@ std::vector<SDL_Rect> walls = Coordinate::walls;
 // dotsme en anglais "dot"
 std::vector<SDL_Rect> dots = Coordinate::dots;
 std::vector<SDL_Rect> energizers = Coordinate::energizers;
-
-
-/******************************************************************************/
 
 int count;
 
@@ -119,12 +115,14 @@ void draw()
 
 	// Pacgommes Affichage
 	for(int i=0;i<dots.size();i++){
-		SDL_BlitScaled(plancheSprites, &Coordinate::dots_texture, win_surf, &dots[i]);
+		SDL_BlitScaled(plancheSprites, &Coordinate::dots_texture, win_surf,
+			&dots[i]);
 	}
 
 	// Super Pacgommes Affichage
 	for(int i=0;i<energizers.size();i++){
-		SDL_BlitScaled(plancheSprites, &Coordinate::energizer_texture, win_surf, &energizers[i]);
+		SDL_BlitScaled(plancheSprites, &Coordinate::energizer_texture, win_surf,
+			&energizers[i]);
 	}
 
 }
@@ -148,7 +146,7 @@ bool detectWalls(Stats* statsPac) {
 			statsPac->addPacG();
 		}
 
-	// Pacgomme detection
+	// Super pacgomme detection
 	for(int i=0; i<energizers.size(); i++)
 		if(SDL_HasIntersection(&pac, &energizers[i])){
 			std::cout << "Miam energizers" << std::endl;
@@ -304,19 +302,21 @@ int main(int argc, char** argv)
 
 		pac_in = &(tampon);
 
-		// On affiche le score
-		statsPac.afficherScore();
+		// Affiche le score
+		// statsPac.afficherScore();
 
 		// Affichage
 		draw();
 
 		// pac_in => la sprite a afficher
 		// pac => la position où le placer
-		SDL_BlitScaled(plancheSprites, pac_in, win_surf, &pacman.getEntityRect());
+		SDL_BlitScaled(plancheSprites, pac_in, win_surf,
+			&pacman.getEntityRect());
 		SDL_UpdateWindowSurface(pWindow);
 
 		// ==> Limite à 60 FPS
-		SDL_Delay(vitesse_debug); // Utiliser SDL_GetTicks64() pour plus de précision
+		SDL_Delay(vitesse_debug);	// Utiliser SDL_GetTicks64() pour
+									// plus de précision
 	}
 	SDL_Quit();
 
