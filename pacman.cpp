@@ -1,5 +1,6 @@
 #include "person.h"
 #include "coordinate.h"
+#include "stats.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -131,7 +132,7 @@ void draw() {
  * true -> collision avec un mur
  * false -> il n'y a  pas de collision
 */
-bool detectWalls() {
+bool detectWalls(Stats* statsPac) {
 	// Wall detection
 	for(int i=0; i<walls.size();i++)
 		if(SDL_HasIntersection(&pac, &walls[i]))
@@ -142,6 +143,7 @@ bool detectWalls() {
 		if(SDL_HasIntersection(&pac, &dots[i])){
 			std::cout << "Miam dot" << std::endl;
 			dots.erase(dots.begin()+i);
+			statsPac->addPacG();
 		}
 
 	// Pacgomme detection
@@ -149,6 +151,7 @@ bool detectWalls() {
 		if(SDL_HasIntersection(&pac, &energizers[i])){
 			std::cout << "Miam energizers" << std::endl;
 			energizers.erase(energizers.begin()+i);
+			statsPac->addSuperPacG();
 		}
 
 	return false;
@@ -213,6 +216,7 @@ int main(int argc, char** argv) {
 	// Ainsi, 336 - 12 = 324
 	// Identique pour la hauteur
 	Person pacman = {324, 644, 32, 32, Coordinate::pac_b[0], 1, Person::NONE, 3};
+	Stats statsPac;
 
 	SDL_Rect* pac_in = nullptr;
 	SDL_Rect tampon;
@@ -287,7 +291,7 @@ int main(int argc, char** argv) {
 				pac.x++;
 
 				// On vérifie s'il y a une collision avec un mur
-				if (detectWalls())
+				if (detectWalls(&statsPac))
 					pac.x--;
 
 				break;
@@ -295,21 +299,21 @@ int main(int argc, char** argv) {
 
 			case Person::LEFT: {
 				pac.x--;
-				if (detectWalls())
+				if (detectWalls(&statsPac))
 					pac.x++;
 				break;
 			}
 
 			case Person::UP: {
 				pac.y--;
-				if (detectWalls())
+				if (detectWalls(&statsPac))
 					pac.y++;
 				break;
 			}
 
 			case Person::DOWN: {
 				pac.y++;
-				if (detectWalls())
+				if (detectWalls(&statsPac))
 					pac.y--;
 				break;
 			}
@@ -317,7 +321,6 @@ int main(int argc, char** argv) {
 			default:
 				break;
 		}
-
 
 		// S'il y a une collision avce le fantôme rouge
 		// if (SDL_HasIntersection(&pac, &ghost))
@@ -332,6 +335,9 @@ int main(int argc, char** argv) {
 			animation(&pacman, tampon);
 
 		pac_in = &(tampon);
+
+		// On affiche le score
+		statsPac.afficherScore();
 
 		// Affichage
 		draw();
