@@ -1,10 +1,10 @@
 #ifndef PERSON_H
 #define PERSON_H
 
-#include "entity.h"
-
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
+
+#include "entity.h"
 
 class Person : public Entity {
 	public:

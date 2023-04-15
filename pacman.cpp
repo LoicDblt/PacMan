@@ -1,9 +1,9 @@
-#include "person.h"
-#include "coordinate.h"
-#include "stats.h"
-
 #include <cstdlib>
 #include <iostream>
+
+#include "coordinate.h"
+#include "person.h"
+#include "stats.h"
 
 SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
@@ -17,7 +17,7 @@ SDL_Rect bg =		{4, 104, 672, 864}; // Mise à l'échelle x4
 SDL_Rect ghost =	{34, 134, 32, 32};
 SDL_Rect pac =		{34, 134, 32, 32};
 
-// Murs 
+// Murs
 std::vector<SDL_Rect> walls = Coordinate::walls;
 
 // dotsme en anglais "dot"
@@ -27,7 +27,6 @@ std::vector<SDL_Rect> energizers = Coordinate::energizers;
 int count;
 
 void init() {
-	// Changer les tailles casse le jeu...
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, 680, 972, SDL_WINDOW_SHOWN);
 
@@ -121,10 +120,38 @@ void draw() {
 			&energizers[i]);
 	}
 
+
+	// Test affichage score
+	SDL_Rect positionLettre = Coordinate::alphabet_texture;
+
+	// S
+	SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[18], win_surf,
+		&positionLettre);
+	positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+
+	// C
+	SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[2], win_surf,
+		&positionLettre);
+	positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+
+	// O
+	SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[14], win_surf,
+		&positionLettre);
+	positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+
+	// R
+	SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[17], win_surf,
+		&positionLettre);
+	positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+
+	// E
+	SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[4], win_surf,
+		&positionLettre);
+	positionLettre.x += ALPHABET_TEXTURE_WIDTH;
 }
 
 /**
- * Return 
+ * Return
  * true -> collision avec un mur
  * false -> il n'y a  pas de collision
 */
@@ -153,7 +180,7 @@ bool detectWalls(Stats* statsPac) {
 	return false;
 }
 
-bool colliFantome(Person* pacman, SDL_Rect* pac) 
+bool colliFantome(Person* pacman, SDL_Rect* pac)
 {
 	pacman->pertePointDeVie();
 
@@ -161,19 +188,19 @@ bool colliFantome(Person* pacman, SDL_Rect* pac)
 		puts("PacMan est mort !");
 		return true;
 	}
-	else 
+	else
 		printf("Il reste %d vies à PacMan\n", pacman->getPointsDeVie());
 
 	// Reset PacMan à sa position d'origine
 	pac->x = 324;
-	pac->y = 644;
+	pac->y = 744;
 	pacman->setDirection(Person::NONE);
 	pacman->setEntityPic(Coordinate::pac_b[0]);
 
 	return false;
 }
 
-void animation(Person* pacman, SDL_Rect& tampon) 
+void animation(Person* pacman, SDL_Rect& tampon)
 {
 	switch(pacman->getDirection()) {
 		case Person::RIGHT:
@@ -197,7 +224,7 @@ void animation(Person* pacman, SDL_Rect& tampon)
 	}
 }
 
-int main(int argc, char** argv) 
+int main(int argc, char** argv)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cerr << "Echec de l'initialisation de la SDL " << SDL_GetError()

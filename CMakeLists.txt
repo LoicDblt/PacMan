@@ -7,15 +7,15 @@ find_package(SDL2 REQUIRED)
 
 add_executable(${PROJECT_NAME} "")
 target_sources(${PROJECT_NAME}
-		PRIVATE
-		person.cpp
-		entity.cpp
-		stats.cpp
-		coordinate.h
-		person.h
-		entity.h
-		stats.h
-		pacman.cpp
+			PRIVATE
+			person.cpp
+			entity.cpp
+			stats.cpp
+			coordinate.h
+			person.h
+			entity.h
+			stats.h
+			pacman.cpp
 		)
 
 target_include_directories(${PROJECT_NAME}

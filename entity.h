@@ -1,10 +1,10 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <iostream>
 #include <vector>
 #include <SDL.h>
 
-#include <iostream>
 
 class Entity {
 	private:
