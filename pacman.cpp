@@ -49,8 +49,8 @@ void init()
 	for(int i=0; i<dots.size(); i++){
 		dots[i].x = 4*(dots[i].x+1);
 		dots[i].y = 4*(dots[i].y+1);
-		dots[i].w *= 4;
-		dots[i].h *= 4;
+		dots[i].w *= 8;
+		dots[i].h *= 8;
 	}
 
 	// Init les super pacgommes
@@ -60,8 +60,6 @@ void init()
 		energizers[i].w *= 4;
 		energizers[i].h *= 4;
 	}
-
-
 }
 
 // Fonction mettant à jour la surface de la fenêtre "win_surf"
