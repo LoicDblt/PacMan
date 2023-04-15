@@ -1,10 +1,9 @@
 #ifndef STATS_H
 #define STATS_H
 
+#include <iostream>
 #include <vector>
 #include <SDL.h>
-
-#include <iostream>
 
 class Stats {
 	private:

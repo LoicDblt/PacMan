@@ -24,7 +24,7 @@ void Person::move(std::vector<SDL_Rect>& walls) {
 		else
 			tryToTurnCmp_--;
 	}
-	
+
 	switch (direction_) {
 		case NONE:
 			break;
@@ -64,7 +64,7 @@ void Person::move(std::vector<SDL_Rect>& walls) {
  * Wall detection
  * Si le personnage rencontre un mur il renvoie true
  * cela empêchera d'aller dans cette direction
- * */ 
+ * */
 bool Person::checkWalls(std::vector<SDL_Rect> &walls) {
 	for(int i=0; i<walls.size();i++) {
 		if(SDL_HasIntersection(&this->getEntityRect(), &walls[i]))

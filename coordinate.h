@@ -27,7 +27,7 @@ class Coordinate {
 			{63, 89, 11, 16}};
 		inline static std::vector<SDL_Rect> pac_u{{75, 90, 16, 15},
 			{92, 94, 16, 11}};
-		inline static std::vector<SDL_Rect> pac_d{{109, 90, 16, 15}, 
+		inline static std::vector<SDL_Rect> pac_d{{109, 90, 16, 15},
 			{126, 94, 16, 11}};
 
 		// Coordonnées du Fantôme Rouge
@@ -74,7 +74,7 @@ class Coordinate {
 		 * =============== MURS ===============================
 		*/
 		inline static std::vector<SDL_Rect> walls{ // Coordonnées (x, y, w, h)
-			/********** Murs de bordure **********/
+			// ============= Murs de bordure =======
 			// Zone haut gauche
 			{1, 7, 8, 68},		// Rectangle - Gauche - V
 
@@ -101,8 +101,7 @@ class Coordinate {
 			{129, 73, 40, 32},	// Bordure sortie - Haut
 			{129, 113, 40, 32},	// Bordure sortie - Bas
 
-
-			/*********** Murs internes ***********/
+			// ============= Murs internes =========
 			// Zone haut gauche
 			{17, 17, 24, 24},	// Carré - Haut gauche
 			{49, 17, 24, 24},	// Carré - Haut droite
@@ -159,7 +158,7 @@ class Coordinate {
 		*/
 		inline static SDL_Rect dots_texture {4, 81, 2, 2};
 		inline static std::vector<SDL_Rect> dots{
-			// ==== LIGNE L1 ======
+			// ============= Ligne 1 ===============
 			{11, 11, 1, 1},
 			{19, 11, 1, 1},
 			{27, 11, 1, 1},
@@ -179,7 +178,7 @@ class Coordinate {
 			{147, 11, 1, 1},
 			{155, 11, 1, 1},
 
-			// ====== LIGNE L2 =======
+			// ============= Ligne 2 ===============
 			/* Ligne complète qui peut être utilisé
 			comme référence. */
 			{11, 43, 1, 1},
@@ -202,7 +201,7 @@ class Coordinate {
 			{147, 43, 1, 1},
 			{155, 43, 1, 1},
 
-			// ======= LIGNE L3 ===========
+			// ============= Ligne 3 ===============
 			{11, 67, 1, 1},
 			{19, 67, 1, 1},
 			{27, 67, 1, 1},
@@ -220,7 +219,7 @@ class Coordinate {
 			{147, 67, 1, 1},
 			{155, 67, 1, 1},
 
-			// ======== LIGNE L4 ============
+			// ============= Ligne 4 ===============
 			{11, 147, 1, 1},
 			{19, 147, 1, 1},
 			{27, 147, 1, 1},
@@ -240,7 +239,7 @@ class Coordinate {
 			{147, 147, 1, 1},
 			{155, 147, 1, 1},
 
-			// ========= LIGNE L5 ==============
+			// ============= Ligne 5 ===============
 			{19, 163, 1, 1},
 			{27, 163, 1, 1},
 			{43, 163, 1, 1},
@@ -256,7 +255,7 @@ class Coordinate {
 			{139, 163, 1, 1},
 			{147, 163, 1, 1},
 
-			// ========= LIGNE 6 =================
+			// ============= Ligne 6 ===============
 			{11, 187, 1, 1},
 			{19, 187, 1, 1},
 			{27, 187, 1, 1},
@@ -274,7 +273,7 @@ class Coordinate {
 			{147, 187, 1, 1},
 			{155, 187, 1, 1},
 
-			// =========== LIGNE 7 ==================
+			// ============= Ligne 7 ===============
 			{11, 203, 1, 1},
 			{19, 203, 1, 1},
 			{27, 203, 1, 1},
