@@ -11,11 +11,11 @@ SDL_Surface* plancheSprites = nullptr;
 
 // Carte
 SDL_Rect src_bg =	{369, 3, 168, 216};
-SDL_Rect bg =		{4, 4, 672, 864}; // Mise à l'échelle x4
+SDL_Rect bg =		{4, 104, 672, 864}; // Mise à l'échelle x4
 
 // Personnages (mise à l'échelle x2)
-SDL_Rect ghost =	{34, 34, 32, 32};
-SDL_Rect pac =		{34, 34, 32, 32};
+SDL_Rect ghost =	{34, 134, 32, 32};
+SDL_Rect pac =		{34, 134, 32, 32};
 
 // Murs 
 std::vector<SDL_Rect> walls = Coordinate::walls;
@@ -26,11 +26,10 @@ std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 int count;
 
-void init() 
-{
+void init() {
 	// Changer les tailles casse le jeu...
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED, 700, 900, SDL_WINDOW_SHOWN);
+		SDL_WINDOWPOS_UNDEFINED, 680, 972, SDL_WINDOW_SHOWN);
 
 	win_surf = SDL_GetWindowSurface(pWindow);
 
@@ -40,7 +39,7 @@ void init()
 	// Init les murs avec mise à l'échelle
 	for(int i=0; i<walls.size(); i++){
 		walls[i].x *= 4;
-		walls[i].y *= 4;
+		walls[i].y = 4*(walls[i].y) + 100;
 		walls[i].w *= 4;
 		walls[i].h *= 4;
 	}
@@ -48,7 +47,7 @@ void init()
 	// Init les pacgommes
 	for(int i=0; i<dots.size(); i++){
 		dots[i].x = 4*(dots[i].x+1);
-		dots[i].y = 4*(dots[i].y+1);
+		dots[i].y = 4*(dots[i].y+1) + 100;
 		dots[i].w *= 8;
 		dots[i].h *= 8;
 	}
@@ -56,15 +55,14 @@ void init()
 	// Init les super pacgommes
 	for(int i=0; i<energizers.size(); i++){
 		energizers[i].x = 4*(energizers[i].x+1);
-		energizers[i].y = 4*(energizers[i].y+1);
+		energizers[i].y = 4*(energizers[i].y+1) + 100;
 		energizers[i].w *= 4;
 		energizers[i].h *= 4;
 	}
 }
 
 // Fonction mettant à jour la surface de la fenêtre "win_surf"
-void draw() 
-{
+void draw() {
 	SDL_SetColorKey(plancheSprites, false, 0);
 	SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
 
@@ -216,7 +214,7 @@ int main(int argc, char** argv)
 	// d'où : 8+4 = 12
 	// Ainsi, 336 - 12 = 324
 	// Identique pour la hauteur
-	Person pacman = {SDL_Rect{324, 644, 32, 32}, Coordinate::pac_b[0], 1,
+	Person pacman = {SDL_Rect{324, 744, 32, 32}, Coordinate::pac_b[0], 1,
 		Person::NONE, 3};
 	Stats statsPac;
 

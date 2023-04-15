@@ -76,8 +76,7 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls) {
 /**
  * Return true if direction is free
 */
-bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction)
-{
+bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) {
 	bool res = true;
 
 	switch (direction) {
