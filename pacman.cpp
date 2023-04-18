@@ -20,7 +20,7 @@ SDL_Rect pac =		{34, 134, 32, 32};
 // Murs
 std::vector<SDL_Rect> walls = Coordinate::walls;
 
-// dotsme en anglais "dot"
+// (Super) Pacgommes
 std::vector<SDL_Rect> dots = Coordinate::dots;
 std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
@@ -36,23 +36,23 @@ void init() {
 	count = 0;
 
 	// Init les murs avec mise à l'échelle
-	for(int i=0; i<walls.size(); i++){
+	for (int i=0; i<walls.size(); i++) {
 		walls[i].x *= 4;
 		walls[i].y = 4*(walls[i].y) + 100;
 		walls[i].w *= 4;
 		walls[i].h *= 4;
 	}
 
-	// Init les pacgommes
-	for(int i=0; i<dots.size(); i++){
+	// Init les Pacgommes
+	for (int i=0; i<dots.size(); i++) {
 		dots[i].x = 4*(dots[i].x+1);
 		dots[i].y = 4*(dots[i].y+1) + 100;
 		dots[i].w *= 8;
 		dots[i].h *= 8;
 	}
 
-	// Init les super pacgommes
-	for(int i=0; i<energizers.size(); i++){
+	// Init les super Pacgommes
+	for (int i=0; i<energizers.size(); i++) {
 		energizers[i].x = 4*(energizers[i].x+1);
 		energizers[i].y = 4*(energizers[i].y+1) + 100;
 		energizers[i].w *= 4;
@@ -66,60 +66,93 @@ void draw() {
 	SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
 
 	// De quoi faire tourner le fantôme
+	// Person redGhost = {SDL_Rect{36, 136, 32, 32}, Coordinate::ghost_red_d[0], 1,
+	// 	Person::NONE, 1};
+	Person redGhost = {SDL_Rect{36, 136, 32, 32}, Coordinate::ghost_red_l[0], 1,
+		Person::DOWN, 1};
 	SDL_Rect* ghost_in = nullptr; // La direction du fantôme à afficher
-	switch (count/132) {
-		// Droite
-		case 0:
-			ghost_in = &(Coordinate::ghost_red_r[0]);
-			ghost.x++;
-			break;
+	// switch (count/132) {
+	// 	// Droite
+	// 	case 0:
+	// 		ghost_in = &(Coordinate::ghost_red_r[0]);
+	// 		ghost.x++;
+	// 		break;
 
-		// Bas
-		case 1:
-			ghost_in = &(Coordinate::ghost_red_d[0]);
-			ghost.y++;
-			break;
+	// 	// Bas
+	// 	case 1:
+	// 		ghost_in = &(Coordinate::ghost_red_d[0]);
+	// 		ghost.y++;
+	// 		break;
 
-		// Gauche
-		case 2:
-			ghost_in = &(Coordinate::ghost_red_l[0]);
-			ghost.x--;
-			break;
+	// 	// Gauche
+	// 	case 2:
+	// 		ghost_in = &(Coordinate::ghost_red_l[0]);
+	// 		ghost.x--;
+	// 		break;
 
-		// Haut
-		case 3:
-			ghost_in = &(Coordinate::ghost_red_u[0]);
-			ghost.y--;
-			break;
+	// 	// Haut
+	// 	case 3:
+	// 		ghost_in = &(Coordinate::ghost_red_u[0]);
+	// 		ghost.y--;
+	// 		break;
 
-		default:
-			break;
+	// 	default:
+	// 		break;
+	// }
+
+/************************ TEST FANTOME ****************************************/
+	if (redGhost.ghostBehavior(walls)) {
+		switch (redGhost.getDirection()) {
+			case Person::RIGHT:
+				std::cout << ">>> Going right" << std::endl;
+				break;
+
+			case Person::LEFT:
+				std::cout << ">>> Going left" << std::endl;
+				break;
+
+			case Person::UP:
+				std::cout << ">>> Going up" << std::endl;
+				break;
+
+			case Person::DOWN:
+				std::cout << ">>> Going down" << std::endl;
+				break;
+
+			default:
+				break;
+		}
+
+		redGhost.move(walls);
 	}
-	count = (count+1)%(512);
 
-	// Change entre les 2 sprites sources pour l'animation
-	SDL_Rect ghost_in2 = *ghost_in;
-	if ((count/4)%2)
-		ghost_in2.x += 17; // Distance x entre la sprite de base et l'animation
+	SDL_Rect tampon;
+	if (!((count/4)%2))
+		tampon = redGhost.getEntityPic();
+
+	ghost_in = &(tampon);
 
 	// Couleur transparente
 	SDL_SetColorKey(plancheSprites, true, 0);
 
 	// Copie du sprite zoomé
-	SDL_BlitScaled(plancheSprites, &ghost_in2, win_surf, &ghost);
+	SDL_BlitScaled(plancheSprites, ghost_in, win_surf,
+		&redGhost.getEntityRect());
+/******************************************************************************/
 
-	// Pacgommes Affichage
-	for(int i=0;i<dots.size();i++){
+	count = (count+1)%(512);
+
+	// Affichage Pacgommes
+	for (int i=0;i<dots.size();i++) {
 		SDL_BlitScaled(plancheSprites, &Coordinate::dots_texture, win_surf,
 			&dots[i]);
 	}
 
-	// Super Pacgommes Affichage
-	for(int i=0;i<energizers.size();i++){
+	// Affichage Super Pacgommes
+	for (int i=0;i<energizers.size();i++) {
 		SDL_BlitScaled(plancheSprites, &Coordinate::energizer_texture, win_surf,
 			&energizers[i]);
 	}
-
 
 	// Test affichage score
 	SDL_Rect positionLettre = Coordinate::alphabet_texture;
@@ -157,21 +190,21 @@ void draw() {
 */
 bool detectWalls(Stats* statsPac) {
 	// Wall detection
-	for(int i=0; i<walls.size();i++)
-		if(SDL_HasIntersection(&pac, &walls[i]))
+	for (int i=0; i<walls.size();i++)
+		if (SDL_HasIntersection(&pac, &walls[i]))
 			return true;
 
 	// Pacgomme detection
-	for(int i=0; i<dots.size(); i++)
-		if(SDL_HasIntersection(&pac, &dots[i])){
+	for (int i=0; i<dots.size(); i++)
+		if (SDL_HasIntersection(&pac, &dots[i])) {
 			std::cout << "Miam dot" << std::endl;
 			dots.erase(dots.begin()+i);
 			statsPac->addPacG();
 		}
 
 	// Super pacgomme detection
-	for(int i=0; i<energizers.size(); i++)
-		if(SDL_HasIntersection(&pac, &energizers[i])){
+	for (int i=0; i<energizers.size(); i++)
+		if (SDL_HasIntersection(&pac, &energizers[i])) {
 			std::cout << "Miam energizers" << std::endl;
 			energizers.erase(energizers.begin()+i);
 			statsPac->addSuperPacG();
@@ -180,8 +213,7 @@ bool detectWalls(Stats* statsPac) {
 	return false;
 }
 
-bool colliFantome(Person* pacman, SDL_Rect* pac)
-{
+bool colliFantome(Person* pacman, SDL_Rect* pac) {
 	pacman->pertePointDeVie();
 
 	if (pacman->getPointsDeVie() == 0) {
@@ -200,8 +232,7 @@ bool colliFantome(Person* pacman, SDL_Rect* pac)
 	return false;
 }
 
-void animation(Person* pacman, SDL_Rect& tampon)
-{
+void animation(Person* pacman, SDL_Rect& tampon) {
 	switch(pacman->getDirection()) {
 		case Person::RIGHT:
 			tampon = Coordinate::pac_r[1];
@@ -224,8 +255,7 @@ void animation(Person* pacman, SDL_Rect& tampon)
 	}
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cerr << "Echec de l'initialisation de la SDL " << SDL_GetError()
 			<< std::endl;
@@ -248,14 +278,11 @@ int main(int argc, char** argv)
 	SDL_Rect* pac_in = nullptr;
 	SDL_Rect tampon;
 
-	pac.x = pacman.getX();
-	pac.y = pacman.getY();
-
 	// Boucle principale
 	bool quit = false;
 	while (!quit) {
 
-		int vitesse_debug; // <========================== A SUPPRIMER
+		int vitesse_debug; // <================================================= A SUPPRIMER
 
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {

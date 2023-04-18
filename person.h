@@ -41,6 +41,7 @@ class Person : public Entity {
 
 	public:
 		void move(std::vector<SDL_Rect>& walls);
+		bool ghostBehavior(std::vector<SDL_Rect> &walls);
 
 	/* Getter */
 	public:
