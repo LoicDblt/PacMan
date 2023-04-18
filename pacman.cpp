@@ -25,6 +25,7 @@ std::vector<SDL_Rect> dots = Coordinate::dots;
 std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 int count;
+int score;
 
 void init() {
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
@@ -34,6 +35,7 @@ void init() {
 
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
 	count = 0;
+	score = 0;
 
 	// Init les murs avec mise à l'échelle
 	for (int i=0; i<walls.size(); i++) {
@@ -189,26 +191,24 @@ void draw() {
  * true -> collision avec un mur
  * false -> il n'y a  pas de collision
 */
-bool detectWalls(Stats* statsPac) {
-	// Wall detection
-	for (int i=0; i<walls.size();i++)
-		if (SDL_HasIntersection(&pac, &walls[i]))
-			return true;
-
+bool detectPacgomme(Stats &statsPac, SDL_Rect &pacou) {
+	
+	
 	// Pacgomme detection
 	for (int i=0; i<dots.size(); i++)
-		if (SDL_HasIntersection(&pac, &dots[i])) {
-			std::cout << "Miam dot" << std::endl;
+		if (SDL_HasIntersection(&pacou, &dots[i])) {
 			dots.erase(dots.begin()+i);
-			statsPac->addPacG();
+			statsPac.addPacG();
+			score++;
+			std::cout << "Miam dot + score="<< score << std::endl;
 		}
 
 	// Super pacgomme detection
 	for (int i=0; i<energizers.size(); i++)
-		if (SDL_HasIntersection(&pac, &energizers[i])) {
+		if (SDL_HasIntersection(&pacou, &energizers[i])) {
 			std::cout << "Miam energizers" << std::endl;
 			energizers.erase(energizers.begin()+i);
-			statsPac->addSuperPacG();
+			statsPac.addSuperPacG();
 		}
 
 	return false;
@@ -254,7 +254,7 @@ void animation(Person* pacman, SDL_Rect& tampon) {
 		default:
 			break;
 	}
-
+	/*
 	switch (phantom->getDirection()) {
 		case Person::RIGHT:
 			ghost_in = &(Coordinate::ghost_red_r[0]);
@@ -276,6 +276,7 @@ void animation(Person* pacman, SDL_Rect& tampon) {
 		default:
 			break;
 	}
+	*/
 }
 
 int main(int argc, char** argv) {
@@ -360,6 +361,8 @@ int main(int argc, char** argv) {
 
 		// ==> On fait bouger PacMan
 		pacman.move(walls);
+		// ==> On vérifie si un pacgomme a été mangé
+		detectPacgomme(statsPac, pacman.getEntityRect());
 
 		// S'il y a une collision avce le fantôme rouge
 		// if (SDL_HasIntersection(&pac, &ghost))

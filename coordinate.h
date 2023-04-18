@@ -2,6 +2,7 @@
 #define COORDINATE_H
 
 #include <list>
+#include <vector>
 #include <SDL.h>
 
 #define ALPHABET_TEXTURE_WIDTH 18
@@ -345,12 +346,7 @@ class Coordinate {
 			{91, 35, 1, 1},
 			{91, 19, 1, 1},
 			{91, 155, 1, 1},
-<<<<<<< HEAD
 			{91, 195, 1, 1},
-=======
-			{91, 19, 1, 1},
-
->>>>>>> 46e3226a9c74575818c1ec46fe77431c26cce5aa
 			// =============== Colonne 7 ============
 			{107, 51, 1, 1},
 			{107, 59, 1, 1},
