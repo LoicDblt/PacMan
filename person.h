@@ -1,10 +1,10 @@
 #ifndef PERSON_H
 #define PERSON_H
 
-#include "entity.h"
-
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
+
+#include "entity.h"
 
 class Person : public Entity {
 	public:
@@ -41,6 +41,7 @@ class Person : public Entity {
 
 	public:
 		void move(std::vector<SDL_Rect>& walls);
+		bool ghostBehavior(std::vector<SDL_Rect> &walls);
 
 	/* Getter */
 	public:
