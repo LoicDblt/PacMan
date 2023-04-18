@@ -129,6 +129,7 @@ void draw()
 }
 
 /**
+ * DEPRECATED
  * Return 
  * true -> collision avec un mur
  * false -> il n'y a  pas de collision
@@ -194,6 +195,28 @@ void animation(Person* pacman, SDL_Rect& tampon)
 
 		case Person::DOWN:
 			tampon = Coordinate::pac_d[1];
+			break;
+
+		default:
+			break;
+	}
+
+	switch (phantom->getDirection()) {
+		case Person::RIGHT:
+			ghost_in = &(Coordinate::ghost_red_r[0]);
+			ghost.x++;
+			break;
+		case Person::LEFT:
+			ghost_in = &(Coordinate::ghost_red_d[0]);
+			ghost.y++;
+			break;
+		case Person::UP:
+			ghost_in = &(Coordinate::ghost_red_l[0]);
+			ghost.x--;
+			break;
+		case Person::DOWN:
+			ghost_in = &(Coordinate::ghost_red_u[0]);
+			ghost.y--;
 			break;
 
 		default:

@@ -51,8 +51,10 @@ void Person::move(std::vector<SDL_Rect>& walls)
 			this->entityRect_.x += speed_;
 		break;
 	default:
+		/*
 		std::cerr << "Person Direction UNKNOW" << SDL_GetError()
 			<< std::endl;
+		*/
 		break;
 	}
 };
