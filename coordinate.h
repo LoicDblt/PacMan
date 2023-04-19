@@ -453,6 +453,11 @@ class Coordinate {
 			{67, 52, 9, 9},
 			{75, 52, 9, 9}
 		};
+
+		/*
+		 * =============== WORDS ==============================
+		*/
+		inline static std::vector<int> indexScore {18, 2, 14, 17, 4};
 };
 
 #endif
