@@ -14,7 +14,6 @@ Stats::Stats(
 
 Stats::~Stats() {};
 
-
 /**
  * @brief Update the score according to the type of what have been eaten
  * 
