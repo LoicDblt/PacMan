@@ -11,8 +11,6 @@ class Person : public Entity {
 		enum Direction {UP, DOWN, RIGHT, LEFT, NONE};
 
 	private:
-		float x;
-		float y;
 		float speed_;
 		Direction direction_;
 		Direction wishDirection_;
@@ -31,6 +29,7 @@ class Person : public Entity {
 			SDL_Rect entityPicture,
 			float speed,
 			Direction direction,
+			Direction wishDirection,
 			int pointsDeVie
 		);
 		~Person();

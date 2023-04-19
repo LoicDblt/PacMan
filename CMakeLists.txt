@@ -8,10 +8,14 @@ find_package(SDL2 REQUIRED)
 add_executable(${PROJECT_NAME} "")
 target_sources(${PROJECT_NAME}
 			PRIVATE
+			player.cpp
+			ghost.cpp
 			person.cpp
 			entity.cpp
 			stats.cpp
 			coordinate.h
+			player.h
+			ghost.h
 			person.h
 			entity.h
 			stats.h

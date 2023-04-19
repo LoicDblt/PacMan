@@ -5,11 +5,13 @@ Person::Person(
 	SDL_Rect entityPicture,
 	float speed,
 	Direction direction,
+	Direction wishDirection,
 	int pointsDeVie
 ):
 	Entity{entityRect, entityPicture},
 	speed_{speed},
 	direction_{direction},
+	wishDirection_{wishDirection},
 	pointsDeVie_{pointsDeVie}
 {};
 

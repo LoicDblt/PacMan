@@ -1,8 +1,11 @@
 #include <cstdlib>
 #include <iostream>
+#include <algorithm>
 
 #include "coordinate.h"
 #include "person.h"
+#include "player.h"
+#include "ghost.h"
 #include "stats.h"
 
 #define DEBUG_LOIC false
@@ -78,8 +81,13 @@ void draw() {
 
 	// De quoi faire tourner le fantôme
 
-	Person redGhost = {SDL_Rect{36, 136, 32, 32}, Coordinate::ghost_red_l[0], 1,
-		Person::DOWN, 1}; // <=================================================== ERREUR ICI, il se fait reset à chaque appel
+	Person redGhost = {
+		SDL_Rect{36, 136, 32, 32}, 
+		Coordinate::ghost_red_l[0], 
+		1,
+		Person::DOWN,
+		Person::DOWN,
+		1}; // <=================================================== ERREUR ICI, il se fait reset à chaque appel
 
 	SDL_Rect* ghost_in = nullptr; // La direction du fantôme à afficher
 	// switch (count/132) {
@@ -314,8 +322,15 @@ int main(int argc, char** argv) {
 	// d'où : 8+4 = 12
 	// Ainsi, 336 - 12 = 324
 	// Identique pour la hauteur
-	Person pacman = {SDL_Rect{324, 744, 32, 32}, Coordinate::pac_b[0], 1,
-		Person::NONE, 3};
+	Player pacman = {
+		SDL_Rect{324, 744, 32, 32}, 
+		Coordinate::pac_b[0], 
+		1,
+		Person::NONE, 
+		Person::NONE, 
+		3
+	};
+	
 	Stats statsPac = {0, 0, 0, 0};
 
 	SDL_Rect* pac_in = nullptr;
@@ -337,7 +352,7 @@ int main(int argc, char** argv) {
 					break;
 			}
 		}
-
+		
 		// Gestion du clavier
 		int nbk;
 		const Uint8* keys = SDL_GetKeyboardState(&nbk);
