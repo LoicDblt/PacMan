@@ -5,7 +5,8 @@
 #include <vector>
 #include <SDL.h>
 
-#define ALPHABET_TEXTURE_WIDTH 18
+#define ALPHABET_TEXTURE_WIDTH	18
+#define NUMBER_TEXTURE_WIDTH	18
 
 class Coordinate {
 	public:
@@ -432,6 +433,25 @@ class Coordinate {
 			{67, 68, 9, 9},
 			{75, 68, 9, 9},
 			{83, 68, 9, 9}
+		};
+
+
+		/*
+		 * =============== CHIFFRES ===========================
+		*/
+		inline static SDL_Rect number_texture {25, 50, NUMBER_TEXTURE_WIDTH,
+			18};
+		inline static std::vector<SDL_Rect> number{
+			{3, 52, 9, 9},
+			{11, 52, 9, 9},
+			{19, 52, 9, 9},
+			{27, 52, 9, 9},
+			{35, 52, 9, 9},
+			{43, 52, 9, 9},
+			{51, 52, 9, 9},
+			{59, 52, 9, 9},
+			{67, 52, 9, 9},
+			{75, 52, 9, 9}
 		};
 };
 

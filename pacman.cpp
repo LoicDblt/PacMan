@@ -5,6 +5,17 @@
 #include "person.h"
 #include "stats.h"
 
+#define DEBUG_LOIC false
+
+/**
+ * Affiche un message de débug d'El Loïco
+ * @param message à afficher
+*/
+void debugLoic(std::string message) {
+	if (DEBUG_LOIC)
+		std::cout << message << std::endl;
+}
+
 SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
@@ -25,7 +36,6 @@ std::vector<SDL_Rect> dots = Coordinate::dots;
 std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 int count;
-int score;
 
 void init() {
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
@@ -35,7 +45,6 @@ void init() {
 
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
 	count = 0;
-	score = 0;
 
 	// Init les murs avec mise à l'échelle
 	for (int i=0; i<walls.size(); i++) {
@@ -68,10 +77,10 @@ void draw() {
 	SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
 
 	// De quoi faire tourner le fantôme
-	// Person redGhost = {SDL_Rect{36, 136, 32, 32}, Coordinate::ghost_red_d[0], 1,
-	// 	Person::NONE, 1};
+
 	Person redGhost = {SDL_Rect{36, 136, 32, 32}, Coordinate::ghost_red_l[0], 1,
-		Person::DOWN, 1};
+		Person::DOWN, 1}; // <=================================================== ERREUR ICI, il se fait reset à chaque appel
+
 	SDL_Rect* ghost_in = nullptr; // La direction du fantôme à afficher
 	// switch (count/132) {
 	// 	// Droite
@@ -106,19 +115,26 @@ void draw() {
 	if (redGhost.ghostBehavior(walls)) {
 		switch (redGhost.getDirection()) {
 			case Person::RIGHT:
-				std::cout << ">>> Going right" << std::endl;
+				debugLoic(">>> Going right : x = " +
+					std::to_string(redGhost.getEntityRect().x));
 				break;
 
 			case Person::LEFT:
-				std::cout << ">>> Going left" << std::endl;
+				redGhost.setEntityPic(Coordinate::ghost_red_l[0]);
+				debugLoic(">>> Going left : x = " +
+					std::to_string(redGhost.getEntityRect().x));
 				break;
 
 			case Person::UP:
-				std::cout << ">>> Going up" << std::endl;
+				redGhost.setEntityPic(Coordinate::ghost_red_u[0]);
+				debugLoic(">>> Going up : y = " +
+					std::to_string(redGhost.getEntityRect().y));
 				break;
 
 			case Person::DOWN:
-				std::cout << ">>> Going down" << std::endl;
+				redGhost.setEntityPic(Coordinate::ghost_red_d[0]);
+				debugLoic(">>> Going down : y = " +
+					std::to_string(redGhost.getEntityRect().y));
 				break;
 
 			default:
@@ -191,28 +207,31 @@ void draw() {
  * true -> collision avec un mur
  * false -> il n'y a  pas de collision
 */
-bool detectPacgomme(Stats &statsPac, SDL_Rect &pacou) {
-	
-	
+bool detectPacgomme(Stats &statsPac, SDL_Rect &pacman) {
 	// Pacgomme detection
-	for (int i=0; i<dots.size(); i++)
-		if (SDL_HasIntersection(&pacou, &dots[i])) {
+	for (int i=0; i<dots.size(); i++) {
+		if (SDL_HasIntersection(&pacman, &dots[i])) {
 			dots.erase(dots.begin()+i);
-			statsPac.addPacG();
-			score++;
-			std::cout << "Miam dot + score="<< score << std::endl;
+			statsPac.updateScore(DOT);
+			std::cout << "Miam dot (#" << statsPac.getDots() << ") > "
+				<< statsPac.getScore() << std::endl;
 		}
+	}
 
 	// Super pacgomme detection
-	for (int i=0; i<energizers.size(); i++)
-		if (SDL_HasIntersection(&pacou, &energizers[i])) {
-			std::cout << "Miam energizers" << std::endl;
+	for (int i=0; i<energizers.size(); i++) {
+		if (SDL_HasIntersection(&pacman, &energizers[i])) {
+			statsPac.updateScore(ENERGIZER);
+			std::cout << "Miam energizer > " << statsPac.getScore()
+				<< std::endl;
+
 			energizers.erase(energizers.begin()+i);
-			statsPac.addSuperPacG();
 		}
+	}
 
 	return false;
 }
+
 
 bool colliFantome(Person* pacman, SDL_Rect* pac) {
 	pacman->pertePointDeVie();
@@ -297,7 +316,7 @@ int main(int argc, char** argv) {
 	// Identique pour la hauteur
 	Person pacman = {SDL_Rect{324, 744, 32, 32}, Coordinate::pac_b[0], 1,
 		Person::NONE, 3};
-	Stats statsPac;
+	Stats statsPac = {0, 0, 0, 0};
 
 	SDL_Rect* pac_in = nullptr;
 	SDL_Rect tampon;
@@ -378,9 +397,6 @@ int main(int argc, char** argv) {
 
 		pac_in = &(tampon);
 
-		// Affiche le score
-		// statsPac.afficherScore();
-
 		// Affichage
 		draw();
 
@@ -388,6 +404,43 @@ int main(int argc, char** argv) {
 		// pac => la position où le placer
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf,
 			&pacman.getEntityRect());
+
+		// Récupère le score, le décomposer et trie les chiffres
+		std::vector<int> digits = statsPac.uncomposeNumber(statsPac.getScore());
+		std::reverse(digits.begin(), digits.end());
+
+		// Si le score est nul, on affiche quand même 0
+		if (digits.size() == 0)
+			digits.push_back(0);
+
+		// Créé un rectangle rempli, à la taille exacte du score à afficher
+		SDL_Rect rect = {25, 50,
+			static_cast<int>(ALPHABET_TEXTURE_WIDTH*digits.size()),
+			Coordinate::number_texture.h};
+		SDL_Color color = {0, 0, 0, 255};
+		SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
+			32, 0, 0, 0, 0);
+		SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
+			color.g, color.b));
+		SDL_BlitScaled(surface, NULL, win_surf, &rect);
+		SDL_FreeSurface(surface);
+	
+		// Affiche le score
+		SDL_Rect positionDigit = Coordinate::number_texture;
+		for (int i: digits) {
+			SDL_BlitScaled(plancheSprites, &Coordinate::number[i], win_surf,
+				&positionDigit);
+			positionDigit.x += ALPHABET_TEXTURE_WIDTH;
+		}
+
+		// Affichage débug
+		if (DEBUG_LOIC) {
+			std::cout << "Score : " << statsPac.getScore() << std::endl;
+			for (int i: digits)
+				std::cout << i << ' ';
+			std::cout << std::endl;
+		}
+
 		SDL_UpdateWindowSurface(pWindow);
 
 		// ==> Limite à 60 FPS
