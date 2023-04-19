@@ -5,6 +5,17 @@
 #include "person.h"
 #include "stats.h"
 
+#define DEBUG_LOIC true
+
+/**
+ * Affiche un message de débug d'El Loïco
+ * @param message à afficher
+*/
+void debugLoic(std::string message) {
+	if (DEBUG_LOIC)
+		std::cout << message << std::endl;
+}
+
 SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
@@ -68,10 +79,10 @@ void draw() {
 	SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
 
 	// De quoi faire tourner le fantôme
-	// Person redGhost = {SDL_Rect{36, 136, 32, 32}, Coordinate::ghost_red_d[0], 1,
-	// 	Person::NONE, 1};
+
 	Person redGhost = {SDL_Rect{36, 136, 32, 32}, Coordinate::ghost_red_l[0], 1,
-		Person::DOWN, 1};
+		Person::DOWN, 1}; // <=================================================== ERREUR ICI, il se fait reset à chaque appel
+
 	SDL_Rect* ghost_in = nullptr; // La direction du fantôme à afficher
 	// switch (count/132) {
 	// 	// Droite
@@ -106,19 +117,26 @@ void draw() {
 	if (redGhost.ghostBehavior(walls)) {
 		switch (redGhost.getDirection()) {
 			case Person::RIGHT:
-				std::cout << ">>> Going right" << std::endl;
+				debugLoic(">>> Going right : x = " +
+					std::to_string(redGhost.getEntityRect().x));
 				break;
 
 			case Person::LEFT:
-				std::cout << ">>> Going left" << std::endl;
+				redGhost.setEntityPic(Coordinate::ghost_red_l[0]);
+				debugLoic(">>> Going left : x = " +
+					std::to_string(redGhost.getEntityRect().x));
 				break;
 
 			case Person::UP:
-				std::cout << ">>> Going up" << std::endl;
+				redGhost.setEntityPic(Coordinate::ghost_red_u[0]);
+				debugLoic(">>> Going up : y = " +
+					std::to_string(redGhost.getEntityRect().y));
 				break;
 
 			case Person::DOWN:
-				std::cout << ">>> Going down" << std::endl;
+				redGhost.setEntityPic(Coordinate::ghost_red_d[0]);
+				debugLoic(">>> Going down : y = " +
+					std::to_string(redGhost.getEntityRect().y));
 				break;
 
 			default:
@@ -213,6 +231,7 @@ bool detectPacgomme(Stats &statsPac, SDL_Rect &pacou) {
 
 	return false;
 }
+
 
 bool colliFantome(Person* pacman, SDL_Rect* pac) {
 	pacman->pertePointDeVie();

@@ -119,17 +119,16 @@ bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) {
 	return res;
 };
 
-/*
+/**
  * Try to go DOWN, UP, RIGHT, LEFT (in this order)
  * If it can't go in any direction, return false
- */
+*/
 bool Person::ghostBehavior(std::vector<SDL_Rect> &walls) {
 	setWishDirection(Person::DOWN);
 
 	if (checkDirection(walls, wishDirection_) == false)
 		setWishDirection(Person::UP);
 	else {
-		//std::cout << "DOWN" << std::endl;
 		setDirection(Person::DOWN);
 		return true;
 	}
@@ -137,7 +136,6 @@ bool Person::ghostBehavior(std::vector<SDL_Rect> &walls) {
 	if (checkDirection(walls, wishDirection_) == false)
 		setWishDirection(Person::RIGHT);
 	else {
-		//std::cout << "UP" << std::endl;
 		setDirection(Person::UP);
 		return true;
 	}
@@ -145,17 +143,15 @@ bool Person::ghostBehavior(std::vector<SDL_Rect> &walls) {
 	if (checkDirection(walls, wishDirection_) == false)
 		setWishDirection(Person::LEFT);
 	else {
-		//std::cout << "RIGHT" << std::endl;
 		setDirection(Person::RIGHT);
 		return true;
 	}
 
 	if (checkDirection(walls, wishDirection_) == false) {
-		//std::cerr << "Ghost can't move" << std::endl;
+		std::cerr << "Ghost can't move" << std::endl;
 		return false;
 	}
 	else {
-		//std::cout << "LEFT" << std::endl;
 		setDirection(Person::LEFT);
 		return true;
 	}
