@@ -180,33 +180,14 @@ void draw() {
 			&energizers[i]);
 	}
 
-	// Test affichage score
+	// Affichage du "SCORE"
 	SDL_Rect positionLettre = Coordinate::alphabet_texture;
 
-	// S
-	SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[18], win_surf,
-		&positionLettre);
-	positionLettre.x += ALPHABET_TEXTURE_WIDTH;
-
-	// C
-	SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[2], win_surf,
-		&positionLettre);
-	positionLettre.x += ALPHABET_TEXTURE_WIDTH;
-
-	// O
-	SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[14], win_surf,
-		&positionLettre);
-	positionLettre.x += ALPHABET_TEXTURE_WIDTH;
-
-	// R
-	SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[17], win_surf,
-		&positionLettre);
-	positionLettre.x += ALPHABET_TEXTURE_WIDTH;
-
-	// E
-	SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[4], win_surf,
-		&positionLettre);
-	positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+	for (int i: Coordinate::indexScore) {
+		SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i], win_surf,
+			&positionLettre);
+		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+	}
 }
 
 /**
@@ -339,7 +320,6 @@ int main(int argc, char** argv) {
 	// Boucle principale
 	bool quit = false;
 	while (!quit) {
-
 		int vitesse_debug; // <================================================= A SUPPRIMER
 
 		SDL_Event event;
@@ -393,12 +373,13 @@ int main(int argc, char** argv) {
 				vitesse_debug = 16;
 		}
 
-		// ==> On fait bouger PacMan
+		// On fait bouger PacMan
 		pacman.move(walls);
-		// ==> On vérifie si un pacgomme a été mangé
+
+		// On vérifie si un pacgomme a été mangé
 		detectPacgomme(statsPac, pacman.getEntityRect());
 
-		// S'il y a une collision avce le fantôme rouge
+		// S'il y a une collision avec le fantôme rouge
 		// if (SDL_HasIntersection(&pac, &ghost))
 		// 	quit = colliFantome(&pacman, &pac);
 
@@ -430,7 +411,7 @@ int main(int argc, char** argv) {
 
 		// Créé un rectangle rempli, à la taille exacte du score à afficher
 		SDL_Rect rect = {25, 50,
-			static_cast<int>(ALPHABET_TEXTURE_WIDTH*digits.size()),
+			static_cast<int>(ALPHABET_TEXTURE_WIDTH * digits.size()),
 			Coordinate::number_texture.h};
 		SDL_Color color = {0, 0, 0, 255};
 		SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
@@ -439,21 +420,13 @@ int main(int argc, char** argv) {
 			color.g, color.b));
 		SDL_BlitScaled(surface, NULL, win_surf, &rect);
 		SDL_FreeSurface(surface);
-	
+
 		// Affiche le score
 		SDL_Rect positionDigit = Coordinate::number_texture;
 		for (int i: digits) {
 			SDL_BlitScaled(plancheSprites, &Coordinate::number[i], win_surf,
 				&positionDigit);
 			positionDigit.x += ALPHABET_TEXTURE_WIDTH;
-		}
-
-		// Affichage débug
-		if (DEBUG_LOIC) {
-			std::cout << "Score : " << statsPac.getScore() << std::endl;
-			for (int i: digits)
-				std::cout << i << ' ';
-			std::cout << std::endl;
 		}
 
 		SDL_UpdateWindowSurface(pWindow);
