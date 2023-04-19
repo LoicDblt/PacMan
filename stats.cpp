@@ -63,3 +63,18 @@ bool Stats::isWon(void) {
 		return true;
 	return false;
 };
+
+/**
+ * @brief Uncompose a number into its digits
+ * 
+ * @param number number to uncompose
+ * @return std::vector<int> vector of digits
+ */
+std::vector<int> Stats::uncomposeNumber(int number) {
+	std::vector<int> digits;
+	while (number > 0) {
+		digits.push_back(number % 10);
+		number /= 10;
+	}
+	return digits;
+};

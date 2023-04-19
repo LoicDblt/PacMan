@@ -213,8 +213,8 @@ bool detectPacgomme(Stats &statsPac, SDL_Rect &pacman) {
 		if (SDL_HasIntersection(&pacman, &dots[i])) {
 			dots.erase(dots.begin()+i);
 			statsPac.updateScore(DOT);
-			std::cout << "Miam dot (#" << statsPac.getDots() << ") > " << statsPac.getScore()
-				<< std::endl;
+			std::cout << "Miam dot (#" << statsPac.getDots() << ") > "
+				<< statsPac.getScore() << std::endl;
 		}
 	}
 
@@ -397,9 +397,6 @@ int main(int argc, char** argv) {
 
 		pac_in = &(tampon);
 
-		// Affiche le score
-		// statsPac.afficherScore();
-
 		// Affichage
 		draw();
 
@@ -407,6 +404,43 @@ int main(int argc, char** argv) {
 		// pac => la position où le placer
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf,
 			&pacman.getEntityRect());
+
+		// Récupère le score, le décomposer et trie les chiffres
+		std::vector<int> digits = statsPac.uncomposeNumber(statsPac.getScore());
+		std::reverse(digits.begin(), digits.end());
+
+		// Si le score est nul, on affiche quand même 0
+		if (digits.size() == 0)
+			digits.push_back(0);
+
+		// Créé un rectangle rempli, à la taille exacte du score à afficher
+		SDL_Rect rect = {25, 50,
+			static_cast<int>(ALPHABET_TEXTURE_WIDTH*digits.size()),
+			Coordinate::number_texture.h};
+		SDL_Color color = {0, 0, 0, 255};
+		SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
+			32, 0, 0, 0, 0);
+		SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
+			color.g, color.b));
+		SDL_BlitScaled(surface, NULL, win_surf, &rect);
+		SDL_FreeSurface(surface);
+	
+		// Affiche le score
+		SDL_Rect positionDigit = Coordinate::number_texture;
+		for (int i: digits) {
+			SDL_BlitScaled(plancheSprites, &Coordinate::number[i], win_surf,
+				&positionDigit);
+			positionDigit.x += ALPHABET_TEXTURE_WIDTH;
+		}
+
+		// Affichage débug
+		if (DEBUG_LOIC) {
+			std::cout << "Score : " << statsPac.getScore() << std::endl;
+			for (int i: digits)
+				std::cout << i << ' ';
+			std::cout << std::endl;
+		}
+
 		SDL_UpdateWindowSurface(pWindow);
 
 		// ==> Limite à 60 FPS

@@ -439,21 +439,20 @@ class Coordinate {
 		/*
 		 * =============== CHIFFRES ===========================
 		*/
-		inline static SDL_Rect number_texture {25, 25, NUMBER_TEXTURE_WIDTH,
+		inline static SDL_Rect number_texture {25, 50, NUMBER_TEXTURE_WIDTH,
 			18};
 		inline static std::vector<SDL_Rect> number{
 			{3, 52, 9, 9},
-			{11, 60, 9, 9},
+			{11, 52, 9, 9},
 			{19, 52, 9, 9},
-			{27, 60, 9, 9},
+			{27, 52, 9, 9},
 			{35, 52, 9, 9},
-			{43, 60, 9, 9},
+			{43, 52, 9, 9},
 			{51, 52, 9, 9},
-			{59, 60, 9, 9},
+			{59, 52, 9, 9},
 			{67, 52, 9, 9},
-			{75, 60, 9, 9}
+			{75, 52, 9, 9}
 		};
-
 };
 
 #endif
