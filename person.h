@@ -36,7 +36,7 @@ class Person : public Entity {
 		~Person();
 
 	private:
-		bool checkWalls(std::vector<SDL_Rect> &walls);
+		bool checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity);
 		bool checkDirection(std::vector<SDL_Rect> &walls, Direction direction);
 
 	public:

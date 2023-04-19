@@ -31,25 +31,25 @@ void Person::move(std::vector<SDL_Rect>& walls) {
 
 		case UP:
 			this->entityRect_.y -= speed_;
-			if (checkWalls(walls))
+			if (checkWalls(walls, this->entityRect_))
 				this->entityRect_.y += speed_;
 			break;
 
 		case DOWN:
 			this->entityRect_.y += speed_;
-			if (checkWalls(walls))
+			if (checkWalls(walls, this->entityRect_))
 				this->entityRect_.y -= speed_;
 			break;
 
 		case RIGHT:
 			this->entityRect_.x += speed_;
-			if (checkWalls(walls))
+			if (checkWalls(walls, this->entityRect_))
 				this->entityRect_.x -= speed_;
 			break;
 
 		case LEFT:
 			this->entityRect_.x -= speed_;
-			if (checkWalls(walls))
+			if (checkWalls(walls, this->entityRect_))
 				this->entityRect_.x += speed_;
 			break;
 
@@ -64,9 +64,9 @@ void Person::move(std::vector<SDL_Rect>& walls) {
  * Si le personnage rencontre un mur il renvoie true
  * cela empêchera d'aller dans cette direction
  * */
-bool Person::checkWalls(std::vector<SDL_Rect> &walls) {
+bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity) {
 	for (int i=0; i<walls.size();i++) {
-		if (SDL_HasIntersection(&this->getEntityRect(), &walls[i]))
+		if (SDL_HasIntersection(&entity, &walls[i]))
 			return true;
 	}
 	return false;
@@ -77,37 +77,39 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls) {
 */
 bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) {
 	bool res = true;
+	SDL_Rect tmpRect{
+		this->entityRect_.x,
+		this->entityRect_.y,
+		this->entityRect_.w,
+		this->entityRect_.h,
+	};
 
 	switch (direction) {
 		case NONE:
 			break;
 
 		case UP:
-			this->entityRect_.y -= speed_;
-			if (checkWalls(walls))
+			tmpRect.y -= speed_+2;
+			if (checkWalls(walls, tmpRect))
 				res = false;
-			this->entityRect_.y += speed_;
 			break;
 
 		case DOWN:
-			this->entityRect_.y += speed_;
-			if (checkWalls(walls))
+			tmpRect.y += speed_+2;
+			if (checkWalls(walls, tmpRect))
 				res = false;
-			this->entityRect_.y -= speed_;
 			break;
 
 		case RIGHT:
-			this->entityRect_.x += speed_;
-			if (checkWalls(walls))
+			tmpRect.x += speed_+2;
+			if (checkWalls(walls, tmpRect))
 				res = false;
-			this->entityRect_.x -= speed_;
 			break;
 
 		case LEFT:
-			this->entityRect_.x -= speed_;
-			if (checkWalls(walls))
+			tmpRect.x -= speed_+2;
+			if (checkWalls(walls, tmpRect))
 				res = false;
-			this->entityRect_.x += speed_;
 			break;
 
 		default:
