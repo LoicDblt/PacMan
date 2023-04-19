@@ -5,7 +5,7 @@
 #include "person.h"
 #include "stats.h"
 
-#define DEBUG_LOIC true
+#define DEBUG_LOIC false
 
 /**
  * Affiche un message de débug d'El Loïco
@@ -36,7 +36,6 @@ std::vector<SDL_Rect> dots = Coordinate::dots;
 std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 int count;
-int score;
 
 void init() {
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
@@ -46,7 +45,6 @@ void init() {
 
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
 	count = 0;
-	score = 0;
 
 	// Init les murs avec mise à l'échelle
 	for (int i=0; i<walls.size(); i++) {
@@ -209,25 +207,27 @@ void draw() {
  * true -> collision avec un mur
  * false -> il n'y a  pas de collision
 */
-bool detectPacgomme(Stats &statsPac, SDL_Rect &pacou) {
-	
-	
+bool detectPacgomme(Stats &statsPac, SDL_Rect &pacman) {
 	// Pacgomme detection
-	for (int i=0; i<dots.size(); i++)
-		if (SDL_HasIntersection(&pacou, &dots[i])) {
+	for (int i=0; i<dots.size(); i++) {
+		if (SDL_HasIntersection(&pacman, &dots[i])) {
 			dots.erase(dots.begin()+i);
-			statsPac.addPacG();
-			score++;
-			std::cout << "Miam dot + score="<< score << std::endl;
+			statsPac.updateScore(DOT);
+			std::cout << "Miam dot (#" << statsPac.getDots() << ") > " << statsPac.getScore()
+				<< std::endl;
 		}
+	}
 
 	// Super pacgomme detection
-	for (int i=0; i<energizers.size(); i++)
-		if (SDL_HasIntersection(&pacou, &energizers[i])) {
-			std::cout << "Miam energizers" << std::endl;
+	for (int i=0; i<energizers.size(); i++) {
+		if (SDL_HasIntersection(&pacman, &energizers[i])) {
+			statsPac.updateScore(ENERGIZER);
+			std::cout << "Miam energizer > " << statsPac.getScore()
+				<< std::endl;
+
 			energizers.erase(energizers.begin()+i);
-			statsPac.addSuperPacG();
 		}
+	}
 
 	return false;
 }
@@ -316,7 +316,7 @@ int main(int argc, char** argv) {
 	// Identique pour la hauteur
 	Person pacman = {SDL_Rect{324, 744, 32, 32}, Coordinate::pac_b[0], 1,
 		Person::NONE, 3};
-	Stats statsPac;
+	Stats statsPac = {0, 0, 0, 0};
 
 	SDL_Rect* pac_in = nullptr;
 	SDL_Rect tampon;
