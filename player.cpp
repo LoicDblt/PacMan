@@ -1,5 +1,8 @@
 #include "player.h"
 
+/**
+ * Constructor and Destructor
+*/
 Player::~Player() {};
 
 Player::Player(
@@ -19,3 +22,29 @@ Player::Player(
         pointsDeVie
     }
 {};
+
+/**
+ * Methods
+*/
+bool Player::onElement(std::vector<SDL_Rect> &pac, Stats &statsPac, int element)
+{
+	for (int i=0; i<pac.size(); i++) {
+		if(SDL_HasIntersection(&this->getEntityRect(), &pac[i])){
+			pac.erase(pac.begin()+i);
+			statsPac.updateScore(element);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void Player::checkPostion(
+	std::vector<SDL_Rect> &dots, 
+	std::vector<SDL_Rect> &energizers, 
+	Stats &statsPac
+)
+{
+	onElement(dots,statsPac,DOT);
+	onElement(energizers,statsPac,ENERGIZER);
+}

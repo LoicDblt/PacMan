@@ -190,38 +190,6 @@ void draw() {
 	}
 }
 
-/**
- * DEPRECATED
- * Return 
- * true -> collision avec un mur
- * false -> il n'y a  pas de collision
-*/
-bool detectPacgomme(Stats &statsPac, SDL_Rect &pacman) {
-	// Pacgomme detection
-	for (int i=0; i<dots.size(); i++) {
-		if (SDL_HasIntersection(&pacman, &dots[i])) {
-			dots.erase(dots.begin()+i);
-			statsPac.updateScore(DOT);
-			std::cout << "Miam dot (#" << statsPac.getDots() << ") > "
-				<< statsPac.getScore() << std::endl;
-		}
-	}
-
-	// Super pacgomme detection
-	for (int i=0; i<energizers.size(); i++) {
-		if (SDL_HasIntersection(&pacman, &energizers[i])) {
-			statsPac.updateScore(ENERGIZER);
-			std::cout << "Miam energizer > " << statsPac.getScore()
-				<< std::endl;
-
-			energizers.erase(energizers.begin()+i);
-		}
-	}
-
-	return false;
-}
-
-
 bool colliFantome(Person* pacman, SDL_Rect* pac) {
 	pacman->pertePointDeVie();
 
@@ -375,9 +343,7 @@ int main(int argc, char** argv) {
 
 		// On fait bouger PacMan
 		pacman.move(walls);
-
-		// On vérifie si un pacgomme a été mangé
-		detectPacgomme(statsPac, pacman.getEntityRect());
+		pacman.checkPostion(dots,energizers,statsPac);
 
 		// S'il y a une collision avec le fantôme rouge
 		// if (SDL_HasIntersection(&pac, &ghost))
