@@ -8,18 +8,21 @@ find_package(SDL2 REQUIRED)
 add_executable(${PROJECT_NAME} "")
 target_sources(${PROJECT_NAME}
 			PRIVATE
-			player.cpp
-			ghost.cpp
-			person.cpp
 			entity.cpp
-			stats.cpp
-			coordinate.h
-			player.h
-			ghost.h
-			person.h
-			entity.h
-			stats.h
+			ghost.cpp
+			interface.cpp
 			pacman.cpp
+			person.cpp
+			player.cpp
+			stats.cpp
+
+			coordinate.h
+			entity.h
+			ghost.h
+			interface.h
+			person.h
+			player.h
+			stats.h
 		)
 
 target_include_directories(${PROJECT_NAME}
@@ -35,5 +38,6 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/pacman_sprites.bmp
 	DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/)
 
 IF (MSVC)
-	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
+	set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY
+		VS_STARTUP_PROJECT ${PROJECT_NAME})
 ENDIF()

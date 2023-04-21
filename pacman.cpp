@@ -1,12 +1,4 @@
-#include <cstdlib>
-#include <iostream>
-#include <algorithm>
-
-#include "coordinate.h"
-#include "person.h"
-#include "player.h"
-#include "ghost.h"
-#include "stats.h"
+#include "pacman.h"
 
 #define DEBUG_LOIC false
 
@@ -45,8 +37,8 @@ void init() {
 		SDL_WINDOWPOS_UNDEFINED, 680, 972, SDL_WINDOW_SHOWN);
 
 	win_surf = SDL_GetWindowSurface(pWindow);
-
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
+
 	count = 0;
 
 	// Init les murs avec mise à l'échelle
@@ -82,12 +74,13 @@ void draw() {
 	// De quoi faire tourner le fantôme
 
 	Person redGhost = {
-		SDL_Rect{36, 136, 32, 32}, 
-		Coordinate::ghost_red_l[0], 
+		SDL_Rect{36, 136, 32, 32},
+		Coordinate::ghost_red_l[0],
 		1,
 		Person::DOWN,
 		Person::DOWN,
-		1}; // <=================================================== ERREUR ICI, il se fait reset à chaque appel
+		1
+	}; // <=================================================== ERREUR ICI, il se fait reset à chaque appel
 
 	SDL_Rect* ghost_in = nullptr; // La direction du fantôme à afficher
 	// switch (count/132) {
@@ -263,6 +256,7 @@ int main(int argc, char** argv) {
 	}
 
 	init();
+	Interface::titleScreen(pWindow, win_surf, plancheSprites);
 
 	// ==> Position de base de PacMan
 	// 336 = 84*4 (largeur jusqu'au centre, avec débord de 1, puis scale 4)
@@ -272,14 +266,14 @@ int main(int argc, char** argv) {
 	// Ainsi, 336 - 12 = 324
 	// Identique pour la hauteur
 	Player pacman = {
-		SDL_Rect{324, 744, 32, 32}, 
-		Coordinate::pac_b[0], 
+		SDL_Rect{324, 744, 32, 32},
+		Coordinate::pac_b[0],
 		1,
-		Person::NONE, 
-		Person::NONE, 
+		Person::NONE,
+		Person::NONE,
 		3
 	};
-	
+
 	Stats statsPac = {0, 0, 0, 0};
 
 	SDL_Rect* pac_in = nullptr;
@@ -296,11 +290,12 @@ int main(int argc, char** argv) {
 				case SDL_QUIT:
 					quit = true;
 					break;
+
 				default:
 					break;
 			}
 		}
-		
+
 		// Gestion du clavier
 		int nbk;
 		const Uint8* keys = SDL_GetKeyboardState(&nbk);

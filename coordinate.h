@@ -435,7 +435,6 @@ class Coordinate {
 			{83, 68, 9, 9}
 		};
 
-
 		/*
 		 * =============== CHIFFRES ===========================
 		*/
@@ -458,12 +457,20 @@ class Coordinate {
 		 * =============== WORDS ==============================
 		*/
 		inline static std::vector<int> indexScore {18, 2, 14, 17, 4};
+		inline static std::vector<int> indexHigh = {7, 8, 6, 7};
+		inline static std::vector<int> indexPressSpace = {
+			15, 20, 18, 7, -1,
+			18, 15, 0, 2, 4, -1,
+			10, 4, 24
+		}; // Press space key
 
 		/*
 		 * =============== MENU ===============================
 		*/
-		inline static SDL_Rect pacmanLogo {3, 3, 186, 152};
-		inline static SDL_Rect positionLogo {50, 50, 372, 304};
+		inline static SDL_Rect pacmanLogo {3, 3, 182, 48};
+		inline static SDL_Rect posPacmanLogo {67, 100, 546, 144};
+		inline static SDL_Rect namcoLogo {27, 77, 62, 10};
+		inline static SDL_Rect posNamcoLogo {247, 862, 124, 20};
 };
 
 #endif

@@ -70,7 +70,7 @@ class Stats {
 	public:
 		void updateScore(int earnedPoints);
 		void updateScore(int earnedPoints, int eatenGhosts);
-		std::vector<int> uncomposeNumber(int number);
+		static std::vector<int> uncomposeNumber(int number);
 };
 
 #endif
