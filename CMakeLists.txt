@@ -7,29 +7,21 @@ find_package(SDL2 REQUIRED)
 
 add_executable(${PROJECT_NAME} "")
 target_sources(${PROJECT_NAME}
-			PRIVATE
-			entity.cpp
-			ghost.cpp
-			interface.cpp
-			pacman.cpp
-			person.cpp
-			player.cpp
-			stats.cpp
-
-			coordinate.h
-			entity.h
-			ghost.h
-			interface.h
-			person.h
-			player.h
-			stats.h
-		)
+	PRIVATE
+	entity.cpp
+	ghost.cpp
+	interface.cpp
+	pacman.cpp
+	person.cpp
+	player.cpp
+	stats.cpp
+)
 
 target_include_directories(${PROJECT_NAME}
-		PRIVATE
-		${SDL2_INCLUDE_DIRS}
-		${CMAKE_CURRENT_SOURCE_DIR}
-		)
+	PRIVATE
+	${SDL2_INCLUDE_DIRS}
+	${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE "SDL_MAIN_HANDLED")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})
