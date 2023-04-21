@@ -458,6 +458,12 @@ class Coordinate {
 		 * =============== WORDS ==============================
 		*/
 		inline static std::vector<int> indexScore {18, 2, 14, 17, 4};
+
+		/*
+		 * =============== MENU ===============================
+		*/
+		inline static SDL_Rect pacmanLogo {3, 3, 186, 152};
+		inline static SDL_Rect positionLogo {50, 50, 372, 304};
 };
 
 #endif

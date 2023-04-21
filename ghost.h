@@ -4,10 +4,10 @@
 #include "person.h"
 
 class Ghost : public Person {
-    private:
+	private:
 		enum State {HUNTER, PREY, DEAD};
 
-    public:
+	public:
 		Ghost() = default;
 		~Ghost();
 		Ghost(
@@ -19,8 +19,8 @@ class Ghost : public Person {
 			int pointsDeVie
 		);
 
-    private:
-        void goCoordinate(int x, int y);
+	private:
+		void goCoordinate(int x, int y);
 };
 
 #endif

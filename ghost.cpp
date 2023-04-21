@@ -10,14 +10,14 @@ Ghost::Ghost(
 	Direction wishDirection,
 	int pointsDeVie
 ):
-    Person{
-        entityRect, 
+	Person{
+		entityRect,
 		entityPicture,
-        speed,
-        direction,
+		speed,
+		direction,
 		wishDirection,
-        pointsDeVie
-    }
+		pointsDeVie
+	}
 {};
 
 void Ghost::goCoordinate(int x, int y)

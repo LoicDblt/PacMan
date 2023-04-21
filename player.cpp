@@ -13,14 +13,14 @@ Player::Player(
 	Direction wishDirection,
 	int pointsDeVie
 ):
-    Person{
-        entityRect, 
+	Person{
+		entityRect,
 		entityPicture,
-        speed,
-        direction,
+		speed,
+		direction,
 		wishDirection,
-        pointsDeVie
-    }
+		pointsDeVie
+	}
 {};
 
 /**
@@ -45,6 +45,6 @@ void Player::checkPostion(
 	Stats &statsPac
 )
 {
-	onElement(dots,statsPac,DOT);
-	onElement(energizers,statsPac,ENERGIZER);
+	onElement(dots,statsPac,Stats::DOT);
+	onElement(energizers,statsPac,Stats::ENERGIZER);
 }

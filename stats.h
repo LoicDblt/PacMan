@@ -14,10 +14,10 @@ class Stats {
 
 	/* Points */
 	public:
-		#define DOT			10
-		#define ENERGIZER	50
-		#define CHERRY		100
-		#define GHOST		200
+		static const int DOT{10};
+		static const int ENERGIZER{50};
+		static const int CHERRY{100};
+		static const int GHOST{200};
 
 	/* Constructors */
 	public:
