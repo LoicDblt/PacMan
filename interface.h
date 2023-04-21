@@ -9,9 +9,34 @@
 
 
 class Interface {
+	private:
+		SDL_Window* window_ = nullptr;
+		SDL_Surface* surface_ = nullptr;
+		SDL_Surface* sprites_ = nullptr;
+
 	public:
-		static void titleScreen(SDL_Window* pWindow, SDL_Surface* win_surf,
-			SDL_Surface* plancheSprites);
+		Interface() = default;
+		Interface(
+			SDL_Window* window,
+			SDL_Surface* surfuace,
+			SDL_Surface* sprites
+		);
+		~Interface();
+
+	/* Getter */
+	public:
+		inline SDL_Window* getWindow() const {
+			return window_;
+		}
+		inline SDL_Surface* getSurface() const {
+			return surface_;
+		}
+		inline SDL_Surface* getSprites() const {
+			return sprites_;
+		}
+
+	public:
+		void titleScreen();
 };
 
 #endif

@@ -256,7 +256,8 @@ int main(int argc, char** argv) {
 	}
 
 	init();
-	Interface::titleScreen(pWindow, win_surf, plancheSprites);
+	Interface interface = {pWindow, win_surf, plancheSprites};
+	interface.titleScreen();
 
 	// ==> Position de base de PacMan
 	// 336 = 84*4 (largeur jusqu'au centre, avec débord de 1, puis scale 4)

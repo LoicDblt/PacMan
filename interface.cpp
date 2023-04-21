@@ -1,27 +1,37 @@
 #include "interface.h"
 
-void Interface::titleScreen(SDL_Window* pWindow, SDL_Surface* win_surf,
-	SDL_Surface* plancheSprites
-) {
+Interface::Interface(
+	SDL_Window* window,
+	SDL_Surface* surface,
+	SDL_Surface* sprites
+):
+	window_{window},
+	surface_{surface},
+	sprites_{sprites}
+{};
+
+Interface::~Interface() {};
+
+void Interface::titleScreen() {
 	int windowWidth, windowHeight;
-	SDL_GetWindowSize(pWindow, &windowWidth, &windowHeight);
+	SDL_GetWindowSize(this->getWindow(), &windowWidth, &windowHeight);
 
 	// Affichage des logos
-	SDL_BlitScaled(plancheSprites, &Coordinate::pacmanLogo, win_surf,
-		&Coordinate::posPacmanLogo);
+	SDL_BlitScaled(this->getSprites(), &Coordinate::pacmanLogo,
+		this->getSurface(), &Coordinate::posPacmanLogo);
 
-	SDL_BlitScaled(plancheSprites, &Coordinate::namcoLogo, win_surf,
-		&Coordinate::posNamcoLogo);
+	SDL_BlitScaled(this->getSprites(), &Coordinate::namcoLogo,
+		this->getSurface(), &Coordinate::posNamcoLogo);
 
 	// Affichage de "SCORE"
 	SDL_Rect positionLettre = Coordinate::alphabet_texture;
 	SDL_Rect positionDigit = Coordinate::number_texture;
-	SDL_BlitScaled(plancheSprites, &Coordinate::number[0], win_surf,
-		&positionDigit);
+	SDL_BlitScaled(this->getSprites(), &Coordinate::number[0],
+		this->getSurface(), &positionDigit);
 
 	for (int i: Coordinate::indexScore) {
-		SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i], win_surf,
-			&positionLettre);
+		SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
+			this->getSurface(), &positionLettre);
 		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
 	}
 
@@ -48,8 +58,8 @@ void Interface::titleScreen(SDL_Window* pWindow, SDL_Surface* win_surf,
 	positionDigit.x = windowWidth - (positionDigit.x * 2);
 
 	for (int i: digits) {
-		SDL_BlitScaled(plancheSprites, &Coordinate::number[i], win_surf,
-			&positionDigit);
+		SDL_BlitScaled(this->getSprites(), &Coordinate::number[i],
+			this->getSurface(), &positionDigit);
 		positionDigit.x -= ALPHABET_TEXTURE_WIDTH;
 	}
 
@@ -62,8 +72,8 @@ void Interface::titleScreen(SDL_Window* pWindow, SDL_Surface* win_surf,
 
 		// Score
 	for (int i: tamponIndexScore) {
-		SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i], win_surf,
-			&positionLettre);
+		SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
+			this->getSurface(), &positionLettre);
 		positionLettre.x -= ALPHABET_TEXTURE_WIDTH;
 	}
 
@@ -72,8 +82,8 @@ void Interface::titleScreen(SDL_Window* pWindow, SDL_Surface* win_surf,
 
 		// High
 	for (int i: tamponIndexHigh) {
-		SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i], win_surf,
-			&positionLettre);
+		SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
+			this->getSurface(), &positionLettre);
 		positionLettre.x -= ALPHABET_TEXTURE_WIDTH;
 	}
 
@@ -84,13 +94,13 @@ void Interface::titleScreen(SDL_Window* pWindow, SDL_Surface* win_surf,
 
 	for (int i: Coordinate::indexPressSpace) {
 		if (i != -1) {
-			SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i],
-				win_surf, &positionLettre);
+			SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
+				this->getSurface(), &positionLettre);
 		}
 		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
 	}
 
-	SDL_UpdateWindowSurface(pWindow);
+	SDL_UpdateWindowSurface(this->getWindow());
 
 	// Attend l'entrée de l'utilisateur
 	bool quit = false;
@@ -124,7 +134,7 @@ void Interface::titleScreen(SDL_Window* pWindow, SDL_Surface* win_surf,
 				32, 0, 0, 0, 0);
 			SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
 				color.g, color.b));
-			SDL_BlitScaled(surface, NULL, win_surf, &rect);
+			SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
 			SDL_FreeSurface(surface);
 			break;
 		}
