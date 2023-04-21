@@ -58,10 +58,22 @@ void Stats::updateScore(int earnedPoints, int eatenGhosts) {
 /**
  * @brief Check if the player has won the game
  */
-bool Stats::isWon(void) {
-	if (this->getDots() == 189)
-		return true;
-	return false;
+void Stats::checkWon(void) {
+	if (this->getDots() == 189) {
+		std::cout << "You win!" << std::endl;
+		writeScore();
+	}
+};
+
+/**
+ * @brief Write the score in the scores file
+ */
+void Stats::writeScore(void) {
+	std::ofstream scoresFile(Stats::SCORES_FILE, std::ios_base::app);
+	if (scoresFile.is_open()) {
+			scoresFile << this->getScore() << std::endl;
+		scoresFile.close();
+	}
 };
 
 /**

@@ -470,7 +470,7 @@ class Coordinate {
 		inline static SDL_Rect pacmanLogo {3, 3, 182, 48};
 		inline static SDL_Rect posPacmanLogo {67, 100, 546, 144};
 		inline static SDL_Rect namcoLogo {27, 77, 62, 10};
-		inline static SDL_Rect posNamcoLogo {247, 862, 124, 20};
+		inline static SDL_Rect posNamcoLogo {278, 862, 124, 20};
 };
 
 #endif

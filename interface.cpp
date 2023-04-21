@@ -40,7 +40,7 @@ void Interface::titleScreen() {
 	positionLettre.x = windowWidth - (positionLettre.x * 2);
 
 	// Si le fichier des scores existe, on affiche le plus haut
-	std::ifstream file("./scores.txt");
+	std::ifstream file(Stats::SCORES_FILE);
 	int highScore = 0;
 	if (file.good()) {
 		std::string line;

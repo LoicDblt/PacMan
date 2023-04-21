@@ -1,6 +1,7 @@
 #ifndef STATS_H
 #define STATS_H
 
+#include <fstream>
 #include <iostream>
 #include <vector>
 #include <SDL.h>
@@ -18,6 +19,9 @@ class Stats {
 		static const int ENERGIZER{50};
 		static const int CHERRY{100};
 		static const int GHOST{200};
+	
+	public:
+		inline static const std::string SCORES_FILE{"scores.txt"};
 
 	/* Constructors */
 	public:
@@ -50,8 +54,7 @@ class Stats {
 			dots_++;
 			score_ += DOT;
 
-			if (isWon())
-				std::cout << "You win!" << std::endl;
+			checkWon();
 		}
 
 		inline void addEnergizer(void) {
@@ -65,11 +68,12 @@ class Stats {
 		}
 
 	private:
-		bool isWon(void);
+		void checkWon(void);
 
 	public:
 		void updateScore(int earnedPoints);
 		void updateScore(int earnedPoints, int eatenGhosts);
+		void writeScore(void);
 		static std::vector<int> uncomposeNumber(int number);
 };
 
