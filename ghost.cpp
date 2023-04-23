@@ -17,8 +17,48 @@ Ghost::Ghost(
 		direction,
 		wishDirection,
 		pointsDeVie
-	}
+	},
+	previousPosition_{entityRect}
+
 {};
+
+void Ghost::aleaMove(std::vector<SDL_Rect> &walls)
+{
+	if(roundCmpt_ == 2){
+		int nb = aleaRand(1,4);
+		switch (nb)
+		{
+		case 1:
+			setWishDirection(UP);
+			break;
+		case 2:
+			setWishDirection(DOWN);
+			break;
+		case 3:
+			setWishDirection(RIGHT);
+			break;
+		case 4:
+			setWishDirection(LEFT);
+			break;
+		default:
+			break;
+		}
+		roundCmpt_ = 0;
+	}else if (SDL_RectEquals(&previousPosition_, &entityRect_) == SDL_TRUE) {
+		roundCmpt_++;
+	}
+	previousPosition_ = entityRect_;
+	move(walls);
+}
+
+int Ghost::aleaRand(int x, int y)
+{
+	std::random_device rd; 		// nb alea du hardware
+	std::mt19937 gen(rd()); 	// génére une seed
+	std::uniform_int_distribution<> distr(x,y);		// défini l'intervalle
+
+	return distr(gen);
+}
 
 void Ghost::goCoordinate(int x, int y)
 {

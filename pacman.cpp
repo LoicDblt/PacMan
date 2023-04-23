@@ -71,93 +71,8 @@ void draw() {
 	SDL_SetColorKey(plancheSprites, false, 0);
 	SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
 
-	// De quoi faire tourner le fantôme
-
-	Person redGhost = {
-		SDL_Rect{36, 136, 32, 32},
-		Coordinate::ghost_red_l[0],
-		1,
-		Person::DOWN,
-		Person::DOWN,
-		1
-	}; // <=================================================== ERREUR ICI, il se fait reset à chaque appel
-
-	SDL_Rect* ghost_in = nullptr; // La direction du fantôme à afficher
-	// switch (count/132) {
-	// 	// Droite
-	// 	case 0:
-	// 		ghost_in = &(Coordinate::ghost_red_r[0]);
-	// 		ghost.x++;
-	// 		break;
-
-	// 	// Bas
-	// 	case 1:
-	// 		ghost_in = &(Coordinate::ghost_red_d[0]);
-	// 		ghost.y++;
-	// 		break;
-
-	// 	// Gauche
-	// 	case 2:
-	// 		ghost_in = &(Coordinate::ghost_red_l[0]);
-	// 		ghost.x--;
-	// 		break;
-
-	// 	// Haut
-	// 	case 3:
-	// 		ghost_in = &(Coordinate::ghost_red_u[0]);
-	// 		ghost.y--;
-	// 		break;
-
-	// 	default:
-	// 		break;
-	// }
-
-/************************ TEST FANTOME ****************************************/
-	if (redGhost.ghostBehavior(walls)) {
-		switch (redGhost.getDirection()) {
-			case Person::RIGHT:
-				debugLoic(">>> Going right : x = " +
-					std::to_string(redGhost.getEntityRect().x));
-				break;
-
-			case Person::LEFT:
-				redGhost.setEntityPic(Coordinate::ghost_red_l[0]);
-				debugLoic(">>> Going left : x = " +
-					std::to_string(redGhost.getEntityRect().x));
-				break;
-
-			case Person::UP:
-				redGhost.setEntityPic(Coordinate::ghost_red_u[0]);
-				debugLoic(">>> Going up : y = " +
-					std::to_string(redGhost.getEntityRect().y));
-				break;
-
-			case Person::DOWN:
-				redGhost.setEntityPic(Coordinate::ghost_red_d[0]);
-				debugLoic(">>> Going down : y = " +
-					std::to_string(redGhost.getEntityRect().y));
-				break;
-
-			default:
-				break;
-		}
-
-		redGhost.move(walls);
-	}
-
-	SDL_Rect tampon;
-	if (!((count/4)%2))
-		tampon = redGhost.getEntityPic();
-
-	ghost_in = &(tampon);
-
 	// Couleur transparente
 	SDL_SetColorKey(plancheSprites, true, 0);
-
-	// Copie du sprite zoomé
-	SDL_BlitScaled(plancheSprites, ghost_in, win_surf,
-		&redGhost.getEntityRect());
-/******************************************************************************/
 
 	count = (count+1)%(512);
 
@@ -202,8 +117,10 @@ bool colliFantome(Person* pacman, SDL_Rect* pac) {
 	return false;
 }
 
-void animation(Person* pacman, SDL_Rect& tampon) {
-	switch(pacman->getDirection()) {
+void animation(Person* person, SDL_Rect& tampon, Person::CaracterType type) {
+	
+	if(type == Person::PACMAN){
+		switch(person->getDirection()) {
 		case Person::RIGHT:
 			tampon = Coordinate::pac_r[1];
 			break;
@@ -222,30 +139,29 @@ void animation(Person* pacman, SDL_Rect& tampon) {
 
 		default:
 			break;
-	}
-	/*
-	switch (phantom->getDirection()) {
+		}
+	}else if(type == Person::GRED){
+		switch(person->getDirection()) {
 		case Person::RIGHT:
-			ghost_in = &(Coordinate::ghost_red_r[0]);
-			ghost.x++;
+			tampon = Coordinate::ghost_red_r[1];
 			break;
+
 		case Person::LEFT:
-			ghost_in = &(Coordinate::ghost_red_d[0]);
-			ghost.y++;
+			tampon = Coordinate::ghost_red_l[1];
 			break;
+
 		case Person::UP:
-			ghost_in = &(Coordinate::ghost_red_l[0]);
-			ghost.x--;
+			tampon = Coordinate::ghost_red_u[1];
 			break;
+
 		case Person::DOWN:
-			ghost_in = &(Coordinate::ghost_red_u[0]);
-			ghost.y--;
+			tampon = Coordinate::ghost_red_d[1];
 			break;
 
 		default:
 			break;
+		}
 	}
-	*/
 }
 
 int main(int argc, char** argv) {
@@ -269,16 +185,27 @@ int main(int argc, char** argv) {
 	Player pacman = {
 		SDL_Rect{324, 744, 32, 32},
 		Coordinate::pac_b[0],
-		1,
+		2,
 		Person::NONE,
 		Person::NONE,
 		3
 	};
 
+	Ghost redGhost = {
+		SDL_Rect{36, 136, 32, 32},
+		Coordinate::ghost_red_l[0],
+		1,
+		Person::DOWN,
+		Person::DOWN,
+		1
+	};
+
 	Stats statsPac = {0, 0, 0, 0};
 
 	SDL_Rect* pac_in = nullptr;
-	SDL_Rect tampon;
+	SDL_Rect pac_tampon;
+	SDL_Rect* ghost_in = nullptr;
+	SDL_Rect ghost_tampon;
 
 	// Boucle principale
 	bool quit = false;
@@ -340,20 +267,26 @@ int main(int argc, char** argv) {
 		// On fait bouger PacMan
 		pacman.move(walls);
 		pacman.checkPostion(dots,energizers,statsPac);
+		redGhost.aleaMove(walls);
 
 		// S'il y a une collision avec le fantôme rouge
 		// if (SDL_HasIntersection(&pac, &ghost))
 		// 	quit = colliFantome(&pacman, &pac);
 
 		// Recharge la tête adaptée à la direction de PacMan
-		if (!((count/4)%2))
-			tampon = pacman.getEntityPic();
+		if (!((count/4)%2)){
+			pac_tampon = pacman.getEntityPic();
+			ghost_tampon = redGhost.getEntityPic();
+		}
 
 		// Animation de PacMan
-		if ((count/4)%2)
-			animation(&pacman, tampon);
+		if ((count/4)%2){
+			animation(&pacman, pac_tampon, Person::PACMAN);
+			animation(&redGhost, ghost_tampon, Person::GRED);
+		}
 
-		pac_in = &(tampon);
+		pac_in = &(pac_tampon);
+		ghost_in = &(ghost_tampon);
 
 		// Affichage
 		draw();
@@ -362,6 +295,8 @@ int main(int argc, char** argv) {
 		// pac => la position où le placer
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf,
 			&pacman.getEntityRect());
+		SDL_BlitScaled(plancheSprites, ghost_in, win_surf,
+			&redGhost.getEntityRect());
 
 		// Récupère le score, le décomposer et trie les chiffres
 		std::vector<int> digits = statsPac.uncomposeNumber(statsPac.getScore());

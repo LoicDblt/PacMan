@@ -9,6 +9,7 @@
 class Person : public Entity {
 	public:
 		enum Direction {UP, DOWN, RIGHT, LEFT, NONE};
+		enum CaracterType {PACMAN, GRED, GPINK, GBLUE, GORANGE};
 
 	private:
 		float speed_;
