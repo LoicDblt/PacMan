@@ -37,6 +37,9 @@ class Interface {
 
 	public:
 		void titleScreen();
+
+	private:
+		void displayPressSpace(int windowWidth, int windowHeight);
 };
 
 #endif

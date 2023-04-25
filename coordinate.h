@@ -458,6 +458,7 @@ class Coordinate {
 		*/
 		inline static std::vector<int> indexScore {18, 2, 14, 17, 4};
 		inline static std::vector<int> indexHigh = {7, 8, 6, 7};
+		inline static std::vector<int> indexRank = {17, 0, 13, 10};
 		inline static std::vector<int> indexPressSpace = {
 			15, 20, 18, 7, -1,
 			18, 15, 0, 2, 4, -1,

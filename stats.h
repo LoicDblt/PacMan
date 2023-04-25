@@ -74,6 +74,7 @@ class Stats {
 		void updateScore(int earnedPoints);
 		void updateScore(int earnedPoints, int eatenGhosts);
 		void writeScore(void);
+		static std::vector<int> readScores(int numberOfScores);
 		static std::vector<int> uncomposeNumber(int number);
 };
 

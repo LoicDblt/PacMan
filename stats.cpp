@@ -77,6 +77,37 @@ void Stats::writeScore(void) {
 };
 
 /**
+ * @brief Read the scores file and return a vector of the "n" highest scores
+ *
+ * @param numberOfScores number of scores to return
+ * @return std::vector<int> vector which contains the "n" highest scores
+ */
+std::vector<int> Stats::readScores(int numberOfScores) {
+	std::vector<int> scores;
+	std::ifstream file(Stats::SCORES_FILE);
+	int numberOfLines = 0;
+
+	// Récupère toutes les valeurs du fichier
+	if (file.good()) {
+		std::string line;
+		while (std::getline(file, line)) {
+			numberOfLines++;
+			scores.push_back(std::stoi(line));
+		}
+	}
+
+	sort(scores.begin(), scores.end(), std::greater<int>());
+
+	if (numberOfScores > numberOfLines)
+		numberOfScores = numberOfLines;
+
+	std::vector<int> nHighest = std::vector<int>(scores.begin(),
+		scores.begin() + numberOfScores);
+
+	return nHighest;
+};
+
+/**
  * @brief Uncompose a number into its digits
  * 
  * @param number number to uncompose
