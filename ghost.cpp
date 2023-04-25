@@ -24,6 +24,20 @@ Ghost::Ghost(
 
 void Ghost::aleaMove(std::vector<SDL_Rect> &walls)
 {
+	std::list<Direction> validDirection;
+	intersectionDirection(walls, validDirection);
+
+	// Si à une intersection de 3 chemins minimum
+	int size = validDirection.size();
+	auto iterList = validDirection.begin();
+
+	if(size >= 3){
+		int nb = aleaRand(1,size);
+		std::advance(iterList, nb);
+		setWishDirection(*iterList);
+	}
+
+	// Si bloqué cherche une autre direction
 	if(roundCmpt_ == 2){
 		int nb = aleaRand(1,4);
 		switch (nb)

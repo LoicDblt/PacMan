@@ -24,6 +24,7 @@ class Ghost : public Person {
 			int pointsDeVie
 		);
 
+		/* Move randomly on the map */
 		void aleaMove(std::vector<SDL_Rect> &walls);
 
 	private:

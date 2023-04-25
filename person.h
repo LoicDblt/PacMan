@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <list>
 
 #include "entity.h"
 
@@ -35,9 +36,16 @@ class Person : public Entity {
 		);
 		~Person();
 
+	/* Methods */
 	private:
 		bool checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity);
+
+	protected:
+		/* TRUE if direction available */
 		bool checkDirection(std::vector<SDL_Rect> &walls, Direction direction);
+		/* Intersection Direction */
+		void intersectionDirection(std::vector<SDL_Rect> &walls, std::list<Direction> &validDirection);
+
 
 	public:
 		void move(std::vector<SDL_Rect>& walls);

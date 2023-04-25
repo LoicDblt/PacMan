@@ -124,6 +124,25 @@ bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) {
 };
 
 /**
+ * Return a list of valid direction
+*/
+void Person::intersectionDirection(std::vector<SDL_Rect> &walls, std::list<Direction> &validDirection)
+{
+	// Chech if the direction is available
+	if (checkDirection(walls, Person::UP))
+		validDirection.push_front(Person::UP);
+
+	if (checkDirection(walls, Person::DOWN))
+		validDirection.push_front(Person::DOWN);
+
+	if (checkDirection(walls, Person::LEFT))
+		validDirection.push_front(Person::LEFT);
+
+	if (checkDirection(walls, Person::RIGHT))
+		validDirection.push_front(Person::LEFT);
+}
+
+/**
  * Try to go DOWN, UP, RIGHT, LEFT (in this order)
  * If it can't go in any direction, return false
 */
