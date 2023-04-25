@@ -12,7 +12,13 @@ Interface::Interface(
 
 Interface::~Interface() {};
 
-void Interface::displayPressSpace(int windowWidth, int windowHeight) {
+/**
+ * @brief Affiche le message "Push space key"
+ * 
+ * @param windowWidth of the window
+ * @param windowHeight of the window
+ */
+void Interface::displayPushSpace(int windowWidth, int windowHeight) {
 	SDL_Rect positionLettre = Coordinate::alphabet_texture;
 
 	// Affichage de "Press escape key"
@@ -30,6 +36,14 @@ void Interface::displayPressSpace(int windowWidth, int windowHeight) {
 	}
 }
 
+/**
+ * @brief Affiche l'écran titre
+ * 		- Logo Pacman
+ * 		- Les scores (actuel et maximum)
+ * 		- Le message "Push space key"
+ * 		- Les 10 meilleurs scores
+ * 		- Le logo Namco
+ */
 void Interface::titleScreen() {
 	int windowWidth, windowHeight;
 	SDL_GetWindowSize(this->getWindow(), &windowWidth, &windowHeight);
@@ -95,7 +109,7 @@ void Interface::titleScreen() {
 	}
 
 	// Affichage de "Press escape key"
-	displayPressSpace(windowWidth, windowHeight);
+	displayPushSpace(windowWidth, windowHeight);
 
 	// Affichage de "RANK"
 	positionLettre.x = (windowWidth - (Coordinate::indexRank.size() *
@@ -203,7 +217,7 @@ void Interface::titleScreen() {
 			SDL_FreeSurface(surface);
 		}
 		else if ((count % 31) == 1)
-			displayPressSpace(windowWidth, windowHeight);
+			displayPushSpace(windowWidth, windowHeight);
 
 		count++;
 		SDL_UpdateWindowSurface(this->getWindow());

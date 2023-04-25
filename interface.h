@@ -39,7 +39,7 @@ class Interface {
 		void titleScreen();
 
 	private:
-		void displayPressSpace(int windowWidth, int windowHeight);
+		void displayPushSpace(int windowWidth, int windowHeight);
 };
 
 #endif

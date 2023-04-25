@@ -8,9 +8,14 @@
 class Ghost : public Person {
 	private:
 		enum State {HUNTER, PREY, DEAD};
-		Direction previousDirection_;	// Direction de laquelle on vient. Ex: wishDirection UP, behindWay DOWN
-		int roundCmpt_{0}; // Compte le nombre de fois que l'algo boucle, pour la même position
 		SDL_Rect previousPosition_;
+
+		// Direction de laquelle on vient.  Ex: wishDirection UP, behindWay DOWN
+		Direction previousDirection_;
+
+		// Compte le nombre de fois que l'algo boucle, pour la même position
+		int roundCmpt_{0};
+
 
 	public:
 		Ghost() = default;
