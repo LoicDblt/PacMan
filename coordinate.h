@@ -81,7 +81,7 @@ class Coordinate {
 			{1, 7, 8, 68},		// Rectangle - Gauche - V
 
 			// Zone haut droite
-			{161, 7, 8, 768},	// Rectangle - Droite - V
+			{161, 7, 8, 68},	// Rectangle - Droite - V
 
 			// Zone bas gauche
 			{1, 143, 8, 68},	// Rectangle - Gauche - V
@@ -154,6 +154,19 @@ class Coordinate {
 			{81, 183, 8, 18},	// Rectangle - Bas - Double forme - V
 			{65, 169, 40, 16},	// Rectangle - Bas - Double forme - H
 		};
+
+
+		/*
+		 * =============== TUNNELS ============================
+		*/
+		inline static std::vector<SDL_Rect> tunnels{ //
+			// ============= Gauche ================
+			{1, 103, 1, 10},
+
+			// ============= Droit =================
+			{166, 103, 1, 10}
+		};
+
 
 		/*
 		 * =============== PACGOMME "dots" ====================

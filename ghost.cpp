@@ -22,8 +22,10 @@ Ghost::Ghost(
 
 {};
 
-void Ghost::aleaMove(std::vector<SDL_Rect> &walls)
-{
+void Ghost::aleaMove(
+	std::vector<SDL_Rect> &walls,
+	std::vector<SDL_Rect> &tunnels
+) {
 	std::list<Direction> validDirection;
 	intersectionDirection(walls, validDirection);
 
@@ -31,7 +33,7 @@ void Ghost::aleaMove(std::vector<SDL_Rect> &walls)
 	int size = validDirection.size();
 	auto iterList = validDirection.begin();
 
-	if(size >= 3){
+	if(size >= 3) {
 		int nb = aleaRand(1,size);
 		std::advance(iterList, nb);
 		setWishDirection(*iterList);
@@ -62,7 +64,7 @@ void Ghost::aleaMove(std::vector<SDL_Rect> &walls)
 		roundCmpt_++;
 	}
 	previousPosition_ = entityRect_;
-	move(walls);
+	move(walls, tunnels);
 }
 
 int Ghost::aleaRand(int x, int y)

@@ -17,7 +17,7 @@ Person::Person(
 
 Person::~Person() {};
 
-void Person::move(std::vector<SDL_Rect>& walls) {
+void Person::move(std::vector<SDL_Rect>& walls, std::vector<SDL_Rect>& tunnels) {
 	if (tryToTurnCmp_ != 60) {
 		if (checkDirection(walls, wishDirection_)) {
 			tryToTurnCmp_ = 0;
@@ -45,12 +45,22 @@ void Person::move(std::vector<SDL_Rect>& walls) {
 
 		case RIGHT:
 			this->entityRect_.x += speed_;
+
+			if (checkWalls(tunnels, this->getEntityRect()))
+				this->entityRect_.x = tunnels[0].x + tunnels[0].w;
+
 			if (checkWalls(walls, this->entityRect_))
 				this->entityRect_.x -= speed_;
 			break;
 
 		case LEFT:
 			this->entityRect_.x -= speed_;
+
+			if (checkWalls(tunnels, this->getEntityRect())) {
+				this->entityRect_.x = tunnels[1].x - (tunnels[1].w +
+					this->entityRect_.w);
+			}
+
 			if (checkWalls(walls, this->entityRect_))
 				this->entityRect_.x += speed_;
 			break;

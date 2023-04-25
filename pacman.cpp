@@ -26,6 +26,9 @@ SDL_Rect pac =		{34, 134, 32, 32};
 // Murs
 std::vector<SDL_Rect> walls = Coordinate::walls;
 
+// Tunnels
+std::vector<SDL_Rect> tunnels = Coordinate::tunnels;
+
 // (Super) Pacgommes
 std::vector<SDL_Rect> dots = Coordinate::dots;
 std::vector<SDL_Rect> energizers = Coordinate::energizers;
@@ -47,6 +50,14 @@ void init() {
 		walls[i].y = 4*(walls[i].y) + 100;
 		walls[i].w *= 4;
 		walls[i].h *= 4;
+	}
+
+	// Init les tunnels avec mise à l'échelle
+	for (int i=0; i<tunnels.size(); i++) {
+		tunnels[i].x *= 4;
+		tunnels[i].y = 4*(tunnels[i].y) + 100;
+		tunnels[i].w *= 4;
+		tunnels[i].h *= 4;
 	}
 
 	// Init les Pacgommes
@@ -265,9 +276,9 @@ int main(int argc, char** argv) {
 		}
 
 		// On fait bouger PacMan
-		pacman.move(walls);
+		pacman.move(walls, tunnels);
 		pacman.checkPostion(dots,energizers,statsPac);
-		redGhost.aleaMove(walls);
+		redGhost.aleaMove(walls, tunnels);
 
 		// S'il y a une collision avec le fantôme rouge
 		// if (SDL_HasIntersection(&pac, &ghost))

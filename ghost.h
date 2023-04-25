@@ -25,7 +25,8 @@ class Ghost : public Person {
 		);
 
 		/* Move randomly on the map */
-		void aleaMove(std::vector<SDL_Rect> &walls);
+		void aleaMove(std::vector<SDL_Rect> &walls,
+			std::vector<SDL_Rect> &tunnels);
 
 	private:
 		/* Give a random int beetween x and y */
