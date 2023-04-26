@@ -43,8 +43,7 @@ void Player::checkPostion(
 	std::vector<SDL_Rect> &dots, 
 	std::vector<SDL_Rect> &energizers, 
 	Stats &statsPac
-)
-{
+) {
 	onElement(dots,statsPac,Stats::DOT);
 	onElement(energizers,statsPac,Stats::ENERGIZER);
 }

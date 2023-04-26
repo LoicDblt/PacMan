@@ -81,7 +81,7 @@ class Coordinate {
 			{1, 7, 8, 68},		// Rectangle - Gauche - V
 
 			// Zone haut droite
-			{161, 7, 8, 768},	// Rectangle - Droite - V
+			{161, 7, 8, 68},	// Rectangle - Droite - V
 
 			// Zone bas gauche
 			{1, 143, 8, 68},	// Rectangle - Gauche - V
@@ -154,6 +154,19 @@ class Coordinate {
 			{81, 183, 8, 18},	// Rectangle - Bas - Double forme - V
 			{65, 169, 40, 16},	// Rectangle - Bas - Double forme - H
 		};
+
+
+		/*
+		 * =============== TUNNELS ============================
+		*/
+		inline static std::vector<SDL_Rect> tunnels{ //
+			// ============= Gauche ================
+			{1, 103, 1, 10},
+
+			// ============= Droit =================
+			{166, 103, 1, 10}
+		};
+
 
 		/*
 		 * =============== PACGOMME "dots" ====================
@@ -458,6 +471,7 @@ class Coordinate {
 		*/
 		inline static std::vector<int> indexScore {18, 2, 14, 17, 4};
 		inline static std::vector<int> indexHigh = {7, 8, 6, 7};
+		inline static std::vector<int> indexRank = {17, 0, 13, 10};
 		inline static std::vector<int> indexPressSpace = {
 			15, 20, 18, 7, -1,
 			18, 15, 0, 2, 4, -1,

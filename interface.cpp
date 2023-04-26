@@ -12,6 +12,38 @@ Interface::Interface(
 
 Interface::~Interface() {};
 
+/**
+ * @brief Affiche le message "Push space key"
+ * 
+ * @param windowWidth of the window
+ * @param windowHeight of the window
+ */
+void Interface::displayPushSpace(int windowWidth, int windowHeight) {
+	SDL_Rect positionLettre = Coordinate::alphabet_texture;
+
+	// Affichage de "Press escape key"
+	positionLettre.x = (windowWidth -
+		(Coordinate::indexPressSpace.size() *
+		ALPHABET_TEXTURE_WIDTH))/2;
+	positionLettre.y = windowHeight/3;
+
+	for (int i: Coordinate::indexPressSpace) {
+		if (i != -1) {
+			SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
+				this->getSurface(), &positionLettre);
+		}
+		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+	}
+}
+
+/**
+ * @brief Affiche l'écran titre
+ * 		- Logo Pacman
+ * 		- Les scores (actuel et maximum)
+ * 		- Le message "Push space key"
+ * 		- Les 10 meilleurs scores
+ * 		- Le logo Namco
+ */
 void Interface::titleScreen() {
 	int windowWidth, windowHeight;
 	SDL_GetWindowSize(this->getWindow(), &windowWidth, &windowHeight);
@@ -39,19 +71,8 @@ void Interface::titleScreen() {
 	positionLettre = Coordinate::alphabet_texture;
 	positionLettre.x = windowWidth - (positionLettre.x * 2);
 
-	// Si le fichier des scores existe, on affiche le plus haut
-	std::ifstream file(Stats::SCORES_FILE);
-	int highScore = 0;
-	if (file.good()) {
-		std::string line;
-		int readedScore;
-		while (std::getline(file, line)) {
-			readedScore = std::stoi(line);
-			if (readedScore > highScore)
-				highScore = readedScore;
-		}
-	}
-
+	// Affichage du score le plus élevé
+	int highScore = Stats::readScores(1).front();
 	std::vector<int> digits = Stats::uncomposeNumber(highScore);
 
 	positionDigit = Coordinate::number_texture;
@@ -60,7 +81,7 @@ void Interface::titleScreen() {
 	for (int i: digits) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::number[i],
 			this->getSurface(), &positionDigit);
-		positionDigit.x -= ALPHABET_TEXTURE_WIDTH;
+		positionDigit.x -= NUMBER_TEXTURE_WIDTH;
 	}
 
 	// On part de l'extrémité droite de l'écran, donc on inverse l'ordre
@@ -88,22 +109,51 @@ void Interface::titleScreen() {
 	}
 
 	// Affichage de "Press escape key"
-	positionLettre.x = (windowWidth - (Coordinate::indexPressSpace.size() *
-		ALPHABET_TEXTURE_WIDTH))/2;
-	positionLettre.y = windowHeight/2;
+	displayPushSpace(windowWidth, windowHeight);
 
-	for (int i: Coordinate::indexPressSpace) {
-		if (i != -1) {
-			SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
-				this->getSurface(), &positionLettre);
-		}
+	// Affichage de "RANK"
+	positionLettre.x = (windowWidth - (Coordinate::indexRank.size() *
+		ALPHABET_TEXTURE_WIDTH))/2;
+	positionLettre.y = windowHeight/2 - ALPHABET_TEXTURE_WIDTH;
+
+	for (int i: Coordinate::indexRank) {
+		SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
+			this->getSurface(), &positionLettre);
 		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
 	}
 
+	// Affichage des 10 meilleures scores
+	positionDigit = Coordinate::number_texture;
+	positionDigit.y = windowHeight/2;
+
+	std::vector<int> scores = Stats::readScores(10);
+	for (int i: scores) {
+		digits = Stats::uncomposeNumber(i);
+
+		float offsetDigit = std::floor(digits.size()/1.5);
+
+		// Hack pour centrer les scores à 3 chiffres
+		if (offsetDigit == 2 && digits.size() == 3)
+			offsetDigit = 1;
+	
+		positionDigit.x = (windowWidth + offsetDigit *
+			NUMBER_TEXTURE_WIDTH)/2;
+
+		for (int j: digits) {
+			SDL_BlitScaled(this->getSprites(), &Coordinate::number[j],
+				this->getSurface(), &positionDigit);
+			positionDigit.x -= NUMBER_TEXTURE_WIDTH;
+		}
+
+		positionDigit.y += NUMBER_TEXTURE_WIDTH;
+	}
+
+	// Mets à jour la fenêtre
 	SDL_UpdateWindowSurface(this->getWindow());
 
 	// Attend l'entrée de l'utilisateur
 	bool quit = false;
+	int count = 0;
 	while (!quit) {
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
@@ -138,5 +188,39 @@ void Interface::titleScreen() {
 			SDL_FreeSurface(surface);
 			break;
 		}
+
+		/**
+		 * Attend 0,5s avant de passer d'un message à l'autre
+		 * 1 tour = 16m et 1s = 62*16ms, d'où le modulo 62
+		*/
+		if ((count % 62) == 1) {
+			positionLettre.x = (windowWidth -
+				(Coordinate::indexPressSpace.size() *
+				ALPHABET_TEXTURE_WIDTH))/2;
+			positionLettre.y = windowHeight/3;
+
+			// Créé un rectangle rempli, à la taille exacte de la phrase
+			SDL_Rect rect = {
+				positionLettre.x,
+				positionLettre.y,
+				static_cast<int>(ALPHABET_TEXTURE_WIDTH *
+					Coordinate::indexPressSpace.size()),
+				ALPHABET_TEXTURE_WIDTH
+			};
+
+			SDL_Color color = {0, 0, 0, 255};
+			SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
+				32, 0, 0, 0, 0);
+			SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
+				color.g, color.b));
+			SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
+			SDL_FreeSurface(surface);
+		}
+		else if ((count % 31) == 1)
+			displayPushSpace(windowWidth, windowHeight);
+
+		count++;
+		SDL_UpdateWindowSurface(this->getWindow());
+		SDL_Delay(16);
 	}
 }

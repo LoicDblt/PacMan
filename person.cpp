@@ -40,8 +40,15 @@ Person::Person(
 
 Person::~Person() {};
 
+<<<<<<< HEAD
 void Person::move(std::vector<SDL_Rect>& walls) 
 {
+=======
+void Person::move(
+	std::vector<SDL_Rect>& walls,
+	std::vector<SDL_Rect>& tunnels
+) {
+>>>>>>> 06d95c63407f707aab6303949bfdbba65a715eaa
 	if (tryToTurnCmp_ != 60) {
 		if (checkDirection(walls, wishDirection_)) {
 			tryToTurnCmp_ = 0;
@@ -69,18 +76,27 @@ void Person::move(std::vector<SDL_Rect>& walls)
 
 		case RIGHT:
 			this->entityRect_.x += speed_;
+
+			if (checkWalls(tunnels, this->getEntityRect()))
+				this->entityRect_.x = tunnels[0].x + tunnels[0].w;
+
 			if (checkWalls(walls, this->entityRect_))
 				this->entityRect_.x -= speed_;
 			break;
 
 		case LEFT:
 			this->entityRect_.x -= speed_;
+
+			if (checkWalls(tunnels, this->getEntityRect())) {
+				this->entityRect_.x = tunnels[1].x - (tunnels[1].w +
+					this->entityRect_.w);
+			}
+
 			if (checkWalls(walls, this->entityRect_))
 				this->entityRect_.x += speed_;
 			break;
 
 		default:
-			//std::cerr << "Person Direction UNKNOW" << SDL_GetError() << std::endl;
 			break;
 	}
 };
@@ -182,8 +198,10 @@ bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction)
 /**
  * Return a list of valid direction
 */
-void Person::intersectionDirection(std::vector<SDL_Rect> &walls, std::list<Direction> &validDirection)
-{
+void Person::intersectionDirection(
+	std::vector<SDL_Rect> &walls,
+	std::list<Direction> &validDirection
+) {
 	// Chech if the direction is available
 	if (checkDirection(walls, Person::UP))
 		validDirection.push_front(Person::UP);
