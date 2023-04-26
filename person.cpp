@@ -15,9 +15,33 @@ Person::Person(
 	pointsDeVie_{pointsDeVie}
 {};
 
+Person::Person(
+	SDL_Rect entityRect,
+	SDL_Rect entityPicture,
+	float speed,
+	Direction direction,
+	Direction wishDirection,
+	int pointsDeVie,
+	std::vector<SDL_Rect> up,
+	std::vector<SDL_Rect> down,
+	std::vector<SDL_Rect> left,
+	std::vector<SDL_Rect> right
+):
+	Entity{entityRect, entityPicture},
+	speed_{speed},
+	direction_{direction},
+	wishDirection_{wishDirection},
+	pointsDeVie_{pointsDeVie},
+	up_{up},
+	down_{down},
+	left_{left},
+	right_{right}	
+{};
+
 Person::~Person() {};
 
-void Person::move(std::vector<SDL_Rect>& walls) {
+void Person::move(std::vector<SDL_Rect>& walls) 
+{
 	if (tryToTurnCmp_ != 60) {
 		if (checkDirection(walls, wishDirection_)) {
 			tryToTurnCmp_ = 0;
@@ -66,7 +90,8 @@ void Person::move(std::vector<SDL_Rect>& walls) {
  * Si le personnage rencontre un mur il renvoie true
  * cela empêchera d'aller dans cette direction
  * */
-bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity) {
+bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity) 
+{
 	for (int i=0; i<walls.size();i++) {
 		if (SDL_HasIntersection(&entity, &walls[i]))
 			return true;
@@ -75,9 +100,40 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity) {
 };
 
 /**
+ * Effectue les différentes animations
+*/
+void Person::animation(int count) 
+{
+	if(count%5 == 0)
+		if(tmpAnimation_ == 1)
+			tmpAnimation_ = 0;
+		else
+			tmpAnimation_ = 1;
+	
+	switch (direction_)
+	{
+	case RIGHT:
+		this->setEntityPic(right_[tmpAnimation_]);
+		break;
+	case LEFT:
+		this->setEntityPic(left_[tmpAnimation_]);
+		break;
+	case DOWN:
+		this->setEntityPic(down_[tmpAnimation_]);
+		break;
+	case UP:
+		this->setEntityPic(up_[tmpAnimation_]);
+		break;	
+	default:
+		break;
+	}
+}
+
+/**
  * Return true if direction is free
 */
-bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) {
+bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) 
+{
 	bool res = true;
 	SDL_Rect tmpRect{
 		this->entityRect_.x,
@@ -141,41 +197,3 @@ void Person::intersectionDirection(std::vector<SDL_Rect> &walls, std::list<Direc
 	if (checkDirection(walls, Person::RIGHT))
 		validDirection.push_front(Person::LEFT);
 }
-
-/**
- * Try to go DOWN, UP, RIGHT, LEFT (in this order)
- * If it can't go in any direction, return false
-*/
-bool Person::ghostBehavior(std::vector<SDL_Rect> &walls) {
-	setWishDirection(Person::DOWN);
-
-	if (checkDirection(walls, wishDirection_) == false)
-		setWishDirection(Person::UP);
-	else {
-		setDirection(Person::DOWN);
-		return true;
-	}
-
-	if (checkDirection(walls, wishDirection_) == false)
-		setWishDirection(Person::RIGHT);
-	else {
-		setDirection(Person::UP);
-		return true;
-	}
-
-	if (checkDirection(walls, wishDirection_) == false)
-		setWishDirection(Person::LEFT);
-	else {
-		setDirection(Person::RIGHT);
-		return true;
-	}
-
-	if (checkDirection(walls, wishDirection_) == false) {
-		std::cerr << "Ghost can't move" << std::endl;
-		return false;
-	}
-	else {
-		setDirection(Person::LEFT);
-		return true;
-	}
-};

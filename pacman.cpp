@@ -117,53 +117,6 @@ bool colliFantome(Person* pacman, SDL_Rect* pac) {
 	return false;
 }
 
-void animation(Person* person, SDL_Rect& tampon, Person::CaracterType type) {
-	
-	if(type == Person::PACMAN){
-		switch(person->getDirection()) {
-		case Person::RIGHT:
-			tampon = Coordinate::pac_r[1];
-			break;
-
-		case Person::LEFT:
-			tampon = Coordinate::pac_l[1];
-			break;
-
-		case Person::UP:
-			tampon = Coordinate::pac_u[1];
-			break;
-
-		case Person::DOWN:
-			tampon = Coordinate::pac_d[1];
-			break;
-
-		default:
-			break;
-		}
-	}else if(type == Person::GRED){
-		switch(person->getDirection()) {
-		case Person::RIGHT:
-			tampon = Coordinate::ghost_red_r[1];
-			break;
-
-		case Person::LEFT:
-			tampon = Coordinate::ghost_red_l[1];
-			break;
-
-		case Person::UP:
-			tampon = Coordinate::ghost_red_u[1];
-			break;
-
-		case Person::DOWN:
-			tampon = Coordinate::ghost_red_d[1];
-			break;
-
-		default:
-			break;
-		}
-	}
-}
-
 int main(int argc, char** argv) {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cerr << "Echec de l'initialisation de la SDL " << SDL_GetError()
@@ -190,6 +143,12 @@ int main(int argc, char** argv) {
 		Person::NONE,
 		3
 	};
+	pacman.setAnimation(
+		Coordinate::pac_l,
+		Coordinate::pac_r,
+		Coordinate::pac_u,
+		Coordinate::pac_d
+	);
 
 	Ghost redGhost = {
 		SDL_Rect{36, 136, 32, 32},
@@ -199,6 +158,12 @@ int main(int argc, char** argv) {
 		Person::DOWN,
 		1
 	};
+	redGhost.setAnimation(
+		Coordinate::ghost_red_l,
+		Coordinate::ghost_red_r,
+		Coordinate::ghost_red_u,
+		Coordinate::ghost_red_d
+	);
 
 	Stats statsPac = {0, 0, 0, 0};
 
@@ -235,25 +200,21 @@ int main(int argc, char** argv) {
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT]) {
 			pacman.setWishDirection(Person::RIGHT);
-			pacman.setEntityPic(Coordinate::pac_r[0]);
 		}
 
 		// Gauche
 		else if (keys[SDL_SCANCODE_LEFT]) {
 			pacman.setWishDirection(Person::LEFT);
-			pacman.setEntityPic(Coordinate::pac_l[0]);
 		}
 
 		// Haut
 		else if (keys[SDL_SCANCODE_UP]) {
 			pacman.setWishDirection(Person::UP);
-			pacman.setEntityPic(Coordinate::pac_u[0]);
 		}
 
 		// Bas
 		else if (keys[SDL_SCANCODE_DOWN]) {
 			pacman.setWishDirection(Person::DOWN);
-			pacman.setEntityPic(Coordinate::pac_d[0]);
 		}
 
 		// Debug vitesse
@@ -273,18 +234,11 @@ int main(int argc, char** argv) {
 		// if (SDL_HasIntersection(&pac, &ghost))
 		// 	quit = colliFantome(&pacman, &pac);
 
-		// Recharge la tête adaptée à la direction de PacMan
-		if (!((count/4)%2)){
-			pac_tampon = pacman.getEntityPic();
-			ghost_tampon = redGhost.getEntityPic();
-		}
+		pacman.animation(count);
+		redGhost.animation(count);
 
-		// Animation de PacMan
-		if ((count/4)%2){
-			animation(&pacman, pac_tampon, Person::PACMAN);
-			animation(&redGhost, ghost_tampon, Person::GRED);
-		}
-
+		pac_tampon = pacman.getEntityPic();
+		ghost_tampon = redGhost.getEntityPic();
 		pac_in = &(pac_tampon);
 		ghost_in = &(ghost_tampon);
 

@@ -18,6 +18,11 @@ class Person : public Entity {
 		Direction wishDirection_;
 		int pointsDeVie_;
 		int tryToTurnCmp_{50};
+		int tmpAnimation_{0};
+		std::vector<SDL_Rect> up_;
+		std::vector<SDL_Rect> down_;
+		std::vector<SDL_Rect> left_;
+		std::vector<SDL_Rect> right_;
 
 	/* Constructors */
 	public:
@@ -34,12 +39,24 @@ class Person : public Entity {
 			Direction wishDirection,
 			int pointsDeVie
 		);
+		Person(
+			SDL_Rect entityRect,
+			SDL_Rect entityPicture,
+			float speed,
+			Direction direction,
+			Direction wishDirection,
+			int pointsDeVie,
+			std::vector<SDL_Rect> up,
+			std::vector<SDL_Rect> down,
+			std::vector<SDL_Rect> left,
+			std::vector<SDL_Rect> right
+		);
 		~Person();
 
 	/* Methods */
 	private:
 		bool checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity);
-
+		
 	protected:
 		/* TRUE if direction available */
 		bool checkDirection(std::vector<SDL_Rect> &walls, Direction direction);
@@ -49,7 +66,7 @@ class Person : public Entity {
 
 	public:
 		void move(std::vector<SDL_Rect>& walls);
-		bool ghostBehavior(std::vector<SDL_Rect> &walls);
+		void animation(int count);
 
 	/* Getter */
 	public:
@@ -73,6 +90,17 @@ class Person : public Entity {
 
 		inline void pertePointDeVie(void) {
 			pointsDeVie_ -= 1;
+		}
+		inline void setAnimation(
+			std::vector<SDL_Rect> left, 
+			std::vector<SDL_Rect> right, 
+			std::vector<SDL_Rect> up,
+			std::vector<SDL_Rect>  down) 
+		{
+			left_ = left;
+			right_ = right;
+			up_ = up;
+			down_ = down;
 		}
 };
 
