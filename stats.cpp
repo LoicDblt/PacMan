@@ -96,7 +96,7 @@ std::vector<int> Stats::readScores(int numberOfScores) {
 		}
 	}
 
-	sort(scores.begin(), scores.end(), std::greater<int>());
+	std::sort(scores.begin(), scores.end(), std::greater<int>());
 
 	if (numberOfScores > numberOfLines)
 		numberOfScores = numberOfLines;

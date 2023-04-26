@@ -40,15 +40,10 @@ Person::Person(
 
 Person::~Person() {};
 
-<<<<<<< HEAD
-void Person::move(std::vector<SDL_Rect>& walls) 
-{
-=======
 void Person::move(
 	std::vector<SDL_Rect>& walls,
 	std::vector<SDL_Rect>& tunnels
 ) {
->>>>>>> 06d95c63407f707aab6303949bfdbba65a715eaa
 	if (tryToTurnCmp_ != 60) {
 		if (checkDirection(walls, wishDirection_)) {
 			tryToTurnCmp_ = 0;

@@ -65,7 +65,7 @@ class Person : public Entity {
 
 
 	public:
-		void move(std::vector<SDL_Rect>& walls);
+		void move(std::vector<SDL_Rect>& walls, std::vector<SDL_Rect>& tunnels);
 		void animation(int count);
 
 	/* Getter */
