@@ -25,7 +25,7 @@ void Interface::displayPushSpace(int windowWidth, int windowHeight) {
 	positionLettre.x = (windowWidth -
 		(Coordinate::indexPressSpace.size() *
 		ALPHABET_TEXTURE_WIDTH))/2;
-	positionLettre.y = windowHeight/3;
+	positionLettre.y = windowHeight/2.5;
 
 	for (int i: Coordinate::indexPressSpace) {
 		if (i != -1) {
@@ -114,7 +114,7 @@ void Interface::titleScreen() {
 	// Affichage de "RANK"
 	positionLettre.x = (windowWidth - (Coordinate::indexRank.size() *
 		ALPHABET_TEXTURE_WIDTH))/2;
-	positionLettre.y = windowHeight/2 - ALPHABET_TEXTURE_WIDTH;
+	positionLettre.y = windowHeight/1.75 - ALPHABET_TEXTURE_WIDTH*2;
 
 	for (int i: Coordinate::indexRank) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
@@ -124,7 +124,7 @@ void Interface::titleScreen() {
 
 	// Affichage des 10 meilleures scores
 	positionDigit = Coordinate::number_texture;
-	positionDigit.y = windowHeight/2;
+	positionDigit.y = windowHeight/1.75;
 
 	std::vector<unsigned int> scores = Stats::readScores(10);
 	for (int i: scores) {
@@ -187,34 +187,95 @@ void Interface::titleScreen() {
 		 * Attend 0,5s avant de passer d'un message à l'autre
 		 * 1 tour = 16m et 1s = 62*16ms, d'où le modulo 62
 		*/
-		// if ((count % 62) == 1) {
-		// 	positionLettre.x = (windowWidth -
-		// 		(Coordinate::indexPressSpace.size() *
-		// 		ALPHABET_TEXTURE_WIDTH))/2;
-		// 	positionLettre.y = windowHeight/3;
+		if ((count % 62) == 1) {
+			positionLettre.x = (windowWidth -
+				(Coordinate::indexPressSpace.size() *
+				ALPHABET_TEXTURE_WIDTH))/2;
+			positionLettre.y = windowHeight/2.5;
 
-		// 	// Créé un rectangle rempli, à la taille exacte de la phrase
-		// 	SDL_Rect rect = {
-		// 		positionLettre.x,
-		// 		positionLettre.y,
-		// 		static_cast<int>(ALPHABET_TEXTURE_WIDTH *
-		// 			Coordinate::indexPressSpace.size()),
-		// 		ALPHABET_TEXTURE_WIDTH
-		// 	};
+			// Créé un rectangle rempli, à la taille exacte de la phrase
+			SDL_Rect rect = {
+				positionLettre.x,
+				positionLettre.y,
+				static_cast<int>(ALPHABET_TEXTURE_WIDTH *
+					Coordinate::indexPressSpace.size()),
+				ALPHABET_TEXTURE_WIDTH
+			};
 
-		// 	SDL_Color color = {0, 0, 0, 255};
-		// 	SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
-		// 		32, 0, 0, 0, 0);
-		// 	SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
-		// 		color.g, color.b));
-		// 	SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
-		// 	SDL_FreeSurface(surface);
-		// }
-		// else if ((count % 31) == 1)
-		// 	displayPushSpace(windowWidth, windowHeight);
+			SDL_Color color = {0, 0, 0, 255};
+			SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
+				32, 0, 0, 0, 0);
+			SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
+				color.g, color.b));
+			SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
+			SDL_FreeSurface(surface);
+		}
+		else if ((count % 31) == 1)
+			displayPushSpace(windowWidth, windowHeight);
 
 		count++;
 		SDL_UpdateWindowSurface(this->getWindow());
 		SDL_Delay(16);
+	}
+}
+
+/**
+ * @brief Mets à jour le score pendant la partie
+ * 
+ * @param digits score à afficher
+ */
+void Interface::drawScore(std::vector<int> digits) {
+	// Inverse le vecteur pour l'afficher dans le bon sens
+	std::reverse(digits.begin(), digits.end());
+
+	// Si le score est nul, on affiche quand même 0
+	if (digits.size() == 0)
+		digits.push_back(0);
+
+	// Créé un rectangle rempli, à la taille exacte du score à afficher
+	SDL_Rect rect = {25, 50,
+		static_cast<int>(ALPHABET_TEXTURE_WIDTH * digits.size()),
+		Coordinate::number_texture.h};
+	SDL_Color color = {0, 0, 0, 255};
+	SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
+		32, 0, 0, 0, 0);
+	SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
+		color.g, color.b));
+	SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
+	SDL_FreeSurface(surface);
+
+	// Affiche le score
+	SDL_Rect positionDigit = Coordinate::number_texture;
+	for (int i: digits) {
+		SDL_BlitScaled(this->getSprites(), &Coordinate::number[i],
+			this->getSurface(),	&positionDigit);
+		positionDigit.x += ALPHABET_TEXTURE_WIDTH;
+	}
+}
+
+/**
+ * @brief Affiche le nombre de vies restantes (sous forme de Pacman)
+ * 
+ * @param lives nombre de vies restantes à afficher
+ */
+void Interface::drawLives(int lives) {
+	SDL_Rect position{Coordinate::pacLives};
+	SDL_Rect face{Coordinate::pac_l[0]};
+
+	// Créé un rectangle rempli, à la taille exacte du nombre de vies à masquer
+	SDL_Rect rect = {position.x, position.y, (lives + 1) * (position.w + 14),
+		position.h};
+	SDL_Color color = {0, 0, 0, 255};
+	SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
+		32, 0, 0, 0, 0);
+	SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
+		color.g, color.b));
+	SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
+	SDL_FreeSurface(surface);
+
+	for (int i = 0; i < lives; i++) {
+		SDL_BlitScaled(this->getSprites(), &face, this->getSurface(),
+			&position);
+		position.x += 32 + 14;
 	}
 }

@@ -6,13 +6,13 @@ Person::Person(
 	float speed,
 	Direction direction,
 	Direction wishDirection,
-	int pointsDeVie
+	int healthPoints
 ):
 	Entity{entityRect, entityPicture},
 	speed_{speed},
 	direction_{direction},
 	wishDirection_{wishDirection},
-	pointsDeVie_{pointsDeVie}
+	healthPoints_{healthPoints}
 {};
 
 Person::Person(
@@ -21,7 +21,7 @@ Person::Person(
 	float speed,
 	Direction direction,
 	Direction wishDirection,
-	int pointsDeVie,
+	int healthPoints,
 	std::vector<SDL_Rect> up,
 	std::vector<SDL_Rect> down,
 	std::vector<SDL_Rect> left,
@@ -31,7 +31,7 @@ Person::Person(
 	speed_{speed},
 	direction_{direction},
 	wishDirection_{wishDirection},
-	pointsDeVie_{pointsDeVie},
+	healthPoints_{healthPoints},
 	up_{up},
 	down_{down},
 	left_{left},
@@ -135,7 +135,7 @@ void Person::animation(int count)
 		break;
 	case UP:
 		this->setEntityPic(up_[tmpAnimation_]);
-		break;	
+		break;
 	default:
 		break;
 	}

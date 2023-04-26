@@ -22,6 +22,8 @@ class Coordinate {
 		 * Format (x, y, w, h)
 		*/
 		// Coordonnées de Pacman
+		inline static SDL_Rect pacLives{14, 1022 - 32 - 14, 32, 32};
+
 		inline static std::vector<SDL_Rect> pac_b{{3, 89, 16, 16}};
 		inline static std::vector<SDL_Rect> pac_r{{20, 89, 15, 16},
 			{35, 89, 11, 16}};
@@ -484,7 +486,7 @@ class Coordinate {
 		inline static SDL_Rect pacmanLogo {3, 3, 182, 48};
 		inline static SDL_Rect posPacmanLogo {67, 100, 546, 144};
 		inline static SDL_Rect namcoLogo {27, 77, 62, 10};
-		inline static SDL_Rect posNamcoLogo {278, 862, 124, 20};
+		inline static SDL_Rect posNamcoLogo {278, 912, 124, 20};
 };
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "coordinate.h"
+#include "ghost.h"
 #include "person.h"
 #include "stats.h"
 
@@ -15,7 +17,7 @@ class Player : public Person {
 			float speed,
 			Direction direction,
 			Direction wishDirection,
-			int pointsDeVie
+			int healthPoints
 		);
 
 	/* Methods */
@@ -25,8 +27,10 @@ class Player : public Person {
 
 		void checkPostion(
 			std::vector<SDL_Rect> &dots,
-			std::vector<SDL_Rect> &energizers,  
-			Stats &statsPac);		
+			std::vector<SDL_Rect> &energizers,
+			Stats &statsPac);
+
+		void checkGhost(Ghost ghost);
 };
 
 #endif

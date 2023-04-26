@@ -1,16 +1,5 @@
 #include "pacman.h"
 
-#define DEBUG_LOIC false
-
-/**
- * Affiche un message de débug d'El Loïco
- * @param message à afficher
-*/
-void debugLoic(std::string message) {
-	if (DEBUG_LOIC)
-		std::cout << message << std::endl;
-}
-
 SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
@@ -37,7 +26,7 @@ int count;
 
 void init() {
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED, 680, 972, SDL_WINDOW_SHOWN);
+		SDL_WINDOWPOS_UNDEFINED, 680, 1022, SDL_WINDOW_SHOWN);
 
 	win_surf = SDL_GetWindowSurface(pWindow);
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
@@ -109,25 +98,6 @@ void draw() {
 	}
 }
 
-bool colliFantome(Person* pacman, SDL_Rect* pac) {
-	pacman->pertePointDeVie();
-
-	if (pacman->getPointsDeVie() == 0) {
-		puts("PacMan est mort !");
-		return true;
-	}
-	else
-		printf("Il reste %d vies à PacMan\n", pacman->getPointsDeVie());
-
-	// Reset PacMan à sa position d'origine
-	pac->x = 324;
-	pac->y = 744;
-	pacman->setDirection(Person::NONE);
-	pacman->setEntityPic(Coordinate::pac_b[0]);
-
-	return false;
-}
-
 int main(int argc, char** argv) {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cerr << "Echec de l'initialisation de la SDL " << SDL_GetError()
@@ -139,13 +109,6 @@ int main(int argc, char** argv) {
 	Interface interface = {pWindow, win_surf, plancheSprites};
 	interface.titleScreen();
 
-	// ==> Position de base de PacMan
-	// 336 = 84*4 (largeur jusqu'au centre, avec débord de 1, puis scale 4)
-	// (30/2)/2 = 8 (/2 pour le scale, puis pour moitié largeur de PacMan)
-	// 4 car 2 de marge sur pacman scale x2
-	// d'où : 8+4 = 12
-	// Ainsi, 336 - 12 = 324
-	// Identique pour la hauteur
 	Player pacman = {
 		SDL_Rect{324, 744, 32, 32},
 		Coordinate::pac_b[0],
@@ -209,24 +172,20 @@ int main(int argc, char** argv) {
 			quit = true;
 
 		// Droite
-		else if (keys[SDL_SCANCODE_RIGHT]) {
+		else if (keys[SDL_SCANCODE_RIGHT])
 			pacman.setWishDirection(Person::RIGHT);
-		}
 
 		// Gauche
-		else if (keys[SDL_SCANCODE_LEFT]) {
+		else if (keys[SDL_SCANCODE_LEFT])
 			pacman.setWishDirection(Person::LEFT);
-		}
 
 		// Haut
-		else if (keys[SDL_SCANCODE_UP]) {
+		else if (keys[SDL_SCANCODE_UP])
 			pacman.setWishDirection(Person::UP);
-		}
 
 		// Bas
-		else if (keys[SDL_SCANCODE_DOWN]) {
+		else if (keys[SDL_SCANCODE_DOWN])
 			pacman.setWishDirection(Person::DOWN);
-		}
 
 		// Debug vitesse
 		else if (keys[SDL_SCANCODE_SPACE]) {
@@ -238,12 +197,9 @@ int main(int argc, char** argv) {
 
 		// On fait bouger PacMan
 		pacman.move(walls, tunnels);
-		pacman.checkPostion(dots,energizers,statsPac);
+		pacman.checkPostion(dots, energizers, statsPac);
+		pacman.checkGhost(redGhost);
 		redGhost.aleaMove(walls, tunnels);
-
-		// S'il y a une collision avec le fantôme rouge
-		// if (SDL_HasIntersection(&pac, &ghost))
-		// 	quit = colliFantome(&pacman, &pac);
 
 		pacman.animation(count);
 		redGhost.animation(count);
@@ -256,40 +212,15 @@ int main(int argc, char** argv) {
 		// Affichage
 		draw();
 
-		// pac_in => la sprite a afficher
-		// pac => la position où le placer
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf,
 			&pacman.getEntityRect());
 		SDL_BlitScaled(plancheSprites, ghost_in, win_surf,
 			&redGhost.getEntityRect());
 
-		// Récupère le score, le décomposer et trie les chiffres
+		// Mise à jour du score et des vies
 		std::vector<int> digits = statsPac.uncomposeNumber(statsPac.getScore());
-		std::reverse(digits.begin(), digits.end());
-
-		// Si le score est nul, on affiche quand même 0
-		if (digits.size() == 0)
-			digits.push_back(0);
-
-		// Créé un rectangle rempli, à la taille exacte du score à afficher
-		SDL_Rect rect = {25, 50,
-			static_cast<int>(ALPHABET_TEXTURE_WIDTH * digits.size()),
-			Coordinate::number_texture.h};
-		SDL_Color color = {0, 0, 0, 255};
-		SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
-			32, 0, 0, 0, 0);
-		SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
-			color.g, color.b));
-		SDL_BlitScaled(surface, NULL, win_surf, &rect);
-		SDL_FreeSurface(surface);
-
-		// Affiche le score
-		SDL_Rect positionDigit = Coordinate::number_texture;
-		for (int i: digits) {
-			SDL_BlitScaled(plancheSprites, &Coordinate::number[i], win_surf,
-				&positionDigit);
-			positionDigit.x += ALPHABET_TEXTURE_WIDTH;
-		}
+		interface.drawScore(digits);
+		interface.drawLives(pacman.getLives());
 
 		SDL_UpdateWindowSurface(pWindow);
 

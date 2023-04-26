@@ -37,6 +37,8 @@ class Interface {
 
 	public:
 		void titleScreen();
+		void drawScore(std::vector<int> digits);
+		void drawLives(int lives);
 
 	private:
 		void displayPushSpace(int windowWidth, int windowHeight);

@@ -16,7 +16,7 @@ class Person : public Entity {
 		float speed_;
 		Direction direction_;
 		Direction wishDirection_;
-		int pointsDeVie_;
+		int healthPoints_;
 		int tryToTurnCmp_{50};
 		int tmpAnimation_{0};
 		std::vector<SDL_Rect> up_;
@@ -37,7 +37,7 @@ class Person : public Entity {
 			float speed,
 			Direction direction,
 			Direction wishDirection,
-			int pointsDeVie
+			int healthPoints
 		);
 		Person(
 			SDL_Rect entityRect,
@@ -45,7 +45,7 @@ class Person : public Entity {
 			float speed,
 			Direction direction,
 			Direction wishDirection,
-			int pointsDeVie,
+			int healthPoints,
 			std::vector<SDL_Rect> up,
 			std::vector<SDL_Rect> down,
 			std::vector<SDL_Rect> left,
@@ -61,7 +61,8 @@ class Person : public Entity {
 		/* TRUE if direction available */
 		bool checkDirection(std::vector<SDL_Rect> &walls, Direction direction);
 		/* Intersection Direction */
-		void intersectionDirection(std::vector<SDL_Rect> &walls, std::list<Direction> &validDirection);
+		void intersectionDirection(std::vector<SDL_Rect> &walls,
+			std::list<Direction> &validDirection);
 
 
 	public:
@@ -74,8 +75,8 @@ class Person : public Entity {
 			return direction_;
 		}
 
-		inline int getPointsDeVie() const {
-			return pointsDeVie_;
+		inline int getLives() const {
+			return healthPoints_;
 		}
 
 	/* Setter */
@@ -88,14 +89,14 @@ class Person : public Entity {
 			wishDirection_ = wishDirection;
 		}
 
-		inline void pertePointDeVie(void) {
-			pointsDeVie_ -= 1;
+		inline void lostLive(void) {
+			healthPoints_ -= 1;
 		}
 		inline void setAnimation(
 			std::vector<SDL_Rect> left, 
 			std::vector<SDL_Rect> right, 
 			std::vector<SDL_Rect> up,
-			std::vector<SDL_Rect>  down) 
+			std::vector<SDL_Rect> down)
 		{
 			left_ = left;
 			right_ = right;
