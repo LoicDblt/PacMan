@@ -130,14 +130,8 @@ void Interface::titleScreen() {
 	for (int i: scores) {
 		digits = Stats::uncomposeNumber(i);
 
-		float offsetDigit = std::floor(digits.size()/1.5);
-
-		// Hack pour centrer les scores à 3 chiffres
-		if (offsetDigit == 2 && digits.size() == 3)
-			offsetDigit = 1;
-	
-		positionDigit.x = (windowWidth + offsetDigit *
-			NUMBER_TEXTURE_WIDTH)/2;
+		positionDigit.x = (windowWidth/2 + (digits.size()/2.0 *
+			NUMBER_TEXTURE_WIDTH)) - NUMBER_TEXTURE_WIDTH;
 
 		for (int j: digits) {
 			SDL_BlitScaled(this->getSprites(), &Coordinate::number[j],
@@ -193,31 +187,31 @@ void Interface::titleScreen() {
 		 * Attend 0,5s avant de passer d'un message à l'autre
 		 * 1 tour = 16m et 1s = 62*16ms, d'où le modulo 62
 		*/
-		if ((count % 62) == 1) {
-			positionLettre.x = (windowWidth -
-				(Coordinate::indexPressSpace.size() *
-				ALPHABET_TEXTURE_WIDTH))/2;
-			positionLettre.y = windowHeight/3;
+		// if ((count % 62) == 1) {
+		// 	positionLettre.x = (windowWidth -
+		// 		(Coordinate::indexPressSpace.size() *
+		// 		ALPHABET_TEXTURE_WIDTH))/2;
+		// 	positionLettre.y = windowHeight/3;
 
-			// Créé un rectangle rempli, à la taille exacte de la phrase
-			SDL_Rect rect = {
-				positionLettre.x,
-				positionLettre.y,
-				static_cast<int>(ALPHABET_TEXTURE_WIDTH *
-					Coordinate::indexPressSpace.size()),
-				ALPHABET_TEXTURE_WIDTH
-			};
+		// 	// Créé un rectangle rempli, à la taille exacte de la phrase
+		// 	SDL_Rect rect = {
+		// 		positionLettre.x,
+		// 		positionLettre.y,
+		// 		static_cast<int>(ALPHABET_TEXTURE_WIDTH *
+		// 			Coordinate::indexPressSpace.size()),
+		// 		ALPHABET_TEXTURE_WIDTH
+		// 	};
 
-			SDL_Color color = {0, 0, 0, 255};
-			SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
-				32, 0, 0, 0, 0);
-			SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
-				color.g, color.b));
-			SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
-			SDL_FreeSurface(surface);
-		}
-		else if ((count % 31) == 1)
-			displayPushSpace(windowWidth, windowHeight);
+		// 	SDL_Color color = {0, 0, 0, 255};
+		// 	SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
+		// 		32, 0, 0, 0, 0);
+		// 	SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
+		// 		color.g, color.b));
+		// 	SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
+		// 	SDL_FreeSurface(surface);
+		// }
+		// else if ((count % 31) == 1)
+		// 	displayPushSpace(windowWidth, windowHeight);
 
 		count++;
 		SDL_UpdateWindowSurface(this->getWindow());

@@ -92,7 +92,12 @@ std::vector<unsigned int> Stats::readScores(int numberOfScores) {
 		std::string line;
 		while (std::getline(file, line)) {
 			numberOfLines++;
-			scores.push_back(std::stoi(line));
+			try {
+				scores.push_back(std::stoi(line));
+			} catch (std::invalid_argument) {
+				std::cerr << "Invalid format in " + Stats::SCORES_FILE
+					<< std::endl;
+			}
 		}
 	}
 
