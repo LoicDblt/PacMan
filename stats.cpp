@@ -59,7 +59,7 @@ void Stats::updateScore(int earnedPoints, int eatenGhosts) {
  * @brief Check if the player has won the game
  */
 void Stats::checkWon(void) {
-	if (this->getDots() == 189) {
+	if (this->getDots() == 2) {
 		std::cout << "You win!" << std::endl;
 		writeScore();
 	}
@@ -80,10 +80,10 @@ void Stats::writeScore(void) {
  * @brief Read the scores file and return a vector of the "n" highest scores
  *
  * @param numberOfScores number of scores to return
- * @return std::vector<int> vector which contains the "n" highest scores
+ * @return std::vector<unsigned int> vector which contains "n" highest scores
  */
-std::vector<int> Stats::readScores(int numberOfScores) {
-	std::vector<int> scores;
+std::vector<unsigned int> Stats::readScores(int numberOfScores) {
+	std::vector<unsigned int> scores;
 	std::ifstream file(Stats::SCORES_FILE);
 	int numberOfLines = 0;
 
@@ -96,13 +96,14 @@ std::vector<int> Stats::readScores(int numberOfScores) {
 		}
 	}
 
-	std::sort(scores.begin(), scores.end(), std::greater<int>());
+	std::sort(scores.begin(), scores.end(), std::greater<unsigned int>());
 
 	if (numberOfScores > numberOfLines)
 		numberOfScores = numberOfLines;
 
-	std::vector<int> nHighest = std::vector<int>(scores.begin(),
-		scores.begin() + numberOfScores);
+	std::vector<unsigned int> nHighest =
+		std::vector<unsigned int>(scores.begin(), scores.begin() +
+		numberOfScores);
 
 	return nHighest;
 };

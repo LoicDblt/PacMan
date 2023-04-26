@@ -126,7 +126,7 @@ void Interface::titleScreen() {
 	positionDigit = Coordinate::number_texture;
 	positionDigit.y = windowHeight/2;
 
-	std::vector<int> scores = Stats::readScores(10);
+	std::vector<unsigned int> scores = Stats::readScores(10);
 	for (int i: scores) {
 		digits = Stats::uncomposeNumber(i);
 

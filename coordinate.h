@@ -119,7 +119,7 @@ class Coordinate {
 			{97, 73, 18, 8},	// Rectangle - Double forme - H
 
 			// Zone bas gauche
-			{33, 159, 8, 24},	// Rectangle - Haut gauche - Double forme - V
+			{33, 159, 8, 26},	// Rectangle - Haut gauche - Double forme - V
 			{17, 153, 24, 8},	// Rectangle - Haut gauche - Double forme - H
 			{7, 169, 18, 16},	// Rectangle - Accolé à gauche
 			{49, 169, 8, 26},	// Rectangle - Bas gauche - Double forme - V
