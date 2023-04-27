@@ -173,13 +173,7 @@ void Interface::titleScreen() {
 		if (keys[SDL_SCANCODE_SPACE]) {
 			// Créé un rectangle rempli, à la taille exacte du score à afficher
 			SDL_Rect rect = {0, 0, windowWidth, windowHeight};
-			SDL_Color color = {0, 0, 0, 255};
-			SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
-				32, 0, 0, 0, 0);
-			SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
-				color.g, color.b));
-			SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
-			SDL_FreeSurface(surface);
+			drawRectangle(rect);
 			break;
 		}
 
@@ -201,14 +195,7 @@ void Interface::titleScreen() {
 					Coordinate::indexPressSpace.size()),
 				ALPHABET_TEXTURE_WIDTH
 			};
-
-			SDL_Color color = {0, 0, 0, 255};
-			SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
-				32, 0, 0, 0, 0);
-			SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
-				color.g, color.b));
-			SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
-			SDL_FreeSurface(surface);
+			drawRectangle(rect);
 		}
 		else if ((count % 31) == 1)
 			displayPushSpace(windowWidth, windowHeight);
@@ -236,13 +223,7 @@ void Interface::drawScore(std::vector<int> digits) {
 	SDL_Rect rect = {25, 50,
 		static_cast<int>(ALPHABET_TEXTURE_WIDTH * digits.size()),
 		Coordinate::number_texture.h};
-	SDL_Color color = {0, 0, 0, 255};
-	SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
-		32, 0, 0, 0, 0);
-	SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
-		color.g, color.b));
-	SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
-	SDL_FreeSurface(surface);
+	drawRectangle(rect);
 
 	// Affiche le score
 	SDL_Rect positionDigit = Coordinate::number_texture;
@@ -265,6 +246,21 @@ void Interface::drawLives(int lives) {
 	// Créé un rectangle rempli, à la taille exacte du nombre de vies à masquer
 	SDL_Rect rect = {position.x, position.y, (lives + 1) * (position.w + 14),
 		position.h};
+	drawRectangle(rect);
+
+	for (int i = 0; i < lives; i++) {
+		SDL_BlitScaled(this->getSprites(), &face, this->getSurface(),
+			&position);
+		position.x += 32 + 14;
+	}
+}
+
+/**
+ * @brief Dessine un rectangle noir pour masquer un élément
+ * 
+ * @param rect emplacement et taille du rectangle à dessiner
+ */
+void Interface::drawRectangle(SDL_Rect rect) {
 	SDL_Color color = {0, 0, 0, 255};
 	SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
 		32, 0, 0, 0, 0);
@@ -272,10 +268,4 @@ void Interface::drawLives(int lives) {
 		color.g, color.b));
 	SDL_BlitScaled(surface, NULL, this->getSurface(), &rect);
 	SDL_FreeSurface(surface);
-
-	for (int i = 0; i < lives; i++) {
-		SDL_BlitScaled(this->getSprites(), &face, this->getSurface(),
-			&position);
-		position.x += 32 + 14;
-	}
 }

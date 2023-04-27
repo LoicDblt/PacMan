@@ -42,6 +42,7 @@ class Interface {
 
 	private:
 		void displayPushSpace(int windowWidth, int windowHeight);
+		void drawRectangle(SDL_Rect rect);
 };
 
 #endif
