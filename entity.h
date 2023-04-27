@@ -40,7 +40,7 @@ class Entity {
 		inline float getY() const {
 			return entityRect_.y;
 		}
-		inline SDL_Rect& getEntityRect(){
+		inline SDL_Rect& getEntityRect() {
 			return entityRect_;
 		}
 

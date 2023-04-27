@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
 	interface.titleScreen();
 
 	Player pacman = {
-		SDL_Rect{324, 744, 32, 32},
+		Coordinate::pac_default_pos,
 		Coordinate::pac_b[0],
 		2,
 		Person::NONE,
@@ -125,12 +125,14 @@ int main(int argc, char** argv) {
 	);
 
 	Ghost redGhost = {
-		SDL_Rect{36, 136, 32, 32},
+		Coordinate::ghost_red_default_pos,
 		Coordinate::ghost_red_l[0],
 		1,
-		Person::DOWN,
-		Person::DOWN,
-		1
+		Person::UP,
+		Person::UP,
+		1,
+		Ghost::WAIT,
+		Ghost::BLINKY
 	};
 	redGhost.setAnimation(
 		Coordinate::ghost_red_l,
@@ -197,7 +199,7 @@ int main(int argc, char** argv) {
 
 		// On fait bouger PacMan
 		pacman.move(walls, tunnels);
-		pacman.checkPostion(dots, energizers, statsPac);
+		pacman.checkPostion(dots, energizers, statsPac, redGhost);
 		pacman.checkGhost(redGhost);
 		redGhost.aleaMove(walls, tunnels);
 

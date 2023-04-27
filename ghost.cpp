@@ -8,7 +8,9 @@ Ghost::Ghost(
 	float speed,
 	Direction direction,
 	Direction wishDirection,
-	int pointsDeVie
+	int healthPoints,
+	State status,
+	Name name
 ):
 	Person{
 		entityRect,
@@ -16,10 +18,11 @@ Ghost::Ghost(
 		speed,
 		direction,
 		wishDirection,
-		pointsDeVie
+		healthPoints
 	},
+	name_{name},
+	status_{status},
 	previousPosition_{entityRect}
-
 {};
 
 void Ghost::aleaMove(
@@ -84,5 +87,38 @@ void Ghost::goCoordinate(int x, int y)
 		this->setDirection(RIGHT);
 	}else if(x < selfX){
 		this->setDirection(LEFT);
+	}
+}
+
+void Ghost::eated() {
+	this->setStatus(WAIT);
+	this->setWishDirection(UP);
+
+	switch (this->getName()) {
+		case BLINKY:
+			this->setEntityRect(Coordinate::ghost_red_default_pos);
+
+			this->setAnimation(
+				Coordinate::ghost_red_l,
+				Coordinate::ghost_red_r,
+				Coordinate::ghost_red_u,
+				Coordinate::ghost_red_d
+			);
+
+			break;
+		// case PINKY:
+		// 	this->entityRect_.x = 36;
+		// 	this->entityRect_.y = 136;
+		// 	break;
+		// case INKY:
+		// 	this->entityRect_.x = 36;
+		// 	this->entityRect_.y = 136;
+		// 	break;
+		// case CLYDE:
+		// 	this->entityRect_.x = 36;
+		// 	this->entityRect_.y = 136;
+		// 	break;
+		default:
+			break;
 	}
 }

@@ -40,30 +40,42 @@ bool Player::onElement(std::vector<SDL_Rect> &pac, Stats &statsPac, int element)
 }
 
 void Player::checkPostion(
-	std::vector<SDL_Rect> &dots, 
-	std::vector<SDL_Rect> &energizers, 
-	Stats &statsPac
+	std::vector<SDL_Rect> &dots,
+	std::vector<SDL_Rect> &energizers,
+	Stats &statsPac,
+	Ghost &ghost
 ) {
 	onElement(dots,statsPac,Stats::DOT);
-	onElement(energizers,statsPac,Stats::ENERGIZER);
+	if (onElement(energizers,statsPac,Stats::ENERGIZER)) {
+		ghost.setStatus(Ghost::PREY);
+		ghost.setAnimation(
+			Coordinate::ghost_afraid_blue,
+			Coordinate::ghost_afraid_blue,
+			Coordinate::ghost_afraid_blue,
+			Coordinate::ghost_afraid_blue
+		);
+	}
 }
 
-void Player::checkGhost(Ghost ghost) {
+void Player::checkGhost(Ghost &ghost) {
 	if (SDL_HasIntersection(&this->getEntityRect(), &ghost.getEntityRect())) {
-		this->lostLive();
-
-		if (this->getLives() == 0) {
-			puts("PacMan est mort !");
-			exit(0);
+		if (ghost.getStatus() == Ghost::PREY) {
+			ghost.eated();
 		}
-		else
-			printf("Il reste %d vies à PacMan\n", this->getLives());
 
-		// Reset PacMan à sa position d'origine
-		this->entityRect_.x = 324;
-		this->entityRect_.y = 744;
-		this->setEntityPic(Coordinate::pac_b[0]);
-		this->setDirection(Person::NONE);
-		this->setWishDirection(Person::NONE);
+		else {
+			this->lostLive();
+
+			if (this->getLives() == 0) {
+				puts("PacMan est mort !");
+				exit(0); // Gérer la fin du jeu <=============================== TODO
+			}
+
+			// Reset PacMan à sa position d'origine
+			this->setEntityRect(Coordinate::pac_default_pos);
+			this->setEntityPic(Coordinate::pac_b[0]);
+			this->setDirection(Person::NONE);
+			this->setWishDirection(Person::NONE);
+		}
 	}
 }

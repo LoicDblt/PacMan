@@ -23,14 +23,16 @@ class Player : public Person {
 	/* Methods */
 	public:
 		/* Return true si le joueur est sur une pacgomme ou energizer */
-		bool onElement(std::vector<SDL_Rect> &pac, Stats &statsPac, int element);
+		bool onElement(std::vector<SDL_Rect> &pac, Stats &statsPac,
+			int element);
 
 		void checkPostion(
 			std::vector<SDL_Rect> &dots,
 			std::vector<SDL_Rect> &energizers,
-			Stats &statsPac);
+			Stats &statsPac,
+			Ghost &ghost);
 
-		void checkGhost(Ghost ghost);
+		void checkGhost(Ghost &ghost);
 };
 
 #endif

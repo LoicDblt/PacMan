@@ -81,6 +81,10 @@ class Person : public Entity {
 
 	/* Setter */
 	public:
+		inline void setEntityRect(SDL_Rect entityRect) {
+			entityRect_ = entityRect;
+		}
+
 		inline void setDirection(Direction direction) {
 			direction_ = direction;
 		}

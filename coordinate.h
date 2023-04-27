@@ -22,7 +22,7 @@ class Coordinate {
 		 * Format (x, y, w, h)
 		*/
 		// Coordonnées de Pacman
-		inline static SDL_Rect pacLives{14, 1022 - 32 - 14, 32, 32};
+		inline static SDL_Rect pacLives{14, 976, 32, 32};
 
 		inline static std::vector<SDL_Rect> pac_b{{3, 89, 16, 16}};
 		inline static std::vector<SDL_Rect> pac_r{{20, 89, 15, 16},
@@ -33,6 +33,7 @@ class Coordinate {
 			{92, 94, 16, 11}};
 		inline static std::vector<SDL_Rect> pac_d{{109, 90, 16, 15},
 			{126, 94, 16, 11}};
+		inline static SDL_Rect pac_default_pos{324, 744, 32, 32};
 
 		// Coordonnées du Fantôme Rouge
 		inline static std::vector<SDL_Rect> ghost_red_r{{3, 123, 16, 16},
@@ -43,6 +44,7 @@ class Coordinate {
 			{88, 123, 16, 16}};
 		inline static std::vector<SDL_Rect> ghost_red_d{{105, 123, 16, 16},
 			{122, 123, 16, 16}};
+		inline static SDL_Rect ghost_red_default_pos{36, 136, 32, 32};
 
 		// Coordonnées du Fantôme Rose
 		inline static std::vector<SDL_Rect> ghost_pink_r{{3, 142, 16, 16},
@@ -73,6 +75,13 @@ class Coordinate {
 			{88, 177, 16, 16}};
 		inline static std::vector<SDL_Rect> ghost_orange_d{{105, 177, 16, 16},
 			{122, 177, 16, 16}};
+
+		// Coordonnées du Fantôme Appeuré
+		inline static std::vector<SDL_Rect> ghost_afraid_blue{{3, 195, 16, 16},
+			{20, 195, 16, 16}};
+		inline static std::vector<SDL_Rect> ghost_afraid_white{
+			{37, 195, 16, 16}, {54, 195, 16, 16}};
+
 
 		/*
 		 * =============== MURS ===============================

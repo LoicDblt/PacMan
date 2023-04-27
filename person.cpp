@@ -35,7 +35,7 @@ Person::Person(
 	up_{up},
 	down_{down},
 	left_{left},
-	right_{right}	
+	right_{right}
 {};
 
 Person::~Person() {};
