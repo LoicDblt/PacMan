@@ -5,7 +5,6 @@
 #include <vector>
 #include <SDL.h>
 
-
 class Entity {
 	private:
 		SDL_Rect entityPicture_{};

@@ -97,9 +97,9 @@ class Person : public Entity {
 		/**
 		 * @brief Déplace le personnage si la direction est accessible
 		 * 		  ou le téléporte s'il emprunte un tunnel
-		 * 
-		 * @param walls 
-		 * @param tunnels 
+		 *
+		 * @param walls
+		 * @param tunnels
 		 */
 		void move(std::vector<SDL_Rect>& walls, std::vector<SDL_Rect>& tunnels);
 

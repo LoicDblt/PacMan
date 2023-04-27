@@ -5,10 +5,12 @@
 #include <vector>
 #include <SDL.h>
 
-#define ALPHABET_TEXTURE_WIDTH	18
-#define NUMBER_TEXTURE_WIDTH	18
 
 class Coordinate {
+	public:
+		static const int ALPHABET_TEXTURE_WIDTH{18};
+		static const int NUMBER_TEXTURE_WIDTH{18};
+
 	public:
 		/*
 		 * =============== PERSONNAGES ========================

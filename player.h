@@ -51,7 +51,7 @@ class Player : public Person {
 	public:
 		/**
 		 * @brief Vérifie si le joueur est sur un élément
-		 * 
+		 *
 		 * @param pac pacman
 		 * @param statsPac les stats à mettre à jour en fonction des points
 		 * @param element pacgommes ou super pacgommes
@@ -63,7 +63,7 @@ class Player : public Person {
 
 		/**
 		 * @brief Vérifie si le joueur est sur un dot ou un energizer
-		 * 
+		 *
 		 * @param dots les pacgommes
 		 * @param energizers les super pacgommes
 		 * @param statsPac les stats à mettre à jour en fonction des points
@@ -77,7 +77,7 @@ class Player : public Person {
 
 		/**
 		 * @brief Vérifie si le joueur est sur un fantôme
-		 * 
+		 *
 		 * @param ghost à vérifier et à renvoyer au spawn si en mode apeuré
 		 * @param statsPac à mettre à jour en fonction des points
 		 */
@@ -85,7 +85,7 @@ class Player : public Person {
 
 		/**
 		 * @brief Vérifie si le joueur est encore en mode slayer
-		 * 
+		 *
 		 * @param ghost à reset si fin du mode slayer
 		 * @param statsPac à reset si fin du mode slayer (pour le coeff) de
 		 * 				   ghosts tués pendant la période slayer

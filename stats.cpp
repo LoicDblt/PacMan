@@ -1,5 +1,7 @@
 #include "stats.h"
 
+Stats::~Stats() {}
+
 Stats::Stats(
 	int dots,
 	int energizers,
@@ -9,8 +11,6 @@ Stats::Stats(
 	energizers_{energizers},
 	score_{score}
 {}
-
-Stats::~Stats() {}
 
 void Stats::updateScore(int earnedPoints) {
 	switch (earnedPoints) {

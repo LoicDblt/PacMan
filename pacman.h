@@ -12,12 +12,12 @@
 
 /**
  * @brief Initialise le jeu et l'interface
- * 
+ *
  */
 void init();
 
 /**
  * @brief Mets à jour la fenêtre
- * 
+ *
  */
 void draw();

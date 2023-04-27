@@ -26,7 +26,6 @@ class Stats {
 
 	/* Constructors */
 	public:
-		// Default constructor
 		Stats() = default;
 		Stats(
 			int dots,
@@ -86,7 +85,7 @@ class Stats {
 	public:
 		/**
 		 * @brief Update the score according to the type of what have been eaten
-		 * 
+		 *
 		 * @param earnedPoints number of points earned
 		 */
 		void updateScore(int earnedPoints);
@@ -108,7 +107,7 @@ class Stats {
 
 		/**
 		 * @brief Uncompose a number into its digits
-		 * 
+		 *
 		 * @param number number to uncompose
 		 * @return std::vector<int> vector of digits
 		 */

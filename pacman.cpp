@@ -95,7 +95,7 @@ void draw() {
 	for (int i: Coordinate::indexScore) {
 		SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i], win_surf,
 			&positionLettre);
-		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+		positionLettre.x += Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
 }
 

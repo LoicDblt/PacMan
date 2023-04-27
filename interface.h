@@ -56,14 +56,14 @@ class Interface {
 
 		/**
 		 * @brief Mets à jour le score pendant la partie
-		 * 
+		 *
 		 * @param digits score à afficher
 		 */
 		void drawScore(std::vector<int> digits);
 
 		/**
 		 * @brief Affiche le nombre de vies restantes (sous forme de Pacman)
-		 * 
+		 *
 		 * @param lives nombre de vies restantes à afficher
 		 */
 		void drawLives(int lives);
@@ -71,7 +71,7 @@ class Interface {
 	private:
 		/**
 		 * @brief Affiche le message "Push space key"
-		 * 
+		 *
 		 * @param windowWidth of the window
 		 * @param windowHeight of the window
 		 */
@@ -79,7 +79,7 @@ class Interface {
 
 		/**
 		 * @brief Dessine un rectangle noir pour masquer un élément
-		 * 
+		 *
 		 * @param rect emplacement et taille du rectangle à dessiner
 		 */
 		void drawRectangle(SDL_Rect rect);

@@ -1,5 +1,7 @@
 #include "person.h"
 
+Person::~Person() {};
+
 Person::Person(
 	SDL_Rect entityRect,
 	SDL_Rect entityPicture,
@@ -37,8 +39,6 @@ Person::Person(
 	left_{left},
 	right_{right}
 {}
-
-Person::~Person() {};
 
 void Person::move(
 	std::vector<SDL_Rect>& walls,
@@ -97,7 +97,7 @@ void Person::move(
 }
 
 
-bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity) 
+bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity)
 {
 	for (int i=0; i<walls.size();i++) {
 		if (SDL_HasIntersection(&entity, &walls[i]))
@@ -106,7 +106,7 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity)
 	return false;
 }
 
-void Person::animation(int count) 
+void Person::animation(int count)
 {
 	if(count%5 == 0) {
 		if(tmpAnimation_ == 1)
@@ -114,7 +114,7 @@ void Person::animation(int count)
 		else
 			tmpAnimation_ = 1;
 	}
-	
+
 	switch (direction_)
 	{
 	case RIGHT:
@@ -134,7 +134,7 @@ void Person::animation(int count)
 	}
 }
 
-bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) 
+bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction)
 {
 	bool res = true;
 	SDL_Rect tmpRect{

@@ -65,7 +65,7 @@ class Ghost : public Person {
 	public:
 		/**
 		 * @brief Déplace le fantôme aléatoire sur la carte
-		 * 
+		 *
 		 * @param walls les murs présents sur la carte
 		 * @param tunnels les tunnels présents sur la carte
 		 */
@@ -74,21 +74,21 @@ class Ghost : public Person {
 
 		/**
 		 * @brief Replace le fantôme à sa position initiale s'il a été mangé
-		 * 
+		 *
 		 */
 		void eated(void);
 
 		/**
 		 * @brief Replace le fantôme à sa position initiale à la fin de la
 		 * 		  période de power pellet
-		 * 
+		 *
 		 */
 		void resetStatus(void);
 
 	private:
 		/**
 		 * @brief Retourne un nombre aléatoire entre x et y
-		 * 
+		 *
 		 * @param x borne basse
 		 * @param y borne haute
 		 * @return int le nombre aléatoire

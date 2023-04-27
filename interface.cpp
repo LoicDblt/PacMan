@@ -1,5 +1,7 @@
 #include "interface.h"
 
+Interface::~Interface() {}
+
 Interface::Interface(
 	SDL_Window* window,
 	SDL_Surface* surface,
@@ -9,8 +11,6 @@ Interface::Interface(
 	surface_{surface},
 	sprites_{sprites}
 {}
-
-Interface::~Interface() {}
 
 void Interface::titleScreen() {
 	int windowWidth, windowHeight;
@@ -32,7 +32,7 @@ void Interface::titleScreen() {
 	for (int i: Coordinate::indexScore) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
 			this->getSurface(), &positionLettre);
-		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+		positionLettre.x += Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
 
 	// Affichage de "HIGH SCORE"
@@ -49,7 +49,7 @@ void Interface::titleScreen() {
 	for (int i: digits) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::number[i],
 			this->getSurface(), &positionDigit);
-		positionDigit.x -= NUMBER_TEXTURE_WIDTH;
+		positionDigit.x -= Coordinate::NUMBER_TEXTURE_WIDTH;
 	}
 
 	// On part de l'extrémité droite de l'écran, donc on inverse l'ordre
@@ -63,17 +63,17 @@ void Interface::titleScreen() {
 	for (int i: tamponIndexScore) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
 			this->getSurface(), &positionLettre);
-		positionLettre.x -= ALPHABET_TEXTURE_WIDTH;
+		positionLettre.x -= Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
 
 		// Espace
-	positionLettre.x -= ALPHABET_TEXTURE_WIDTH;
+	positionLettre.x -= Coordinate::ALPHABET_TEXTURE_WIDTH;
 
 		// High
 	for (int i: tamponIndexHigh) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
 			this->getSurface(), &positionLettre);
-		positionLettre.x -= ALPHABET_TEXTURE_WIDTH;
+		positionLettre.x -= Coordinate::Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
 
 	// Affichage de "Press escape key"
@@ -81,13 +81,13 @@ void Interface::titleScreen() {
 
 	// Affichage de "RANK"
 	positionLettre.x = (windowWidth - (Coordinate::indexRank.size() *
-		ALPHABET_TEXTURE_WIDTH))/2;
-	positionLettre.y = windowHeight/1.75 - ALPHABET_TEXTURE_WIDTH*2;
+		Coordinate::ALPHABET_TEXTURE_WIDTH))/2;
+	positionLettre.y = windowHeight/1.75 - Coordinate::ALPHABET_TEXTURE_WIDTH*2;
 
 	for (int i: Coordinate::indexRank) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
 			this->getSurface(), &positionLettre);
-		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+		positionLettre.x += Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
 
 	// Affichage des 10 meilleures scores
@@ -99,15 +99,16 @@ void Interface::titleScreen() {
 		digits = Stats::uncomposeNumber(i);
 
 		positionDigit.x = (windowWidth/2 + (digits.size()/2.0 *
-			NUMBER_TEXTURE_WIDTH)) - NUMBER_TEXTURE_WIDTH;
+			Coordinate::NUMBER_TEXTURE_WIDTH)) -
+			Coordinate::NUMBER_TEXTURE_WIDTH;
 
 		for (int j: digits) {
 			SDL_BlitScaled(this->getSprites(), &Coordinate::number[j],
 				this->getSurface(), &positionDigit);
-			positionDigit.x -= NUMBER_TEXTURE_WIDTH;
+			positionDigit.x -= Coordinate::NUMBER_TEXTURE_WIDTH;
 		}
 
-		positionDigit.y += NUMBER_TEXTURE_WIDTH;
+		positionDigit.y += Coordinate::NUMBER_TEXTURE_WIDTH;
 	}
 
 	// Mets à jour la fenêtre
@@ -152,16 +153,16 @@ void Interface::titleScreen() {
 		if ((count % 62) == 1) {
 			positionLettre.x = (windowWidth -
 				(Coordinate::indexPressSpace.size() *
-				ALPHABET_TEXTURE_WIDTH))/2;
+				Coordinate::ALPHABET_TEXTURE_WIDTH))/2;
 			positionLettre.y = windowHeight/2.5;
 
 			// Créé un rectangle rempli, à la taille exacte de la phrase
 			SDL_Rect rect = {
 				positionLettre.x,
 				positionLettre.y,
-				static_cast<int>(ALPHABET_TEXTURE_WIDTH *
+				static_cast<int>(Coordinate::ALPHABET_TEXTURE_WIDTH *
 					Coordinate::indexPressSpace.size()),
-				ALPHABET_TEXTURE_WIDTH
+				Coordinate::ALPHABET_TEXTURE_WIDTH
 			};
 			drawRectangle(rect);
 		}
@@ -185,7 +186,7 @@ void Interface::drawScore(std::vector<int> digits) {
 
 	// Créé un rectangle rempli, à la taille exacte du score à afficher
 	SDL_Rect rect = {25, 50,
-		static_cast<int>(ALPHABET_TEXTURE_WIDTH * digits.size()),
+		static_cast<int>(Coordinate::ALPHABET_TEXTURE_WIDTH * digits.size()),
 		Coordinate::number_texture.h};
 	drawRectangle(rect);
 
@@ -194,7 +195,7 @@ void Interface::drawScore(std::vector<int> digits) {
 	for (int i: digits) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::number[i],
 			this->getSurface(),	&positionDigit);
-		positionDigit.x += ALPHABET_TEXTURE_WIDTH;
+		positionDigit.x += Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
 }
 
@@ -220,7 +221,7 @@ void Interface::drawPushSpace(int windowWidth, int windowHeight) {
 	// Affichage de "Press escape key"
 	positionLettre.x = (windowWidth -
 		(Coordinate::indexPressSpace.size() *
-		ALPHABET_TEXTURE_WIDTH))/2;
+		Coordinate::ALPHABET_TEXTURE_WIDTH))/2;
 	positionLettre.y = windowHeight/2.5;
 
 	for (int i: Coordinate::indexPressSpace) {
@@ -228,7 +229,7 @@ void Interface::drawPushSpace(int windowWidth, int windowHeight) {
 			SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
 				this->getSurface(), &positionLettre);
 		}
-		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+		positionLettre.x += Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
 }
 
