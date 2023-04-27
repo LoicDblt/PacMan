@@ -8,21 +8,21 @@
 #include <SDL.h>
 
 class Stats {
-	private:
-		int dots_{0};
-		int energizers_{0};
-		int ghosts_{0};
-		int score_{0};
-
 	/* Points */
 	public:
 		static const int DOT{10};
 		static const int ENERGIZER{50};
 		static const int CHERRY{100};
 		static const int GHOST{200};
-	
+
 	public:
 		inline static const std::string SCORES_FILE{"scores.txt"};
+
+	private:
+		int dots_{0};
+		int energizers_{0};
+		int score_{0};
+		int ghostsEaten_{0};
 
 	/* Constructors */
 	public:
@@ -31,13 +31,12 @@ class Stats {
 		Stats(
 			int dots,
 			int energizers,
-			int ghosts,
 			int score
 		);
-
 		~Stats();
 
-	/* Getter */
+
+	/* Getters */
 	public:
 		inline int getDots() const {
 			return dots_;
@@ -48,8 +47,12 @@ class Stats {
 		inline int getScore() const {
 			return score_;
 		}
+		inline int getGhostsEaten() const {
+			return ghostsEaten_;
+		}
 
-	/* Setter */
+
+	/* Setters */
 	private:
 		inline void addDot(void) {
 			dots_++;
@@ -63,20 +66,59 @@ class Stats {
 			score_ += ENERGIZER;
 		}
 
-		inline void addGhost(int eatenGhosts) {
-			ghosts_++;
-			score_ += GHOST * eatenGhosts;
+	public:
+		inline void addGhost(void) {
+			score_ += pow(GHOST, this->getGhostsEaten());
 		}
 
-	private:
-		void checkWon(void);
+		inline void addGhostsEaten(void) {
+			ghostsEaten_++;
+			if (this->getGhostsEaten() > 4)
+				std::cerr << "Error: ghostsEaten_ > 4" << std::endl;
+		}
 
+		inline void resetGhostsEaten(void) {
+			ghostsEaten_ = 0;
+		}
+
+
+	/* Methods */
 	public:
+		/**
+		 * @brief Update the score according to the type of what have been eaten
+		 * 
+		 * @param earnedPoints number of points earned
+		 */
 		void updateScore(int earnedPoints);
-		void updateScore(int earnedPoints, int eatenGhosts);
+
+		/**
+		 * @brief Write the score in the scores file
+		 */
 		void writeScore(void);
+
+		/**
+		 * @brief Read the scores file and return a vector of the "n" highest
+		 * 		  scores
+		 *
+		 * @param numberOfScores number of scores to return
+		 * @return std::vector<unsigned int> vector which contains "n" highest
+		 * 		   scores
+		 */
 		static std::vector<unsigned int> readScores(int numberOfScores);
+
+		/**
+		 * @brief Uncompose a number into its digits
+		 * 
+		 * @param number number to uncompose
+		 * @return std::vector<int> vector of digits
+		 */
 		static std::vector<int> uncomposeNumber(int number);
+
+	private:
+		/**
+		 * @brief Check if the player has won the game
+		 */
+		void checkWon(void);
 };
 
 #endif

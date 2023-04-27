@@ -26,7 +26,8 @@ int count;
 
 void init() {
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED, 680, 1022, SDL_WINDOW_SHOWN);
+		SDL_WINDOWPOS_UNDEFINED, Interface::WINDOW_WIDTH,
+		Interface::WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
 	win_surf = SDL_GetWindowSurface(pWindow);
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
@@ -141,7 +142,7 @@ int main(int argc, char** argv) {
 		Coordinate::ghost_red_d
 	);
 
-	Stats statsPac = {0, 0, 0, 0};
+	Stats statsPac = {0, 0, 0};
 
 	SDL_Rect* pac_in = nullptr;
 	SDL_Rect pac_tampon;
@@ -194,13 +195,14 @@ int main(int argc, char** argv) {
 			if (vitesse_debug == 16)
 				vitesse_debug = 0;
 			else
-				vitesse_debug = 16;
+				vitesse_debug = Interface::DELAY;
 		}
 
 		// On fait bouger PacMan
 		pacman.move(walls, tunnels);
 		pacman.checkPostion(dots, energizers, statsPac, redGhost);
-		pacman.checkGhost(redGhost);
+		pacman.checkGhost(redGhost, statsPac);
+		pacman.checkPelletActive(redGhost, statsPac);
 		redGhost.aleaMove(walls, tunnels);
 
 		pacman.animation(count);
@@ -226,7 +228,7 @@ int main(int argc, char** argv) {
 
 		SDL_UpdateWindowSurface(pWindow);
 
-		// ==> Limite à 60 FPS
+		// Limite à 60 FPS
 		SDL_Delay(vitesse_debug);	// Utiliser SDL_GetTicks64() pour
 									// plus de précision
 	}

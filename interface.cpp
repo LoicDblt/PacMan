@@ -8,42 +8,10 @@ Interface::Interface(
 	window_{window},
 	surface_{surface},
 	sprites_{sprites}
-{};
+{}
 
-Interface::~Interface() {};
+Interface::~Interface() {}
 
-/**
- * @brief Affiche le message "Push space key"
- * 
- * @param windowWidth of the window
- * @param windowHeight of the window
- */
-void Interface::displayPushSpace(int windowWidth, int windowHeight) {
-	SDL_Rect positionLettre = Coordinate::alphabet_texture;
-
-	// Affichage de "Press escape key"
-	positionLettre.x = (windowWidth -
-		(Coordinate::indexPressSpace.size() *
-		ALPHABET_TEXTURE_WIDTH))/2;
-	positionLettre.y = windowHeight/2.5;
-
-	for (int i: Coordinate::indexPressSpace) {
-		if (i != -1) {
-			SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
-				this->getSurface(), &positionLettre);
-		}
-		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
-	}
-}
-
-/**
- * @brief Affiche l'écran titre
- * 		- Logo Pacman
- * 		- Les scores (actuel et maximum)
- * 		- Le message "Push space key"
- * 		- Les 10 meilleurs scores
- * 		- Le logo Namco
- */
 void Interface::titleScreen() {
 	int windowWidth, windowHeight;
 	SDL_GetWindowSize(this->getWindow(), &windowWidth, &windowHeight);
@@ -109,7 +77,7 @@ void Interface::titleScreen() {
 	}
 
 	// Affichage de "Press escape key"
-	displayPushSpace(windowWidth, windowHeight);
+	drawPushSpace(windowWidth, windowHeight);
 
 	// Affichage de "RANK"
 	positionLettre.x = (windowWidth - (Coordinate::indexRank.size() *
@@ -198,19 +166,15 @@ void Interface::titleScreen() {
 			drawRectangle(rect);
 		}
 		else if ((count % 31) == 1)
-			displayPushSpace(windowWidth, windowHeight);
+			drawPushSpace(windowWidth, windowHeight);
 
 		count++;
 		SDL_UpdateWindowSurface(this->getWindow());
-		SDL_Delay(16);
+		SDL_Delay(DELAY);
 	}
 }
 
-/**
- * @brief Mets à jour le score pendant la partie
- * 
- * @param digits score à afficher
- */
+
 void Interface::drawScore(std::vector<int> digits) {
 	// Inverse le vecteur pour l'afficher dans le bon sens
 	std::reverse(digits.begin(), digits.end());
@@ -234,11 +198,6 @@ void Interface::drawScore(std::vector<int> digits) {
 	}
 }
 
-/**
- * @brief Affiche le nombre de vies restantes (sous forme de Pacman)
- * 
- * @param lives nombre de vies restantes à afficher
- */
 void Interface::drawLives(int lives) {
 	SDL_Rect position{Coordinate::pacLives};
 	SDL_Rect face{Coordinate::pac_l[0]};
@@ -255,11 +214,24 @@ void Interface::drawLives(int lives) {
 	}
 }
 
-/**
- * @brief Dessine un rectangle noir pour masquer un élément
- * 
- * @param rect emplacement et taille du rectangle à dessiner
- */
+void Interface::drawPushSpace(int windowWidth, int windowHeight) {
+	SDL_Rect positionLettre = Coordinate::alphabet_texture;
+
+	// Affichage de "Press escape key"
+	positionLettre.x = (windowWidth -
+		(Coordinate::indexPressSpace.size() *
+		ALPHABET_TEXTURE_WIDTH))/2;
+	positionLettre.y = windowHeight/2.5;
+
+	for (int i: Coordinate::indexPressSpace) {
+		if (i != -1) {
+			SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
+				this->getSurface(), &positionLettre);
+		}
+		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+	}
+}
+
 void Interface::drawRectangle(SDL_Rect rect) {
 	SDL_Color color = {0, 0, 0, 255};
 	SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,

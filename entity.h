@@ -15,18 +15,11 @@ class Entity {
 
 	/* Constructors */
 	public:
-		// Default constructor
 		Entity() = default;
-
-		// Alternate constructor
 		Entity(
 			SDL_Rect entityRect,
 			SDL_Rect entityPicture
 		);
-
-		// Copy constructor
-		Entity(const Entity& other);
-
 		~Entity();
 
 	/* Getter */
@@ -34,6 +27,7 @@ class Entity {
 		inline SDL_Rect getEntityPic() const {
 			return entityPicture_;
 		}
+
 		inline float getX() const {
 			return entityRect_.x;
 		}

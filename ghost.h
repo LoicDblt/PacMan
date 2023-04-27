@@ -8,17 +8,23 @@
 
 class Ghost : public Person {
 	public:
-		// Chasse PacMan, se fait chasser (energizer), mort, attend de sortir
+		/**
+		 * Etats possibles pour les fantômes
+		 * Hunter : chasse pacman
+		 * Prey : fuit pacman
+		 * Dead : mort
+		 * Wait : attend de sortir du spawn
+		 */
 		enum State {HUNTER, PREY, DEAD, WAIT};
 		enum Name {BLINKY, PINKY, INKY, CLYDE};
 
 	private:
 		SDL_Rect previousPosition_;
 
-		// Direction de laquelle on vient.  Ex: wishDirection UP, behindWay DOWN
+		// Direction de laquelle on vient
 		Direction previousDirection_;
 
-		// Compte le nombre de fois que l'algo boucle, pour la même position
+		// Compte le nombre de tours de boucle pour la même position
 		int roundCmpt_{0};
 
 		// Etat du fantôme
@@ -39,7 +45,7 @@ class Ghost : public Person {
 			Name name
 		);
 
-	/* Getter */
+	/* Getters */
 	public:
 		inline void setStatus(State status) {
 			status_ = status;
@@ -49,21 +55,44 @@ class Ghost : public Person {
 			return name_;
 		}
 
-	/* Setter */
+	/* Setters */
 	public:
 		inline State getStatus(void) const {
 			return status_;
 		}
 
+	/* Methods */
 	public:
-		/* Move randomly on the map */
+		/**
+		 * @brief Déplace le fantôme aléatoire sur la carte
+		 * 
+		 * @param walls les murs présents sur la carte
+		 * @param tunnels les tunnels présents sur la carte
+		 */
 		void aleaMove(std::vector<SDL_Rect> &walls,
 			std::vector<SDL_Rect> &tunnels);
 
-		void eated();
+		/**
+		 * @brief Replace le fantôme à sa position initiale s'il a été mangé
+		 * 
+		 */
+		void eated(void);
+
+		/**
+		 * @brief Replace le fantôme à sa position initiale à la fin de la
+		 * 		  période de power pellet
+		 * 
+		 */
+		void resetStatus(void);
 
 	private:
-		/* Give a random int beetween x and y */
+		/**
+		 * @brief Retourne un nombre aléatoire entre x et y
+		 * 
+		 * @param x borne basse
+		 * @param y borne haute
+		 * @return int le nombre aléatoire
+		 */
 		int aleaRand(int x , int y);
 
 		/* TODO, go to a precise direction */

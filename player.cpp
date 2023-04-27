@@ -1,8 +1,5 @@
 #include "player.h"
 
-/**
- * Constructor and Destructor
-*/
 Player::~Player() {};
 
 Player::Player(
@@ -23,9 +20,6 @@ Player::Player(
 	}
 {};
 
-/**
- * Methods
-*/
 bool Player::onElement(std::vector<SDL_Rect> &pac, Stats &statsPac, int element)
 {
 	for (int i=0; i<pac.size(); i++) {
@@ -47,6 +41,7 @@ void Player::checkPostion(
 ) {
 	onElement(dots,statsPac,Stats::DOT);
 	if (onElement(energizers,statsPac,Stats::ENERGIZER)) {
+		this->setSlayerTime(PELLET_TIME);
 		ghost.setStatus(Ghost::PREY);
 		ghost.setAnimation(
 			Coordinate::ghost_afraid_blue,
@@ -57,9 +52,11 @@ void Player::checkPostion(
 	}
 }
 
-void Player::checkGhost(Ghost &ghost) {
+void Player::checkGhost(Ghost &ghost, Stats &statsPac) {
 	if (SDL_HasIntersection(&this->getEntityRect(), &ghost.getEntityRect())) {
 		if (ghost.getStatus() == Ghost::PREY) {
+			statsPac.addGhostsEaten();
+			statsPac.updateScore(Stats::GHOST);
 			ghost.eated();
 		}
 
@@ -77,5 +74,14 @@ void Player::checkGhost(Ghost &ghost) {
 			this->setDirection(Person::NONE);
 			this->setWishDirection(Person::NONE);
 		}
+	}
+}
+
+void Player::checkPelletActive(Ghost &ghost, Stats &statsPac) {
+	if (this->getSlayerTime() > 0)
+		this->setSlayerTime(-1);
+	else {
+		statsPac.resetGhostsEaten();
+		ghost.resetStatus();
 	}
 }

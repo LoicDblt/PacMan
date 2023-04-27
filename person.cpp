@@ -13,7 +13,7 @@ Person::Person(
 	direction_{direction},
 	wishDirection_{wishDirection},
 	healthPoints_{healthPoints}
-{};
+{}
 
 Person::Person(
 	SDL_Rect entityRect,
@@ -36,7 +36,7 @@ Person::Person(
 	down_{down},
 	left_{left},
 	right_{right}
-{};
+{}
 
 Person::~Person() {};
 
@@ -94,13 +94,9 @@ void Person::move(
 		default:
 			break;
 	}
-};
+}
 
-/**
- * Wall detection
- * Si le personnage rencontre un mur il renvoie true
- * cela empêchera d'aller dans cette direction
- * */
+
 bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity) 
 {
 	for (int i=0; i<walls.size();i++) {
@@ -108,11 +104,8 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity)
 			return true;
 	}
 	return false;
-};
+}
 
-/**
- * Effectue les différentes animations
-*/
 void Person::animation(int count) 
 {
 	if(count%5 == 0) {
@@ -141,9 +134,6 @@ void Person::animation(int count)
 	}
 }
 
-/**
- * Return true if direction is free
-*/
 bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) 
 {
 	bool res = true;
@@ -189,11 +179,8 @@ bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction)
 	}
 
 	return res;
-};
+}
 
-/**
- * Return a list of valid direction
-*/
 void Person::intersectionDirection(
 	std::vector<SDL_Rect> &walls,
 	std::list<Direction> &validDirection

@@ -23,7 +23,7 @@ Ghost::Ghost(
 	name_{name},
 	status_{status},
 	previousPosition_{entityRect}
-{};
+{}
 
 void Ghost::aleaMove(
 	std::vector<SDL_Rect> &walls,
@@ -90,33 +90,71 @@ void Ghost::goCoordinate(int x, int y)
 	}
 }
 
-void Ghost::eated() {
-	this->setStatus(WAIT);
+void Ghost::eated(void) {
 	this->setWishDirection(UP);
+	this->resetStatus();
+	this->setStatus(WAIT);
 
 	switch (this->getName()) {
 		case BLINKY:
 			this->setEntityRect(Coordinate::ghost_red_default_pos);
+			break;
 
+		// case PINKY:
+		// 	this->setEntityRect(Coordinate::ghost_pink_default_pos);
+		// 	break;
+
+		// case INKY:
+		// 	this->setEntityRect(Coordinate::ghost_blue_default_pos);
+		// 	break;
+
+		// case CLYDE:
+		// 	this->setEntityRect(Coordinate::ghost_orange_default_pos);
+		// 	break;
+
+		default:
+			break;
+	}
+}
+
+void Ghost::resetStatus(void) {
+	this->setStatus(HUNTER);
+
+	switch (this->getName()) {
+		case BLINKY:
 			this->setAnimation(
 				Coordinate::ghost_red_l,
 				Coordinate::ghost_red_r,
 				Coordinate::ghost_red_u,
 				Coordinate::ghost_red_d
 			);
-
 			break;
+
 		// case PINKY:
-		// 	this->entityRect_.x = 36;
-		// 	this->entityRect_.y = 136;
+		// 	this->setAnimation(
+		// 		Coordinate::ghost_pink_l,
+		// 		Coordinate::ghost_pink_r,
+		// 		Coordinate::ghost_pink_u,
+		// 		Coordinate::ghost_pink_d
+		// 	);
 		// 	break;
+
 		// case INKY:
-		// 	this->entityRect_.x = 36;
-		// 	this->entityRect_.y = 136;
+		// 	this->setAnimation(
+		// 		Coordinate::ghost_blue_l,
+		// 		Coordinate::ghost_blue_r,
+		// 		Coordinate::ghost_blue_u,
+		// 		Coordinate::ghost_blue_d
+		// 	);
 		// 	break;
+
 		// case CLYDE:
-		// 	this->entityRect_.x = 36;
-		// 	this->entityRect_.y = 136;
+		// 	this->setAnimation(
+		// 		Coordinate::ghost_orange_l,
+		// 		Coordinate::ghost_orange_r,
+		// 		Coordinate::ghost_orange_u,
+		// 		Coordinate::ghost_orange_d
+		// 	);
 		// 	break;
 		default:
 			break;
