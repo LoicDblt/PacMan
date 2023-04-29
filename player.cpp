@@ -16,7 +16,8 @@ Player::Player(
 		speed,
 		direction,
 		wishDirection,
-		healthPoints
+		healthPoints,
+		true
 	}
 {};
 
@@ -80,7 +81,7 @@ void Player::checkGhost(Ghost &ghost, Stats &statsPac) {
 void Player::checkPelletActive(Ghost &ghost, Stats &statsPac) {
 	if (this->getSlayerTime() > 0)
 		this->setSlayerTime(-1);
-	else {
+	else if (ghost.getStatus() == Ghost::PREY) {
 		statsPac.resetGhostsEaten();
 		ghost.resetStatus();
 	}

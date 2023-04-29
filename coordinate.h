@@ -46,7 +46,7 @@ class Coordinate {
 			{88, 123, 16, 16}};
 		inline static std::vector<SDL_Rect> ghost_red_d{{105, 123, 16, 16},
 			{122, 123, 16, 16}};
-		inline static SDL_Rect ghost_red_default_pos{36, 136, 32, 32};
+		inline static SDL_Rect ghost_red_default_pos{81*4, 122*4, 32, 32};
 
 		// Coordonnées du Fantôme Rose
 		inline static std::vector<SDL_Rect> ghost_pink_r{{3, 142, 16, 16},
@@ -158,8 +158,8 @@ class Coordinate {
 			{65, 89, 8, 32},	// Rectangle - Cage gauche
 			{97, 89, 8, 32},	// Rectangle - Cage droite
 			{71, 113, 28, 8},	// Rectangle - Cage bas
-			{71, 89, 8, 8},		// Rectangle - Porte gauche
-			{91, 89, 8, 8},		// Rectangle - Porte droite
+			{71, 89, 9, 8},		// Rectangle - Porte gauche
+			{88, 89, 9, 8},		// Rectangle - Porte droite
 
 			// Zone bas centre
 			{81, 143, 8, 18},	// Rectangle - Haut - Double forme - V
@@ -167,6 +167,12 @@ class Coordinate {
 			{81, 183, 8, 18},	// Rectangle - Bas - Double forme - V
 			{65, 169, 40, 16},	// Rectangle - Bas - Double forme - H
 		};
+
+
+		/*
+		 * =============== SORTIE SPAWN =======================
+		*/
+		inline static SDL_Rect door{80*4, (89*4)+100, 8*4, 8*4};
 
 
 		/*

@@ -30,6 +30,7 @@ class Ghost : public Person {
 		// Etat du fantôme
 		State status_{WAIT};
 		Name name_;
+		bool outSpawn_{false};
 
 	public:
 		Ghost() = default;
@@ -45,6 +46,7 @@ class Ghost : public Person {
 			Name name
 		);
 
+
 	/* Getters */
 	public:
 		inline void setStatus(State status) {
@@ -55,11 +57,13 @@ class Ghost : public Person {
 			return name_;
 		}
 
+
 	/* Setters */
 	public:
 		inline State getStatus(void) const {
 			return status_;
 		}
+
 
 	/* Methods */
 	public:

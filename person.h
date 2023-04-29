@@ -5,6 +5,7 @@
 #include <iostream>
 #include <list>
 
+#include "coordinate.h"
 #include "entity.h"
 
 class Person : public Entity {
@@ -23,6 +24,7 @@ class Person : public Entity {
 		std::vector<SDL_Rect> down_;
 		std::vector<SDL_Rect> left_;
 		std::vector<SDL_Rect> right_;
+		bool outSpawn_{true};
 
 	/* Constructors */
 	public:
@@ -33,7 +35,8 @@ class Person : public Entity {
 			float speed,
 			Direction direction,
 			Direction wishDirection,
-			int healthPoints
+			int healthPoints,
+			bool outSpawn
 		);
 		Person(
 			SDL_Rect entityRect,
@@ -42,6 +45,7 @@ class Person : public Entity {
 			Direction direction,
 			Direction wishDirection,
 			int healthPoints,
+			bool outSpawn,
 			std::vector<SDL_Rect> up,
 			std::vector<SDL_Rect> down,
 			std::vector<SDL_Rect> left,
@@ -58,6 +62,10 @@ class Person : public Entity {
 
 		inline int getLives() const {
 			return healthPoints_;
+		}
+
+		inline bool getOutSpawn() const {
+			return outSpawn_;
 		}
 
 
@@ -89,6 +97,10 @@ class Person : public Entity {
 			right_ = right;
 			up_ = up;
 			down_ = down;
+		}
+
+		inline void setOutSpawn() {
+			outSpawn_ = true;
 		}
 
 
@@ -140,6 +152,15 @@ class Person : public Entity {
 		 */
 		void intersectionDirection(std::vector<SDL_Rect> &walls,
 			std::list<Direction> &validDirection);
+
+		/**
+		 * @brief Vérifie si le personnage est sorti de la zone de spawn
+		 * 
+		 * @param entity le personnage (ghosts)
+		 * @return true s'il a franchi la porte
+		 * @return false s'il n'a pas franchi la porte
+		 */
+		bool checkOutSpawn(SDL_Rect &entity);
 };
 
 #endif

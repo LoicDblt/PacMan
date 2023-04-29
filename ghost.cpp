@@ -18,7 +18,8 @@ Ghost::Ghost(
 		speed,
 		direction,
 		wishDirection,
-		healthPoints
+		healthPoints,
+		false
 	},
 	name_{name},
 	status_{status},
@@ -29,6 +30,10 @@ void Ghost::aleaMove(
 	std::vector<SDL_Rect> &walls,
 	std::vector<SDL_Rect> &tunnels
 ) {
+	// Ne sort pas du spawn et attend
+	// if (this->getStatus() == WAIT)
+	// 	return;
+
 	std::list<Direction> validDirection;
 	intersectionDirection(walls, validDirection);
 
@@ -36,7 +41,7 @@ void Ghost::aleaMove(
 	int size = validDirection.size();
 	auto iterList = validDirection.begin();
 
-	if(size >= 3) {
+	if(size >= 3 && this->getOutSpawn()) {
 		int nb = aleaRand(1,size);
 		std::advance(iterList, nb);
 		setWishDirection(*iterList);
@@ -51,7 +56,8 @@ void Ghost::aleaMove(
 			setWishDirection(UP);
 			break;
 		case 2:
-			setWishDirection(DOWN);
+			if (this->getOutSpawn())
+				setWishDirection(DOWN);
 			break;
 		case 3:
 			setWishDirection(RIGHT);
@@ -67,6 +73,7 @@ void Ghost::aleaMove(
 		roundCmpt_++;
 	}
 	previousPosition_ = entityRect_;
+
 	move(walls, tunnels);
 }
 
