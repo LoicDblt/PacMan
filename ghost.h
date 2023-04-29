@@ -12,10 +12,9 @@ class Ghost : public Person {
 		 * Etats possibles pour les fantômes
 		 * Hunter : chasse pacman
 		 * Prey : fuit pacman
-		 * Dead : mort
 		 * Wait : attend de sortir du spawn
 		 */
-		enum State {HUNTER, PREY, DEAD, WAIT};
+		enum State {HUNTER, PREY, WAIT};
 		enum Name {BLINKY, PINKY, INKY, CLYDE};
 
 	private:
@@ -29,8 +28,8 @@ class Ghost : public Person {
 
 		// Etat du fantôme
 		State status_{WAIT};
-		Name name_;
 		bool outSpawn_{false};
+		Name name_;
 
 
 	/* Constructors */
@@ -45,13 +44,14 @@ class Ghost : public Person {
 			Direction wishDirection,
 			int healthPoints,
 			State status,
-			Name name
+			Name name,
+			bool outSpawn
 		);
 
 
 	/* Getters */
 	public:
-			inline State getStatus(void) const {
+		inline State getStatus(void) const {
 			return status_;
 		}
 
@@ -92,6 +92,13 @@ class Ghost : public Person {
 		 *
 		 */
 		void resetStatus(void);
+
+		/**
+		 * @brief Active le fantôme en lui changeant le status au bout d'un
+		 * 		  certain temps
+		 * 
+		 */
+		static void enableGhost(std::vector<Ghost> &ghosts, int count);
 
 	private:
 		/**

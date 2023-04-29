@@ -77,7 +77,7 @@ void Person::move(
 			this->entityRect_.x += speed_;
 
 			if (checkWalls(tunnels, this->getEntityRect()))
-				this->entityRect_.x = tunnels[0].x + tunnels[0].w;
+				this->entityRect_.x = tunnels[1].x + tunnels[1].w;
 
 			if (checkWalls(walls, this->entityRect_))
 				this->entityRect_.x -= speed_;
@@ -87,7 +87,7 @@ void Person::move(
 			this->entityRect_.x -= speed_;
 
 			if (checkWalls(tunnels, this->getEntityRect())) {
-				this->entityRect_.x = tunnels[1].x - (tunnels[1].w +
+				this->entityRect_.x = tunnels[0].x - (tunnels[0].w +
 					this->entityRect_.w);
 			}
 
@@ -120,10 +120,9 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity) {
 	return false;
 }
 
-void Person::animation(int count)
-{
+void Person::animation(int count) {
 	if (count%5 == 0) {
-		if(tmpAnimation_ == 1)
+		if (tmpAnimation_ == 1)
 			tmpAnimation_ = 0;
 		else
 			tmpAnimation_ = 1;

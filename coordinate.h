@@ -2,9 +2,8 @@
 #define COORDINATE_H
 
 #include <list>
-#include <vector>
 #include <SDL.h>
-
+#include <vector>
 
 class Coordinate {
 	public:
@@ -46,17 +45,7 @@ class Coordinate {
 			{88, 123, 16, 16}};
 		inline static std::vector<SDL_Rect> ghost_red_d{{105, 123, 16, 16},
 			{122, 123, 16, 16}};
-		inline static SDL_Rect ghost_red_default_pos{81*4, 122*4, 32, 32};
-
-		// Coordonnées du Fantôme Rose
-		inline static std::vector<SDL_Rect> ghost_pink_r{{3, 142, 16, 16},
-			{20, 142, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_pink_l{{37, 142, 16, 16},
-			{54, 142, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_pink_u{{71, 142, 16, 16},
-			{88, 142, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_pink_d{{105, 142, 16, 16},
-			{122, 142, 16, 16}};
+		inline static SDL_Rect ghost_red_default_pos{81*4, (81*4)+100, 32, 32};
 
 		// Coordonnées du Fantôme Bleu
 		inline static std::vector<SDL_Rect> ghost_blue_r{{3, 159, 16, 16},
@@ -67,6 +56,20 @@ class Coordinate {
 			{88, 159, 16, 16}};
 		inline static std::vector<SDL_Rect> ghost_blue_d{{105, 159, 16, 16},
 			{122, 159, 16, 16}};
+		inline static SDL_Rect ghost_blue_default_pos{
+			72*4, (101*4)+100, 32, 32};
+
+		// Coordonnées du Fantôme Rose
+		inline static std::vector<SDL_Rect> ghost_pink_r{{3, 141, 16, 16},
+			{20, 141, 16, 16}};
+		inline static std::vector<SDL_Rect> ghost_pink_l{{37, 141, 16, 16},
+			{54, 141, 16, 16}};
+		inline static std::vector<SDL_Rect> ghost_pink_u{{71, 141, 16, 16},
+			{88, 141, 16, 16}};
+		inline static std::vector<SDL_Rect> ghost_pink_d{{105, 141, 16, 16},
+			{122, 141, 16, 16}};
+		inline static SDL_Rect ghost_pink_default_pos{
+			81*4, (101*4)+100, 32, 32};
 
 		// Coordonnées du Fantôme Orange
 		inline static std::vector<SDL_Rect> ghost_orange_r{{3, 177, 16, 16},
@@ -77,6 +80,8 @@ class Coordinate {
 			{88, 177, 16, 16}};
 		inline static std::vector<SDL_Rect> ghost_orange_d{{105, 177, 16, 16},
 			{122, 177, 16, 16}};
+		inline static SDL_Rect ghost_orange_default_pos{
+			90*4, (101*4)+100, 32, 32};
 
 		// Coordonnées du Fantôme Appeuré
 		inline static std::vector<SDL_Rect> ghost_afraid_blue{{3, 195, 16, 16},
@@ -155,8 +160,8 @@ class Coordinate {
 			{65, 49, 40, 16},	// Rectangle - Haut - Double forme - H
 
 			// Zone milieu centre
-			{65, 89, 8, 32},	// Rectangle - Cage gauche
-			{97, 89, 8, 32},	// Rectangle - Cage droite
+			{65, 89, 7, 32},	// Rectangle - Cage gauche
+			{98, 89, 7, 32},	// Rectangle - Cage droite
 			{71, 113, 28, 8},	// Rectangle - Cage bas
 			{71, 89, 9, 8},		// Rectangle - Porte gauche
 			{88, 89, 9, 8},		// Rectangle - Porte droite
