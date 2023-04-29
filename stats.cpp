@@ -59,7 +59,7 @@ void Stats::updateScore(int earnedPoints, int eatenGhosts) {
  * @brief Check if the player has won the game
  */
 void Stats::checkWon(void) {
-	if (this->getDots() == 189) {
+	if (this->getDots() == 189g) {
 		std::cout << "You win!" << std::endl;
 		writeScore();
 	}
