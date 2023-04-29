@@ -12,7 +12,7 @@ Interface::Interface(
 	sprites_{sprites}
 {}
 
-void Interface::titleScreen() {
+void Interface::titleScreen(void) {
 	int windowWidth, windowHeight;
 	SDL_GetWindowSize(this->getWindow(), &windowWidth, &windowHeight);
 
@@ -174,7 +174,6 @@ void Interface::titleScreen() {
 		SDL_Delay(DELAY);
 	}
 }
-
 
 void Interface::drawScore(std::vector<int> digits) {
 	// Inverse le vecteur pour l'afficher dans le bon sens

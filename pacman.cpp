@@ -24,7 +24,7 @@ std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 int count;
 
-void init() {
+void init(void) {
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, Interface::WINDOW_WIDTH,
 		Interface::WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
@@ -35,40 +35,40 @@ void init() {
 	count = 0;
 
 	// Init les murs avec mise à l'échelle
-	for (int i=0; i<walls.size(); i++) {
+	for (int i = 0; i < walls.size(); i++) {
 		walls[i].x *= 4;
-		walls[i].y = 4*(walls[i].y) + 100;
+		walls[i].y = 4 * (walls[i].y) + 100;
 		walls[i].w *= 4;
 		walls[i].h *= 4;
 	}
 
 	// Init les tunnels avec mise à l'échelle
-	for (int i=0; i<tunnels.size(); i++) {
+	for (int i = 0; i < tunnels.size(); i++) {
 		tunnels[i].x *= 4;
-		tunnels[i].y = 4*(tunnels[i].y) + 100;
+		tunnels[i].y = 4 * (tunnels[i].y) + 100;
 		tunnels[i].w *= 4;
 		tunnels[i].h *= 4;
 	}
 
 	// Init les Pacgommes
-	for (int i=0; i<dots.size(); i++) {
-		dots[i].x = 4*(dots[i].x+1);
-		dots[i].y = 4*(dots[i].y+1) + 100;
+	for (int i = 0; i < dots.size(); i++) {
+		dots[i].x = 4 * (dots[i].x + 1);
+		dots[i].y = 4 * (dots[i].y + 1) + 100;
 		dots[i].w *= 8;
 		dots[i].h *= 8;
 	}
 
 	// Init les super Pacgommes
-	for (int i=0; i<energizers.size(); i++) {
-		energizers[i].x = 4*(energizers[i].x+1);
-		energizers[i].y = 4*(energizers[i].y+1) + 100;
+	for (int i = 0; i < energizers.size(); i++) {
+		energizers[i].x = 4 * (energizers[i].x + 1);
+		energizers[i].y = 4 * (energizers[i].y + 1) + 100;
 		energizers[i].w *= 4;
 		energizers[i].h *= 4;
 	}
 }
 
 // Fonction mettant à jour la surface de la fenêtre "win_surf"
-void draw() {
+void draw(void) {
 	SDL_SetColorKey(plancheSprites, false, 0);
 	SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
 

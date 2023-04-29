@@ -18,6 +18,7 @@ class Interface {
 		SDL_Surface* surface_ = nullptr;
 		SDL_Surface* sprites_ = nullptr;
 
+
 	/* Constructors */
 	public:
 		Interface() = default;
@@ -28,19 +29,21 @@ class Interface {
 		);
 		~Interface();
 
+
 	/* Getters */
 	public:
-		inline SDL_Window* getWindow() const {
+		inline SDL_Window* getWindow(void) const {
 			return window_;
 		}
 
-		inline SDL_Surface* getSurface() const {
+		inline SDL_Surface* getSurface(void) const {
 			return surface_;
 		}
 
-		inline SDL_Surface* getSprites() const {
+		inline SDL_Surface* getSprites(void) const {
 			return sprites_;
 		}
+
 
 	/* Methods */
 	public:
@@ -52,7 +55,7 @@ class Interface {
 		 * 		- Les 10 meilleurs scores
 		 * 		- Le logo Namco
 		 */
-		void titleScreen();
+		void titleScreen(void);
 
 		/**
 		 * @brief Mets à jour le score pendant la partie

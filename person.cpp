@@ -45,8 +45,8 @@ Person::Person(
 {}
 
 void Person::move(
-	std::vector<SDL_Rect>& walls,
-	std::vector<SDL_Rect>& tunnels
+	std::vector<SDL_Rect> &walls,
+	std::vector<SDL_Rect> &tunnels
 ) {
 	if (tryToTurnCmp_ != 60) {
 		if (checkDirection(walls, wishDirection_)) {
@@ -100,8 +100,7 @@ void Person::move(
 	}
 }
 
-bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity)
-{
+bool Person::checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity) {
 	// Vérifie si c'est la porte du spawn
 	if (SDL_HasIntersection(&entity, &Coordinate::door)) {
 		if (this->getOutSpawn())
@@ -113,7 +112,7 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity)
 		}
 	}
 
-	for (int i=0; i<walls.size();i++) {
+	for (int i = 0; i < walls.size(); i++) {
 		if (SDL_HasIntersection(&entity, &walls[i]))
 			return true;
 	}
@@ -123,40 +122,42 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls,SDL_Rect &entity)
 
 void Person::animation(int count)
 {
-	if(count%5 == 0) {
+	if (count%5 == 0) {
 		if(tmpAnimation_ == 1)
 			tmpAnimation_ = 0;
 		else
 			tmpAnimation_ = 1;
 	}
 
-	switch (direction_)
-	{
-	case RIGHT:
-		this->setEntityPic(right_[tmpAnimation_]);
-		break;
-	case LEFT:
-		this->setEntityPic(left_[tmpAnimation_]);
-		break;
-	case DOWN:
-		this->setEntityPic(down_[tmpAnimation_]);
-		break;
-	case UP:
-		this->setEntityPic(up_[tmpAnimation_]);
-		break;
-	default:
-		break;
+	switch (direction_) {
+		case RIGHT:
+			this->setEntityPic(right_[tmpAnimation_]);
+			break;
+
+		case LEFT:
+			this->setEntityPic(left_[tmpAnimation_]);
+			break;
+
+		case DOWN:
+			this->setEntityPic(down_[tmpAnimation_]);
+			break;
+
+		case UP:
+			this->setEntityPic(up_[tmpAnimation_]);
+			break;
+
+		default:
+			break;
 	}
 }
 
-bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction)
-{
+bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) {
 	bool res = true;
-	SDL_Rect tmpRect{
+	SDL_Rect tmpRect {
 		this->entityRect_.x,
 		this->entityRect_.y,
 		this->entityRect_.w,
-		this->entityRect_.h,
+		this->entityRect_.h
 	};
 
 	switch (direction) {
@@ -164,25 +165,25 @@ bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction)
 			break;
 
 		case UP:
-			tmpRect.y -= speed_+2;
+			tmpRect.y -= speed_ + 2;
 			if (checkWalls(walls, tmpRect))
 				res = false;
 			break;
 
 		case DOWN:
-			tmpRect.y += speed_+2;
+			tmpRect.y += speed_ + 2;
 			if (checkWalls(walls, tmpRect))
 				res = false;
 			break;
 
 		case RIGHT:
-			tmpRect.x += speed_+2;
+			tmpRect.x += speed_ + 2;
 			if (checkWalls(walls, tmpRect))
 				res = false;
 			break;
 
 		case LEFT:
-			tmpRect.x -= speed_+2;
+			tmpRect.x -= speed_ + 2;
 			if (checkWalls(walls, tmpRect))
 				res = false;
 			break;

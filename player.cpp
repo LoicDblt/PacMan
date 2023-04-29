@@ -21,11 +21,14 @@ Player::Player(
 	}
 {};
 
-bool Player::onElement(std::vector<SDL_Rect> &pac, Stats &statsPac, int element)
-{
-	for (int i=0; i<pac.size(); i++) {
-		if(SDL_HasIntersection(&this->getEntityRect(), &pac[i])){
-			pac.erase(pac.begin()+i);
+bool Player::onElement(
+	std::vector<SDL_Rect> &pac,
+	Stats &statsPac,
+	int element
+) {
+	for (int i = 0; i < pac.size(); i++) {
+		if (SDL_HasIntersection(&this->getEntityRect(), &pac[i])){
+			pac.erase(pac.begin() + i);
 			statsPac.updateScore(element);
 			return true;
 		}
@@ -40,8 +43,8 @@ void Player::checkPostion(
 	Stats &statsPac,
 	Ghost &ghost
 ) {
-	onElement(dots,statsPac,Stats::DOT);
-	if (onElement(energizers,statsPac,Stats::ENERGIZER)) {
+	onElement(dots, statsPac, Stats::DOT);
+	if (onElement(energizers, statsPac, Stats::ENERGIZER)) {
 		this->setSlayerTime(PELLET_TIME);
 		ghost.setStatus(Ghost::PREY);
 		ghost.setAnimation(

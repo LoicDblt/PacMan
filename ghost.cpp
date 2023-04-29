@@ -41,17 +41,16 @@ void Ghost::aleaMove(
 	int size = validDirection.size();
 	auto iterList = validDirection.begin();
 
-	if(size >= 3 && this->getOutSpawn()) {
+	if (size >= 3 && this->getOutSpawn()) {
 		int nb = aleaRand(1,size);
 		std::advance(iterList, nb);
 		setWishDirection(*iterList);
 	}
 
 	// Si bloqué cherche une autre direction
-	if(roundCmpt_ == 2){
+	if (roundCmpt_ == 2) {
 		int nb = aleaRand(1,4);
-		switch (nb)
-		{
+		switch (nb) {
 		case 1:
 			setWishDirection(UP);
 			break;
@@ -69,32 +68,29 @@ void Ghost::aleaMove(
 			break;
 		}
 		roundCmpt_ = 0;
-	}else if (SDL_RectEquals(&previousPosition_, &entityRect_) == SDL_TRUE) {
-		roundCmpt_++;
 	}
-	previousPosition_ = entityRect_;
+	else if (SDL_RectEquals(&previousPosition_, &entityRect_) == SDL_TRUE)
+		roundCmpt_++;
 
+	previousPosition_ = entityRect_;
 	move(walls, tunnels);
 }
 
-int Ghost::aleaRand(int x, int y)
-{
-	std::random_device rd; 		// nb alea du hardware
-	std::mt19937 gen(rd()); 	// génére une seed
+int Ghost::aleaRand(int x, int y) {
+	std::random_device rd;							// nb alea du hardware
+	std::mt19937 gen(rd());							// génére une seed
 	std::uniform_int_distribution<> distr(x,y);		// défini l'intervalle
 
 	return distr(gen);
 }
 
-void Ghost::goCoordinate(int x, int y)
-{
+void Ghost::goCoordinate(int x, int y) {
 	int selfX = this->entityRect_.x;
 	int selfY = this->entityRect_.y;
-	if(x > selfX){
+	if (x > selfX)
 		this->setDirection(RIGHT);
-	}else if(x < selfX){
+	else if (x < selfX)
 		this->setDirection(LEFT);
-	}
 }
 
 void Ghost::eated(void) {

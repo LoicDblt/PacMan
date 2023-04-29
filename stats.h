@@ -8,7 +8,6 @@
 #include <SDL.h>
 
 class Stats {
-	/* Points */
 	public:
 		static const int DOT{10};
 		static const int ENERGIZER{50};
@@ -24,6 +23,7 @@ class Stats {
 		int score_{0};
 		int ghostsEaten_{0};
 
+
 	/* Constructors */
 	public:
 		Stats() = default;
@@ -37,16 +37,16 @@ class Stats {
 
 	/* Getters */
 	public:
-		inline int getDots() const {
+		inline int getDots(void) const {
 			return dots_;
 		}
-		inline int getEnergizers() const {
+		inline int getEnergizers(void) const {
 			return energizers_;
 		}
-		inline int getScore() const {
+		inline int getScore(void) const {
 			return score_;
 		}
-		inline int getGhostsEaten() const {
+		inline int getGhostsEaten(void) const {
 			return ghostsEaten_;
 		}
 

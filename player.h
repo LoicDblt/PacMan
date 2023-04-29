@@ -19,7 +19,7 @@ class Player : public Person {
 		int slayerTime_{0};
 
 
-	/* Constructor & Destructor */
+	/* Constructor */
 	public:
 		Player() = default;
 		~Player();
@@ -35,7 +35,7 @@ class Player : public Person {
 
 	/* Getters */
 	public:
-		inline int getSlayerTime() const {
+		inline int getSlayerTime(void) const {
 			return slayerTime_;
 		}
 
@@ -58,8 +58,11 @@ class Player : public Person {
 		 * @return true si le joueur est sur un élément
 		 * @return false si le joueur n'est pas sur un élément
 		 */
-		bool onElement(std::vector<SDL_Rect> &pac, Stats &statsPac,
-			int element);
+		bool onElement(
+			std::vector<SDL_Rect> &pac,
+			Stats &statsPac,
+			int element
+		);
 
 		/**
 		 * @brief Vérifie si le joueur est sur un dot ou un energizer

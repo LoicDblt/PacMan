@@ -32,6 +32,8 @@ class Ghost : public Person {
 		Name name_;
 		bool outSpawn_{false};
 
+
+	/* Constructors */
 	public:
 		Ghost() = default;
 		~Ghost();
@@ -49,8 +51,8 @@ class Ghost : public Person {
 
 	/* Getters */
 	public:
-		inline void setStatus(State status) {
-			status_ = status;
+			inline State getStatus(void) const {
+			return status_;
 		}
 
 		inline Name getName(void) const {
@@ -60,8 +62,8 @@ class Ghost : public Person {
 
 	/* Setters */
 	public:
-		inline State getStatus(void) const {
-			return status_;
+		inline void setStatus(State status) {
+			status_ = status;
 		}
 
 
@@ -73,8 +75,10 @@ class Ghost : public Person {
 		 * @param walls les murs présents sur la carte
 		 * @param tunnels les tunnels présents sur la carte
 		 */
-		void aleaMove(std::vector<SDL_Rect> &walls,
-			std::vector<SDL_Rect> &tunnels);
+		void aleaMove(
+			std::vector<SDL_Rect> &walls,
+			std::vector<SDL_Rect> &tunnels
+		);
 
 		/**
 		 * @brief Replace le fantôme à sa position initiale s'il a été mangé
@@ -99,7 +103,12 @@ class Ghost : public Person {
 		 */
 		int aleaRand(int x , int y);
 
-		/* TODO, go to a precise direction */
+		/**
+		 * @brief [TODO] Permet d'aller à des coordonnées donnée
+		 * 
+		 * @param x abscisse
+		 * @param y ordonnée
+		 */
 		void goCoordinate(int x, int y);
 };
 

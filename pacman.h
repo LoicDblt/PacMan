@@ -14,10 +14,10 @@
  * @brief Initialise le jeu et l'interface
  *
  */
-void init();
+void init(void);
 
 /**
  * @brief Mets à jour la fenêtre
  *
  */
-void draw();
+void draw(void);

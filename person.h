@@ -26,6 +26,7 @@ class Person : public Entity {
 		std::vector<SDL_Rect> right_;
 		bool outSpawn_{true};
 
+
 	/* Constructors */
 	public:
 		Person() = default;
@@ -56,15 +57,15 @@ class Person : public Entity {
 
 	/* Getter */
 	public:
-		inline Direction getDirection() const {
+		inline Direction getDirection(void) const {
 			return direction_;
 		}
 
-		inline int getLives() const {
+		inline int getLives(void) const {
 			return healthPoints_;
 		}
 
-		inline bool getOutSpawn() const {
+		inline bool getOutSpawn(void) const {
 			return outSpawn_;
 		}
 
@@ -99,7 +100,7 @@ class Person : public Entity {
 			down_ = down;
 		}
 
-		inline void setOutSpawn() {
+		inline void setOutSpawn(void) {
 			outSpawn_ = true;
 		}
 
@@ -113,7 +114,7 @@ class Person : public Entity {
 		 * @param walls
 		 * @param tunnels
 		 */
-		void move(std::vector<SDL_Rect>& walls, std::vector<SDL_Rect>& tunnels);
+		void move(std::vector<SDL_Rect> &walls, std::vector<SDL_Rect> &tunnels);
 
 		/**
 		 * @brief Effectue les différentes animations
@@ -150,8 +151,10 @@ class Person : public Entity {
 		 * @param walls les murs présents sur la carte
 		 * @param validDirection la liste des directions possibles
 		 */
-		void intersectionDirection(std::vector<SDL_Rect> &walls,
-			std::list<Direction> &validDirection);
+		void intersectionDirection(
+			std::vector<SDL_Rect> &walls,
+			std::list<Direction> &validDirection
+		);
 
 		/**
 		 * @brief Vérifie si le personnage est sorti de la zone de spawn

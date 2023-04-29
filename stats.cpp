@@ -41,7 +41,7 @@ void Stats::checkWon(void) {
 void Stats::writeScore(void) {
 	std::ofstream scoresFile(Stats::SCORES_FILE, std::ios_base::app);
 	if (scoresFile.is_open()) {
-			scoresFile << this->getScore() << std::endl;
+		scoresFile << this->getScore() << std::endl;
 		scoresFile.close();
 	}
 }
@@ -58,7 +58,8 @@ std::vector<unsigned int> Stats::readScores(int numberOfScores) {
 			numberOfLines++;
 			try {
 				scores.push_back(std::stoi(line));
-			} catch (std::invalid_argument) {
+			}
+			catch (std::invalid_argument) {
 				std::cerr << "Invalid format in " + Stats::SCORES_FILE
 					<< std::endl;
 			}

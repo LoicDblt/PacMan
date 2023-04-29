@@ -178,12 +178,12 @@ class Coordinate {
 		/*
 		 * =============== TUNNELS ============================
 		*/
-		inline static std::vector<SDL_Rect> tunnels{ //
-			// ============= Gauche ================
-			{1, 103, 1, 10},
+		inline static std::vector<SDL_Rect> tunnels{
+			// Droite
+			{166, 103, 1, 10},
 
-			// ============= Droit =================
-			{166, 103, 1, 10}
+			// Gauche
+			{1, 103, 1, 10}
 		};
 
 
@@ -213,8 +213,6 @@ class Coordinate {
 			{155, 11, 1, 1},
 
 			// ============= Ligne 2 ===============
-			/* Ligne complète qui peut être utilisé
-			comme référence. */
 			{11, 43, 1, 1},
 			{19, 43, 1, 1},
 			{27, 43, 1, 1},
@@ -489,13 +487,13 @@ class Coordinate {
 		 * =============== WORDS ==============================
 		*/
 		inline static std::vector<int> indexScore {18, 2, 14, 17, 4};
-		inline static std::vector<int> indexHigh = {7, 8, 6, 7};
-		inline static std::vector<int> indexRank = {17, 0, 13, 10};
-		inline static std::vector<int> indexPressSpace = {
+		inline static std::vector<int> indexHigh {7, 8, 6, 7};
+		inline static std::vector<int> indexRank {17, 0, 13, 10};
+		inline static std::vector<int> indexPressSpace {
 			15, 20, 18, 7, -1,
 			18, 15, 0, 2, 4, -1,
 			10, 4, 24
-		}; // Press space key
+		};
 
 		/*
 		 * =============== MENU ===============================
