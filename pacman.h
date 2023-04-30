@@ -10,5 +10,19 @@
 #include "player.h"
 #include "stats.h"
 
-void init();
-void draw();
+/**
+ * @brief Initialise le jeu et l'interface
+ *
+ */
+void init(Player& player, Ghost& red, Ghost &pink, Ghost& blue, Ghost& orange);
+
+/**
+ * @brief Remet les dots, energizers, ghost à leur position
+*/
+void resetGame(void);
+
+/**
+ * @brief Mets à jour la fenêtre
+ *
+ */
+void draw(void);

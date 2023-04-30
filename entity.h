@@ -5,7 +5,6 @@
 #include <vector>
 #include <SDL.h>
 
-
 class Entity {
 	private:
 		SDL_Rect entityPicture_{};
@@ -13,36 +12,35 @@ class Entity {
 	protected:
 		SDL_Rect entityRect_{};
 
+
 	/* Constructors */
 	public:
-		// Default constructor
 		Entity() = default;
-
-		// Alternate constructor
 		Entity(
 			SDL_Rect entityRect,
 			SDL_Rect entityPicture
 		);
-
-		// Copy constructor
-		Entity(const Entity& other);
-
 		~Entity();
+
 
 	/* Getter */
 	public:
-		inline SDL_Rect getEntityPic() const {
+		inline SDL_Rect getEntityPic(void) const {
 			return entityPicture_;
 		}
-		inline float getX() const {
+
+		inline float getX(void) const {
 			return entityRect_.x;
 		}
-		inline float getY() const {
+	
+		inline float getY(void) const {
 			return entityRect_.y;
 		}
-		inline SDL_Rect& getEntityRect(){
+
+		inline SDL_Rect& getEntityRect(void) {
 			return entityRect_;
 		}
+
 
 	/* Setter */
 	public:

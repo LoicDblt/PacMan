@@ -5,10 +5,12 @@
 #include <vector>
 #include <SDL.h>
 
-#define ALPHABET_TEXTURE_WIDTH	18
-#define NUMBER_TEXTURE_WIDTH	18
 
 class Coordinate {
+	public:
+		static const int ALPHABET_TEXTURE_WIDTH{18};
+		static const int NUMBER_TEXTURE_WIDTH{18};
+
 	public:
 		/*
 		 * =============== PERSONNAGES ========================
@@ -22,6 +24,8 @@ class Coordinate {
 		 * Format (x, y, w, h)
 		*/
 		// Coordonnées de Pacman
+		inline static SDL_Rect pacLives{14, 976, 32, 32};
+
 		inline static std::vector<SDL_Rect> pac_b{{3, 89, 16, 16}};
 		inline static std::vector<SDL_Rect> pac_r{{20, 89, 15, 16},
 			{35, 89, 11, 16}};
@@ -31,6 +35,7 @@ class Coordinate {
 			{92, 94, 16, 11}};
 		inline static std::vector<SDL_Rect> pac_d{{109, 90, 16, 15},
 			{126, 94, 16, 11}};
+		inline static SDL_Rect pac_default_pos{324, 744, 32, 32};
 
 		// Coordonnées du Fantôme Rouge
 		inline static std::vector<SDL_Rect> ghost_red_r{{3, 123, 16, 16},
@@ -41,6 +46,7 @@ class Coordinate {
 			{88, 123, 16, 16}};
 		inline static std::vector<SDL_Rect> ghost_red_d{{105, 123, 16, 16},
 			{122, 123, 16, 16}};
+		inline static SDL_Rect ghost_red_default_pos{81*4, 122*4, 32, 32};
 
 		// Coordonnées du Fantôme Rose
 		inline static std::vector<SDL_Rect> ghost_pink_r{{3, 142, 16, 16},
@@ -71,6 +77,13 @@ class Coordinate {
 			{88, 177, 16, 16}};
 		inline static std::vector<SDL_Rect> ghost_orange_d{{105, 177, 16, 16},
 			{122, 177, 16, 16}};
+
+		// Coordonnées du Fantôme Appeuré
+		inline static std::vector<SDL_Rect> ghost_afraid_blue{{3, 195, 16, 16},
+			{20, 195, 16, 16}};
+		inline static std::vector<SDL_Rect> ghost_afraid_white{
+			{37, 195, 16, 16}, {54, 195, 16, 16}};
+
 
 		/*
 		 * =============== MURS ===============================
@@ -119,7 +132,7 @@ class Coordinate {
 			{97, 73, 18, 8},	// Rectangle - Double forme - H
 
 			// Zone bas gauche
-			{33, 159, 8, 24},	// Rectangle - Haut gauche - Double forme - V
+			{33, 159, 8, 26},	// Rectangle - Haut gauche - Double forme - V
 			{17, 153, 24, 8},	// Rectangle - Haut gauche - Double forme - H
 			{7, 169, 18, 16},	// Rectangle - Accolé à gauche
 			{49, 169, 8, 26},	// Rectangle - Bas gauche - Double forme - V
@@ -145,8 +158,8 @@ class Coordinate {
 			{65, 89, 8, 32},	// Rectangle - Cage gauche
 			{97, 89, 8, 32},	// Rectangle - Cage droite
 			{71, 113, 28, 8},	// Rectangle - Cage bas
-			{71, 89, 8, 8},		// Rectangle - Porte gauche
-			{91, 89, 8, 8},		// Rectangle - Porte droite
+			{71, 89, 9, 8},		// Rectangle - Porte gauche
+			{88, 89, 9, 8},		// Rectangle - Porte droite
 
 			// Zone bas centre
 			{81, 143, 8, 18},	// Rectangle - Haut - Double forme - V
@@ -157,14 +170,20 @@ class Coordinate {
 
 
 		/*
+		 * =============== SORTIE SPAWN =======================
+		*/
+		inline static SDL_Rect door{80*4, (89*4)+100, 8*4, 8*4};
+
+
+		/*
 		 * =============== TUNNELS ============================
 		*/
-		inline static std::vector<SDL_Rect> tunnels{ //
-			// ============= Gauche ================
-			{1, 103, 1, 10},
+		inline static std::vector<SDL_Rect> tunnels{
+			// Droite
+			{166, 103, 1, 10},
 
-			// ============= Droit =================
-			{166, 103, 1, 10}
+			// Gauche
+			{1, 103, 1, 10}
 		};
 
 
@@ -194,8 +213,6 @@ class Coordinate {
 			{155, 11, 1, 1},
 
 			// ============= Ligne 2 ===============
-			/* Ligne complète qui peut être utilisé
-			comme référence. */
 			{11, 43, 1, 1},
 			{19, 43, 1, 1},
 			{27, 43, 1, 1},
@@ -470,13 +487,13 @@ class Coordinate {
 		 * =============== WORDS ==============================
 		*/
 		inline static std::vector<int> indexScore {18, 2, 14, 17, 4};
-		inline static std::vector<int> indexHigh = {7, 8, 6, 7};
-		inline static std::vector<int> indexRank = {17, 0, 13, 10};
-		inline static std::vector<int> indexPressSpace = {
+		inline static std::vector<int> indexHigh {7, 8, 6, 7};
+		inline static std::vector<int> indexRank {17, 0, 13, 10};
+		inline static std::vector<int> indexPressSpace {
 			15, 20, 18, 7, -1,
 			18, 15, 0, 2, 4, -1,
 			10, 4, 24
-		}; // Press space key
+		};
 
 		/*
 		 * =============== MENU ===============================
@@ -484,7 +501,7 @@ class Coordinate {
 		inline static SDL_Rect pacmanLogo {3, 3, 182, 48};
 		inline static SDL_Rect posPacmanLogo {67, 100, 546, 144};
 		inline static SDL_Rect namcoLogo {27, 77, 62, 10};
-		inline static SDL_Rect posNamcoLogo {278, 862, 124, 20};
+		inline static SDL_Rect posNamcoLogo {278, 912, 124, 20};
 };
 
 #endif

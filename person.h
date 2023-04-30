@@ -5,6 +5,7 @@
 #include <iostream>
 #include <list>
 
+#include "coordinate.h"
 #include "entity.h"
 
 class Person : public Entity {
@@ -16,20 +17,27 @@ class Person : public Entity {
 		float speed_;
 		Direction direction_;
 		Direction wishDirection_;
-		int pointsDeVie_;
+		int healthPoints_;
 		int tryToTurnCmp_{50};
 		int tmpAnimation_{0};
 		std::vector<SDL_Rect> up_;
 		std::vector<SDL_Rect> down_;
 		std::vector<SDL_Rect> left_;
 		std::vector<SDL_Rect> right_;
+		bool outSpawn_{true};
+
 
 	/* Constructors */
 	public:
 		Person() = default;
 		Person(
+			SDL_Rect entityRect,
+			SDL_Rect entityPicture,
 			float speed,
-			enum Direction direction
+			Direction direction,
+			Direction wishDirection,
+			int healthPoints,
+			bool outSpawn
 		);
 		Person(
 			SDL_Rect entityRect,
@@ -37,15 +45,8 @@ class Person : public Entity {
 			float speed,
 			Direction direction,
 			Direction wishDirection,
-			int pointsDeVie
-		);
-		Person(
-			SDL_Rect entityRect,
-			SDL_Rect entityPicture,
-			float speed,
-			Direction direction,
-			Direction wishDirection,
-			int pointsDeVie,
+			int healthPoints,
+			bool outSpawn,
 			std::vector<SDL_Rect> up,
 			std::vector<SDL_Rect> down,
 			std::vector<SDL_Rect> left,
@@ -53,33 +54,28 @@ class Person : public Entity {
 		);
 		~Person();
 
-	/* Methods */
-	private:
-		bool checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity);
-		
-	protected:
-		/* TRUE if direction available */
-		bool checkDirection(std::vector<SDL_Rect> &walls, Direction direction);
-		/* Intersection Direction */
-		void intersectionDirection(std::vector<SDL_Rect> &walls, std::list<Direction> &validDirection);
-
-
-	public:
-		void move(std::vector<SDL_Rect>& walls, std::vector<SDL_Rect>& tunnels);
-		void animation(int count);
 
 	/* Getter */
 	public:
-		inline Direction getDirection() const {
+		inline Direction getDirection(void) const {
 			return direction_;
 		}
 
-		inline int getPointsDeVie() const {
-			return pointsDeVie_;
+		inline int getLives(void) const {
+			return healthPoints_;
 		}
+
+		inline bool getOutSpawn(void) const {
+			return outSpawn_;
+		}
+
 
 	/* Setter */
 	public:
+		inline void setEntityRect(SDL_Rect entityRect) {
+			entityRect_ = entityRect;
+		}
+
 		inline void setDirection(Direction direction) {
 			direction_ = direction;
 		}
@@ -88,20 +84,86 @@ class Person : public Entity {
 			wishDirection_ = wishDirection;
 		}
 
-		inline void pertePointDeVie(void) {
-			pointsDeVie_ -= 1;
+		inline void lostLive(void) {
+			healthPoints_ -= 1;
 		}
+
 		inline void setAnimation(
-			std::vector<SDL_Rect> left, 
-			std::vector<SDL_Rect> right, 
+			std::vector<SDL_Rect> left,
+			std::vector<SDL_Rect> right,
 			std::vector<SDL_Rect> up,
-			std::vector<SDL_Rect>  down) 
-		{
+			std::vector<SDL_Rect> down
+		) {
 			left_ = left;
 			right_ = right;
 			up_ = up;
 			down_ = down;
 		}
+
+		inline void setOutSpawn(void) {
+			outSpawn_ = true;
+		}
+
+
+	/* Methods */
+	public:
+		/**
+		 * @brief Déplace le personnage si la direction est accessible
+		 * 		  ou le téléporte s'il emprunte un tunnel
+		 *
+		 * @param walls
+		 * @param tunnels
+		 */
+		void move(std::vector<SDL_Rect> &walls, std::vector<SDL_Rect> &tunnels);
+
+		/**
+		 * @brief Effectue les différentes animations
+		 *
+		 * @param count compteur du nombre de tours
+		 */
+		void animation(int count);
+
+	private:
+		/**
+		 * @brief Vérifie si il y a un mur dans la direction donnée
+		 *
+		 * @param walls les murs présents sur la carte
+		 * @param entity le personnage (pacman ou les ghosts)
+		 * @return true si il y a un mur
+		 * @return false si il n'y a pas de mur
+		 */
+		bool checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity);
+
+	protected:
+		/**
+		 * @brief Vérifie si la direction est accessible
+		 *
+		 * @param walls les murs présents sur la carte
+		 * @param direction souhaitée
+		 * @return true si la direction est accessible
+		 * @return false si la direction n'est pas accessible
+		 */
+		bool checkDirection(std::vector<SDL_Rect> &walls, Direction direction);
+
+		/**
+		 * @brief Retourne une liste des directions possibles
+		 *
+		 * @param walls les murs présents sur la carte
+		 * @param validDirection la liste des directions possibles
+		 */
+		void intersectionDirection(
+			std::vector<SDL_Rect> &walls,
+			std::list<Direction> &validDirection
+		);
+
+		/**
+		 * @brief Vérifie si le personnage est sorti de la zone de spawn
+		 * 
+		 * @param entity le personnage (ghosts)
+		 * @return true s'il a franchi la porte
+		 * @return false s'il n'a pas franchi la porte
+		 */
+		bool checkOutSpawn(SDL_Rect &entity);
 };
 
 #endif

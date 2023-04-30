@@ -1,16 +1,5 @@
 #include "pacman.h"
 
-#define DEBUG_LOIC false
-
-/**
- * Affiche un message de débug d'El Loïco
- * @param message à afficher
-*/
-void debugLoic(std::string message) {
-	if (DEBUG_LOIC)
-		std::cout << message << std::endl;
-}
-
 SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
@@ -35,9 +24,10 @@ std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 int count;
 
-void init() {
+void init(Player& player, Ghost& red, Ghost &pink, Ghost& blue, Ghost& orange) {
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED, 680, 972, SDL_WINDOW_SHOWN);
+		SDL_WINDOWPOS_UNDEFINED, Interface::WINDOW_WIDTH,
+		Interface::WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
 	win_surf = SDL_GetWindowSurface(pWindow);
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
@@ -45,40 +35,81 @@ void init() {
 	count = 0;
 
 	// Init les murs avec mise à l'échelle
-	for (int i=0; i<walls.size(); i++) {
+	for (int i = 0; i < walls.size(); i++) {
 		walls[i].x *= 4;
-		walls[i].y = 4*(walls[i].y) + 100;
+		walls[i].y = 4 * (walls[i].y) + 100;
 		walls[i].w *= 4;
 		walls[i].h *= 4;
 	}
 
 	// Init les tunnels avec mise à l'échelle
-	for (int i=0; i<tunnels.size(); i++) {
+	for (int i = 0; i < tunnels.size(); i++) {
 		tunnels[i].x *= 4;
-		tunnels[i].y = 4*(tunnels[i].y) + 100;
+		tunnels[i].y = 4 * (tunnels[i].y) + 100;
 		tunnels[i].w *= 4;
 		tunnels[i].h *= 4;
 	}
 
+	player.setAnimation(
+		Coordinate::pac_l,
+		Coordinate::pac_r,
+		Coordinate::pac_u,
+		Coordinate::pac_d
+	);
+
+	red.setAnimation(
+		Coordinate::ghost_red_l,
+		Coordinate::ghost_red_r,
+		Coordinate::ghost_red_u,
+		Coordinate::ghost_red_d
+	);
+
+	pink.setAnimation(
+		Coordinate::ghost_pink_l,
+		Coordinate::ghost_pink_r,
+		Coordinate::ghost_pink_u,
+		Coordinate::ghost_pink_d
+	);
+
+	blue.setAnimation(
+		Coordinate::ghost_blue_l,
+		Coordinate::ghost_blue_r,
+		Coordinate::ghost_blue_u,
+		Coordinate::ghost_blue_d
+	);
+
+	orange.setAnimation(
+		Coordinate::ghost_orange_l,
+		Coordinate::ghost_orange_r,
+		Coordinate::ghost_orange_u,
+		Coordinate::ghost_orange_d
+	);
+
+	resetGame();
+}
+
+// Remet les éléments de la carte et les perons
+void resetGame()
+{
 	// Init les Pacgommes
-	for (int i=0; i<dots.size(); i++) {
-		dots[i].x = 4*(dots[i].x+1);
-		dots[i].y = 4*(dots[i].y+1) + 100;
+	for (int i = 0; i < dots.size(); i++) {
+		dots[i].x = 4 * (dots[i].x + 1);
+		dots[i].y = 4 * (dots[i].y + 1) + 100;
 		dots[i].w *= 8;
 		dots[i].h *= 8;
 	}
 
 	// Init les super Pacgommes
-	for (int i=0; i<energizers.size(); i++) {
-		energizers[i].x = 4*(energizers[i].x+1);
-		energizers[i].y = 4*(energizers[i].y+1) + 100;
+	for (int i = 0; i < energizers.size(); i++) {
+		energizers[i].x = 4 * (energizers[i].x + 1);
+		energizers[i].y = 4 * (energizers[i].y + 1) + 100;
 		energizers[i].w *= 4;
 		energizers[i].h *= 4;
 	}
 }
 
 // Fonction mettant à jour la surface de la fenêtre "win_surf"
-void draw() {
+void draw(void) {
 	SDL_SetColorKey(plancheSprites, false, 0);
 	SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
 
@@ -105,27 +136,8 @@ void draw() {
 	for (int i: Coordinate::indexScore) {
 		SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i], win_surf,
 			&positionLettre);
-		positionLettre.x += ALPHABET_TEXTURE_WIDTH;
+		positionLettre.x += Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
-}
-
-bool colliFantome(Person* pacman, SDL_Rect* pac) {
-	pacman->pertePointDeVie();
-
-	if (pacman->getPointsDeVie() == 0) {
-		puts("PacMan est mort !");
-		return true;
-	}
-	else
-		printf("Il reste %d vies à PacMan\n", pacman->getPointsDeVie());
-
-	// Reset PacMan à sa position d'origine
-	pac->x = 324;
-	pac->y = 744;
-	pacman->setDirection(Person::NONE);
-	pacman->setEntityPic(Coordinate::pac_b[0]);
-
-	return false;
 }
 
 int main(int argc, char** argv) {
@@ -135,48 +147,65 @@ int main(int argc, char** argv) {
 		return EXIT_FAILURE;
 	}
 
-	init();
-	Interface interface = {pWindow, win_surf, plancheSprites};
-	interface.titleScreen();
-
-	// ==> Position de base de PacMan
-	// 336 = 84*4 (largeur jusqu'au centre, avec débord de 1, puis scale 4)
-	// (30/2)/2 = 8 (/2 pour le scale, puis pour moitié largeur de PacMan)
-	// 4 car 2 de marge sur pacman scale x2
-	// d'où : 8+4 = 12
-	// Ainsi, 336 - 12 = 324
-	// Identique pour la hauteur
 	Player pacman = {
-		SDL_Rect{324, 744, 32, 32},
+		Coordinate::pac_default_pos,
 		Coordinate::pac_b[0],
 		2,
 		Person::NONE,
 		Person::NONE,
 		3
 	};
-	pacman.setAnimation(
-		Coordinate::pac_l,
-		Coordinate::pac_r,
-		Coordinate::pac_u,
-		Coordinate::pac_d
-	);
 
 	Ghost redGhost = {
-		SDL_Rect{36, 136, 32, 32},
-		Coordinate::ghost_red_l[0],
+		Coordinate::ghost_red_default_pos,
+		Coordinate::ghost_red_u[0],
 		1,
-		Person::DOWN,
-		Person::DOWN,
-		1
+		Person::UP,
+		Person::UP,
+		1,
+		Ghost::WAIT,
+		Ghost::BLINKY
 	};
-	redGhost.setAnimation(
-		Coordinate::ghost_red_l,
-		Coordinate::ghost_red_r,
-		Coordinate::ghost_red_u,
-		Coordinate::ghost_red_d
-	);
 
-	Stats statsPac = {0, 0, 0, 0};
+	Ghost pinkGhost = {
+		Coordinate::ghost_red_default_pos,
+		Coordinate::ghost_orange_u[0],
+		1,
+		Person::UP,
+		Person::UP,
+		1,
+		Ghost::WAIT,
+		Ghost::PINKY
+	};
+
+	Ghost blueGhost = {
+		Coordinate::ghost_red_default_pos,
+		Coordinate::ghost_blue_u[0],
+		1,
+		Person::UP,
+		Person::UP,
+		1,
+		Ghost::WAIT,
+		Ghost::INKY
+	};
+
+	Ghost orangeGhost = {
+		Coordinate::ghost_red_default_pos,
+		Coordinate::ghost_orange_u[0],
+		1,
+		Person::UP,
+		Person::UP,
+		1,
+		Ghost::WAIT,
+		Ghost::CLYDE
+	};
+
+	init(pacman, redGhost,pinkGhost, blueGhost, orangeGhost);
+	Interface interface = {pWindow, win_surf, plancheSprites};
+	interface.titleScreen();
+
+
+	Stats statsPac = {0, 0, 0};
 
 	SDL_Rect* pac_in = nullptr;
 	SDL_Rect pac_tampon;
@@ -209,41 +238,35 @@ int main(int argc, char** argv) {
 			quit = true;
 
 		// Droite
-		else if (keys[SDL_SCANCODE_RIGHT]) {
+		else if (keys[SDL_SCANCODE_RIGHT])
 			pacman.setWishDirection(Person::RIGHT);
-		}
 
 		// Gauche
-		else if (keys[SDL_SCANCODE_LEFT]) {
+		else if (keys[SDL_SCANCODE_LEFT])
 			pacman.setWishDirection(Person::LEFT);
-		}
 
 		// Haut
-		else if (keys[SDL_SCANCODE_UP]) {
+		else if (keys[SDL_SCANCODE_UP])
 			pacman.setWishDirection(Person::UP);
-		}
 
 		// Bas
-		else if (keys[SDL_SCANCODE_DOWN]) {
+		else if (keys[SDL_SCANCODE_DOWN])
 			pacman.setWishDirection(Person::DOWN);
-		}
 
 		// Debug vitesse
 		else if (keys[SDL_SCANCODE_SPACE]) {
 			if (vitesse_debug == 16)
 				vitesse_debug = 0;
 			else
-				vitesse_debug = 16;
+				vitesse_debug = Interface::DELAY;
 		}
 
 		// On fait bouger PacMan
 		pacman.move(walls, tunnels);
-		pacman.checkPostion(dots,energizers,statsPac);
+		pacman.checkPostion(dots, energizers, statsPac, redGhost);
+		pacman.checkGhost(redGhost, statsPac);
+		pacman.checkPelletActive(redGhost, statsPac);
 		redGhost.aleaMove(walls, tunnels);
-
-		// S'il y a une collision avec le fantôme rouge
-		// if (SDL_HasIntersection(&pac, &ghost))
-		// 	quit = colliFantome(&pacman, &pac);
 
 		pacman.animation(count);
 		redGhost.animation(count);
@@ -256,44 +279,19 @@ int main(int argc, char** argv) {
 		// Affichage
 		draw();
 
-		// pac_in => la sprite a afficher
-		// pac => la position où le placer
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf,
 			&pacman.getEntityRect());
 		SDL_BlitScaled(plancheSprites, ghost_in, win_surf,
 			&redGhost.getEntityRect());
 
-		// Récupère le score, le décomposer et trie les chiffres
+		// Mise à jour du score et des vies
 		std::vector<int> digits = statsPac.uncomposeNumber(statsPac.getScore());
-		std::reverse(digits.begin(), digits.end());
-
-		// Si le score est nul, on affiche quand même 0
-		if (digits.size() == 0)
-			digits.push_back(0);
-
-		// Créé un rectangle rempli, à la taille exacte du score à afficher
-		SDL_Rect rect = {25, 50,
-			static_cast<int>(ALPHABET_TEXTURE_WIDTH * digits.size()),
-			Coordinate::number_texture.h};
-		SDL_Color color = {0, 0, 0, 255};
-		SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
-			32, 0, 0, 0, 0);
-		SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,
-			color.g, color.b));
-		SDL_BlitScaled(surface, NULL, win_surf, &rect);
-		SDL_FreeSurface(surface);
-
-		// Affiche le score
-		SDL_Rect positionDigit = Coordinate::number_texture;
-		for (int i: digits) {
-			SDL_BlitScaled(plancheSprites, &Coordinate::number[i], win_surf,
-				&positionDigit);
-			positionDigit.x += ALPHABET_TEXTURE_WIDTH;
-		}
+		interface.drawScore(digits);
+		interface.drawLives(pacman.getLives());
 
 		SDL_UpdateWindowSurface(pWindow);
 
-		// ==> Limite à 60 FPS
+		// Limite à 60 FPS
 		SDL_Delay(vitesse_debug);	// Utiliser SDL_GetTicks64() pour
 									// plus de précision
 	}
