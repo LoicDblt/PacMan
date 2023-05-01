@@ -1,11 +1,11 @@
 #ifndef STATS_H
 #define STATS_H
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <vector>
-#include <algorithm>
 #include <SDL.h>
+#include <vector>
 
 class Stats {
 	public:

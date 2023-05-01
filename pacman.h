@@ -1,3 +1,6 @@
+#ifndef PACMAN_H
+#define PACMAN_H
+
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
@@ -26,3 +29,5 @@ void resetGame(void);
  *
  */
 void draw(void);
+
+#endif

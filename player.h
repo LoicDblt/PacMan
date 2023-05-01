@@ -70,21 +70,22 @@ class Player : public Person {
 		 * @param dots les pacgommes
 		 * @param energizers les super pacgommes
 		 * @param statsPac les stats à mettre à jour en fonction des points
-		 * @param ghost à passer en mode apeuré
+		 * @param ghosts à passer en mode apeuré
 		 */
 		void checkPostion(
 			std::vector<SDL_Rect> &dots,
 			std::vector<SDL_Rect> &energizers,
 			Stats &statsPac,
-			Ghost &ghost);
+			std::vector<Ghost> &ghosts
+		);
 
 		/**
 		 * @brief Vérifie si le joueur est sur un fantôme
 		 *
-		 * @param ghost à vérifier et à renvoyer au spawn si en mode apeuré
+		 * @param ghosts à vérifier et à renvoyer au spawn si en mode apeuré
 		 * @param statsPac à mettre à jour en fonction des points
 		 */
-		void checkGhost(Ghost &ghost, Stats &statsPac);
+		void checkGhost(std::vector<Ghost> &ghosts, Stats &statsPac);
 
 		/**
 		 * @brief Vérifie si le joueur est encore en mode slayer
@@ -93,7 +94,7 @@ class Player : public Person {
 		 * @param statsPac à reset si fin du mode slayer (pour le coeff) de
 		 * 				   ghosts tués pendant la période slayer
 		 */
-		void checkPelletActive(Ghost &ghost, Stats &statsPac);
+		void checkPelletActive(std::vector<Ghost> &ghost, Stats &statsPac);
 };
 
 #endif

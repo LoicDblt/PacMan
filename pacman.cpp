@@ -116,7 +116,7 @@ void draw(void) {
 	// Couleur transparente
 	SDL_SetColorKey(plancheSprites, true, 0);
 
-	count = (count+1)%(512);
+	count = (count + 1)%(2048);
 
 	// Affichage Pacgommes
 	for (int i=0;i<dots.size();i++) {
@@ -147,6 +147,7 @@ int main(int argc, char** argv) {
 		return EXIT_FAILURE;
 	}
 
+	// PacMan
 	Player pacman = {
 		Coordinate::pac_default_pos,
 		Coordinate::pac_b[0],
@@ -156,54 +157,63 @@ int main(int argc, char** argv) {
 		3
 	};
 
-	Ghost redGhost = {
-		Coordinate::ghost_red_default_pos,
-		Coordinate::ghost_red_u[0],
-		1,
-		Person::UP,
-		Person::UP,
-		1,
-		Ghost::WAIT,
-		Ghost::BLINKY
+	std::vector<Ghost> ghosts {
+		// Red ghost
+		{
+			Coordinate::ghost_red_default_pos,
+			Coordinate::ghost_red_l[0],
+			1,
+			Person::LEFT,
+			Person::LEFT,
+			1,
+			Ghost::HUNTER,
+			Ghost::BLINKY,
+			true
+		},
+
+		// Blue ghost
+		{
+			Coordinate::ghost_blue_default_pos,
+			Coordinate::ghost_blue_u[0],
+			1,
+			Person::UP,
+			Person::UP,
+			1,
+			Ghost::WAIT,
+			Ghost::INKY,
+			false
+		},
+
+		// Pink ghost
+		{
+			Coordinate::ghost_pink_default_pos,
+			Coordinate::ghost_pink_d[0],
+			1,
+			Person::DOWN,
+			Person::UP,
+			1,
+			Ghost::WAIT,
+			Ghost::PINKY,
+			false
+		},
+
+		// Orange ghost
+		{
+			Coordinate::ghost_orange_default_pos,
+			Coordinate::ghost_orange_u[0],
+			1,
+			Person::UP,
+			Person::UP,
+			1,
+			Ghost::WAIT,
+			Ghost::CLYDE,
+			false
+		}
 	};
 
-	Ghost pinkGhost = {
-		Coordinate::ghost_red_default_pos,
-		Coordinate::ghost_orange_u[0],
-		1,
-		Person::UP,
-		Person::UP,
-		1,
-		Ghost::WAIT,
-		Ghost::PINKY
-	};
-
-	Ghost blueGhost = {
-		Coordinate::ghost_red_default_pos,
-		Coordinate::ghost_blue_u[0],
-		1,
-		Person::UP,
-		Person::UP,
-		1,
-		Ghost::WAIT,
-		Ghost::INKY
-	};
-
-	Ghost orangeGhost = {
-		Coordinate::ghost_red_default_pos,
-		Coordinate::ghost_orange_u[0],
-		1,
-		Person::UP,
-		Person::UP,
-		1,
-		Ghost::WAIT,
-		Ghost::CLYDE
-	};
-
-	init(pacman, redGhost,pinkGhost, blueGhost, orangeGhost);
+	init(pacman, ghosts[0], ghosts[2], ghosts[1],ghosts[3]);
 	Interface interface = {pWindow, win_surf, plancheSprites};
 	interface.titleScreen();
-
 
 	Stats statsPac = {0, 0, 0};
 
@@ -211,6 +221,8 @@ int main(int argc, char** argv) {
 	SDL_Rect pac_tampon;
 	SDL_Rect* ghost_in = nullptr;
 	SDL_Rect ghost_tampon;
+
+	int ghostInited = 0;
 
 	// Boucle principale
 	bool quit = false;
@@ -263,26 +275,32 @@ int main(int argc, char** argv) {
 
 		// On fait bouger PacMan
 		pacman.move(walls, tunnels);
-		pacman.checkPostion(dots, energizers, statsPac, redGhost);
-		pacman.checkGhost(redGhost, statsPac);
-		pacman.checkPelletActive(redGhost, statsPac);
-		redGhost.aleaMove(walls, tunnels);
-
+		pacman.checkPostion(dots, energizers, statsPac, ghosts);
+		pacman.checkGhost(ghosts, statsPac);
+		pacman.checkPelletActive(ghosts, statsPac);
 		pacman.animation(count);
-		redGhost.animation(count);
 
-		pac_tampon = pacman.getEntityPic();
-		ghost_tampon = redGhost.getEntityPic();
-		pac_in = &(pac_tampon);
-		ghost_in = &(ghost_tampon);
+		Ghost::enableGhost(ghosts, count);
+
+		for (int i = 0; i < ghosts.size(); i++) {
+			ghosts[i].aleaMove(walls, tunnels);
+			ghosts[i].animation(count);
+		}
 
 		// Affichage
 		draw();
 
+		pac_tampon = pacman.getEntityPic();
+		pac_in = &(pac_tampon);
 		SDL_BlitScaled(plancheSprites, pac_in, win_surf,
 			&pacman.getEntityRect());
-		SDL_BlitScaled(plancheSprites, ghost_in, win_surf,
-			&redGhost.getEntityRect());
+
+		for (int i = 0; i < ghosts.size(); i++) {
+			ghost_tampon = ghosts[i].getEntityPic();
+			ghost_in = &(ghost_tampon);
+			SDL_BlitScaled(plancheSprites, ghost_in, win_surf,
+				&ghosts[i].getEntityRect());
+		}
 
 		// Mise à jour du score et des vies
 		std::vector<int> digits = statsPac.uncomposeNumber(statsPac.getScore());

@@ -41,51 +41,65 @@ void Player::checkPostion(
 	std::vector<SDL_Rect> &dots,
 	std::vector<SDL_Rect> &energizers,
 	Stats &statsPac,
-	Ghost &ghost
+	std::vector<Ghost> &ghosts
 ) {
 	onElement(dots, statsPac, Stats::DOT);
 	if (onElement(energizers, statsPac, Stats::ENERGIZER)) {
 		this->setSlayerTime(PELLET_TIME);
-		ghost.setStatus(Ghost::PREY);
-		ghost.setAnimation(
-			Coordinate::ghost_afraid_blue,
-			Coordinate::ghost_afraid_blue,
-			Coordinate::ghost_afraid_blue,
-			Coordinate::ghost_afraid_blue
-		);
+		for (int i = 0; i < ghosts.size(); i++) {
+			if (ghosts[i].getStatus() != Ghost::HUNTER)
+				continue;
+			ghosts[i].setStatus(Ghost::PREY);
+			ghosts[i].setAnimation(
+				Coordinate::ghost_afraid_blue,
+				Coordinate::ghost_afraid_blue,
+				Coordinate::ghost_afraid_blue,
+				Coordinate::ghost_afraid_blue
+			);
+		}
 	}
 }
 
-void Player::checkGhost(Ghost &ghost, Stats &statsPac) {
-	if (SDL_HasIntersection(&this->getEntityRect(), &ghost.getEntityRect())) {
-		if (ghost.getStatus() == Ghost::PREY) {
-			statsPac.addGhostsEaten();
-			statsPac.updateScore(Stats::GHOST);
-			ghost.eated();
-		}
-
-		else {
-			this->lostLive();
-
-			if (this->getLives() == 0) {
-				puts("PacMan est mort !");
-				exit(0); // Gérer la fin du jeu <=============================== TODO
+void Player::checkGhost(std::vector<Ghost> &ghosts, Stats &statsPac) {
+	for (int i = 0; i < ghosts.size(); i++) {
+		if (
+			SDL_HasIntersection(
+				&this->getEntityRect(), &ghosts[i].getEntityRect())
+		) {
+			if (ghosts[i].getStatus() == Ghost::PREY) {
+				statsPac.addGhostsEaten();
+				statsPac.updateScore(Stats::GHOST);
+				ghosts[i].eated();
 			}
 
-			// Reset PacMan à sa position d'origine
-			this->setEntityRect(Coordinate::pac_default_pos);
-			this->setEntityPic(Coordinate::pac_b[0]);
-			this->setDirection(Person::NONE);
-			this->setWishDirection(Person::NONE);
+			else {
+				this->lostLive();
+
+				if (this->getLives() == 0) {
+					puts("PacMan est mort !");
+					exit(0); // Gérer la fin du jeu <=========================== TODO
+				}
+
+				// Reset PacMan à sa position d'origine
+				this->setEntityRect(Coordinate::pac_default_pos);
+				this->setEntityPic(Coordinate::pac_b[0]);
+				this->setDirection(Person::NONE);
+				this->setWishDirection(Person::NONE);
+			}
 		}
 	}
 }
 
-void Player::checkPelletActive(Ghost &ghost, Stats &statsPac) {
+void Player::checkPelletActive(std::vector<Ghost>  &ghosts, Stats &statsPac) {
 	if (this->getSlayerTime() > 0)
 		this->setSlayerTime(-1);
-	else if (ghost.getStatus() == Ghost::PREY) {
-		statsPac.resetGhostsEaten();
-		ghost.resetStatus();
+	
+	else {
+		for (int i = 0; i < ghosts.size(); i++) {
+			if (ghosts[i].getStatus() == Ghost::PREY) {
+				statsPac.resetGhostsEaten();
+				ghosts[i].resetStatus();
+			}
+		}
 	}
 }
