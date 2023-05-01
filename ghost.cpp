@@ -29,6 +29,10 @@ Ghost::Ghost(
 	timerSpawn_{timerSpawn}
 {}
 
+void Ghost::moveOutOfSpawn() {
+	this->setWishDirection(Person::UP);
+};
+
 void Ghost::aleaMove(
 	std::vector<SDL_Rect> &walls,
 	std::vector<SDL_Rect> &tunnels
@@ -37,6 +41,8 @@ void Ghost::aleaMove(
 	if (this->getStatus() == WAIT)
 		return;
 
+	moveOutOfSpawn();
+
 	std::list<Direction> validDirection;
 	intersectionDirection(walls, validDirection);
 
@@ -44,12 +50,12 @@ void Ghost::aleaMove(
 	int size = validDirection.size();
 	auto iterList = validDirection.begin();
 
-	if (size >= 3 && this->getOutSpawn()) {
+	if (size > 2 && this->getOutSpawn()) {
 		int nb = aleaRand(1,size);
 		std::advance(iterList, nb);
 		setWishDirection(*iterList);
 	}
-
+	
 	// Si bloqué cherche une autre direction
 	if (roundCmpt_ == 2) {
 		int nb = aleaRand(1,4);
@@ -78,9 +84,10 @@ void Ghost::aleaMove(
 	}
 	else if (SDL_RectEquals(&previousPosition_, &entityRect_) == SDL_TRUE)
 		roundCmpt_++;
-
+	
 	previousPosition_ = entityRect_;
 	move(walls, tunnels);
+	previousDirection_ = this->getDirection();
 }
 
 int Ghost::aleaRand(int x, int y) {

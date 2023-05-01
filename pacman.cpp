@@ -189,7 +189,7 @@ int main(int argc, char** argv) {
 			Coordinate::ghost_pink_default_pos,
 			Coordinate::ghost_pink_d[0],
 			1,
-			Person::DOWN,
+			Person::UP,
 			Person::UP,
 			1,
 			Ghost::WAIT,

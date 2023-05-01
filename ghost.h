@@ -135,6 +135,9 @@ class Ghost : public Person {
 		 * @param y ordonnée
 		 */
 		void goCoordinate(int x, int y);
+
+
+		void moveOutOfSpawn();
 };
 
 #endif
