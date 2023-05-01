@@ -29,7 +29,7 @@ Ghost::Ghost(
 	timerSpawn_{timerSpawn}
 {}
 
-void Ghost::moveOutOfSpawn() {
+void Ghost::moveOutOfSpawn(void) {
 	if (this->getX() == Coordinate::ghost_pink_default_pos.x)
 		this->setWishDirection(Person::UP);
 	else if (this->getX() < Coordinate::ghost_pink_default_pos.x)

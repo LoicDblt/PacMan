@@ -22,7 +22,13 @@ void init(Player& player, Ghost& red, Ghost &pink, Ghost& blue, Ghost& orange);
 /**
  * @brief Remet les dots, energizers, ghost à leur position
 */
-void resetGame(void);
+void resetGame(
+    Player& Player,
+    Ghost& red,
+    Ghost& pink,
+    Ghost& blue,
+    Ghost& orange    
+);
 
 /**
  * @brief Mets à jour la fenêtre

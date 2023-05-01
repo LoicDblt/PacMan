@@ -84,13 +84,20 @@ void init(Player& player, Ghost& red, Ghost &pink, Ghost& blue, Ghost& orange) {
 		Coordinate::ghost_orange_d
 	);
 
-	resetGame();
+	resetGame(player, red, pink, blue, orange);
 }
 
 // Remet les éléments de la carte et les perons
-void resetGame()
+void resetGame(
+	Player& player, 
+	Ghost& pink, 
+	Ghost& red,
+	Ghost& blue,
+	Ghost& orange
+)
 {
 	// Init les Pacgommes
+	dots = Coordinate::dots;
 	for (int i = 0; i < dots.size(); i++) {
 		dots[i].x = 4 * (dots[i].x + 1);
 		dots[i].y = 4 * (dots[i].y + 1) + 100;
@@ -99,12 +106,26 @@ void resetGame()
 	}
 
 	// Init les super Pacgommes
+	energizers = Coordinate::energizers;
 	for (int i = 0; i < energizers.size(); i++) {
 		energizers[i].x = 4 * (energizers[i].x + 1);
 		energizers[i].y = 4 * (energizers[i].y + 1) + 100;
 		energizers[i].w *= 4;
 		energizers[i].h *= 4;
 	}
+
+	// Remet tout les éléments à leur place
+	player.setEntityRect(Coordinate::pac_default_pos);
+	pink.setEntityRect(Coordinate::ghost_pink_default_pos);
+	red.setEntityRect(Coordinate::ghost_red_default_pos);
+	orange.setEntityRect(Coordinate::ghost_orange_default_pos);
+	blue.setEntityRect(Coordinate::ghost_blue_default_pos);
+
+	// Ghost reset spawn
+	pink.setOutSpawn(false);
+	red.setOutSpawn(false);
+	orange.setOutSpawn(false);
+	blue.setOutSpawn(false);
 }
 
 void draw(void) {
@@ -213,6 +234,12 @@ int main(int argc, char** argv) {
 		}
 	};
 
+	/*
+	0 red
+	1 pink
+	2 blue
+	3 orange
+	*/
 	init(pacman, ghosts[0], ghosts[2], ghosts[1],ghosts[3]);
 	Interface interface = {pWindow, win_surf, plancheSprites};
 	interface.titleScreen();
@@ -308,11 +335,17 @@ int main(int argc, char** argv) {
 		interface.drawScore(digits);
 		interface.drawLives(pacman.getLives());
 
+		// Check si la game est fini
+		if (dots.empty() && energizers.empty())
+			resetGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3]);
+
+
 		SDL_UpdateWindowSurface(pWindow);
 
 		// Limite à 60 FPS
 		SDL_Delay(vitesse_debug);	// Utiliser SDL_GetTicks64() pour
 									// plus de précision
+
 	}
 	SDL_Quit();
 

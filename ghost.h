@@ -84,6 +84,10 @@ class Ghost : public Person {
 			timerSpawn_--;
 		}
 
+		inline void setOutSpawn(bool inOrOut) {
+			outSpawn_ = inOrOut;
+		}
+
 
 	/* Methods */
 	public:
@@ -139,7 +143,7 @@ class Ghost : public Person {
 		/**
 		 * @brief Force la sortie du spawn en mettant wishDirection à UP
 		*/
-		void moveOutOfSpawn();
+		void moveOutOfSpawn(void);
 
 		Person::Direction oppositeDirection(Direction d);
 };
