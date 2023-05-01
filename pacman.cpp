@@ -88,8 +88,7 @@ void init(Player& player, Ghost& red, Ghost &pink, Ghost& blue, Ghost& orange) {
 }
 
 // Remet les éléments de la carte et les perons
-void resetGame()
-{
+void resetGame(void) {
 	// Init les Pacgommes
 	for (int i = 0; i < dots.size(); i++) {
 		dots[i].x = 4 * (dots[i].x + 1);
@@ -189,7 +188,7 @@ int main(int argc, char** argv) {
 			Coordinate::ghost_pink_default_pos,
 			Coordinate::ghost_pink_d[0],
 			1,
-			Person::UP,
+			Person::DOWN,
 			Person::UP,
 			1,
 			Ghost::WAIT,
@@ -284,7 +283,10 @@ int main(int argc, char** argv) {
 
 		for (int i = 0; i < ghosts.size(); i++) {
 			ghosts[i].enableGhost();
-			ghosts[i].aleaMove(walls, tunnels);
+			if (ghosts[i].getOutSpawn())
+				ghosts[i].aleaMove(walls, tunnels);
+			else
+				ghosts[i].moveOutOfSpawn(walls, tunnels);
 			ghosts[i].animation(count);
 		}
 

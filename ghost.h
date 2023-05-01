@@ -118,6 +118,17 @@ class Ghost : public Person {
 		 */
 		void enableGhost(void);
 
+		/**
+		 * @brief Centre la sortie des fantômes dans le spawn
+		 * 
+		 * @param walls les murs présents sur la carte
+		 * @param tunnels les tunnels présents sur la carte
+		 */
+		void moveOutOfSpawn(
+			std::vector<SDL_Rect> &walls,
+			std::vector<SDL_Rect> &tunnels
+		);
+
 	private:
 		/**
 		 * @brief Retourne un nombre aléatoire entre x et y
@@ -135,9 +146,6 @@ class Ghost : public Person {
 		 * @param y ordonnée
 		 */
 		void goCoordinate(int x, int y);
-
-
-		void moveOutOfSpawn();
 };
 
 #endif

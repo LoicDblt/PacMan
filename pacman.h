@@ -15,12 +15,17 @@
 
 /**
  * @brief Initialise le jeu et l'interface
- *
+ * 
+ * @param player pacman
+ * @param red fantôme rouge
+ * @param pink fantôme rose
+ * @param blue fantôme bleu
+ * @param orange fantôme orange
  */
 void init(Player& player, Ghost& red, Ghost &pink, Ghost& blue, Ghost& orange);
 
 /**
- * @brief Remet les dots, energizers, ghost à leur position
+ * @brief Remet les dots, energizers, ghosts à leur position
 */
 void resetGame(void);
 

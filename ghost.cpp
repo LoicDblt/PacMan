@@ -29,9 +29,39 @@ Ghost::Ghost(
 	timerSpawn_{timerSpawn}
 {}
 
-void Ghost::moveOutOfSpawn() {
-	this->setWishDirection(Person::UP);
-};
+void Ghost::moveOutOfSpawn(
+	std::vector<SDL_Rect> &walls,
+	std::vector<SDL_Rect> &tunnels
+) {
+	if (this->getStatus() == HUNTER) {
+		switch (this->getName()) {
+			case INKY:
+				if (this->entityRect_.x < Coordinate::ghost_pink_default_pos.x)
+					this->setWishDirection(RIGHT);
+
+				else if (
+					this->entityRect_.x == Coordinate::ghost_pink_default_pos.x
+				)
+					this->setWishDirection(UP);
+				break;
+
+
+			case CLYDE:
+				if (this->entityRect_.x > Coordinate::ghost_pink_default_pos.x)
+					this->setWishDirection(LEFT);
+
+				else if (
+					this->entityRect_.x == Coordinate::ghost_pink_default_pos.x
+				)
+					this->setWishDirection(UP);
+				break;
+
+			default:
+				break;
+		}
+		move(walls, tunnels);
+	}
+}
 
 void Ghost::aleaMove(
 	std::vector<SDL_Rect> &walls,
@@ -40,8 +70,6 @@ void Ghost::aleaMove(
 	// Ne sort pas du spawn et attend
 	if (this->getStatus() == WAIT)
 		return;
-
-	moveOutOfSpawn();
 
 	std::list<Direction> validDirection;
 	intersectionDirection(walls, validDirection);
