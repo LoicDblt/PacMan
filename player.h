@@ -13,7 +13,7 @@ class Player : public Person {
 		 * 10000/16 = 625
 		 * 16 = durée d'attente de SDL_Delay = 1 tour de boucle
 		 */
-		static const int PELLET_TIME = 625;
+		static const int TIMER_PELLET = 625;
 
 	private:
 		int slayerTime_{0};

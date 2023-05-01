@@ -10,12 +10,16 @@ class Ghost : public Person {
 	public:
 		/**
 		 * Etats possibles pour les fantômes
-		 * Hunter : chasse pacman
-		 * Prey : fuit pacman
-		 * Wait : attend de sortir du spawn
+		 * HUNTER : chasse pacman
+		 * PREY : fuit pacman
+		 * WAIT : attend de sortir du spawn
 		 */
 		enum State {HUNTER, PREY, WAIT};
 		enum Name {BLINKY, PINKY, INKY, CLYDE};
+		static const int TIMER_DEAD = 312;
+		static const int TIMER_PINK = 312;
+		static const int TIMER_BLUE = 624;
+		static const int TIMER_ORANGE = 936;
 
 	private:
 		SDL_Rect previousPosition_;
@@ -30,6 +34,7 @@ class Ghost : public Person {
 		State status_{WAIT};
 		bool outSpawn_{false};
 		Name name_;
+		int timerSpawn_{0};
 
 
 	/* Constructors */
@@ -45,7 +50,8 @@ class Ghost : public Person {
 			int healthPoints,
 			State status,
 			Name name,
-			bool outSpawn
+			bool outSpawn,
+			int timerSpawn
 		);
 
 
@@ -59,11 +65,23 @@ class Ghost : public Person {
 			return name_;
 		}
 
+		inline int getTimerSpawn(void) const {
+			return timerSpawn_;
+		}
+
 
 	/* Setters */
 	public:
 		inline void setStatus(State status) {
 			status_ = status;
+		}
+
+		inline void setTimerSpawn(int timerSpawn) {
+			timerSpawn_ = timerSpawn;
+		}
+
+		inline void decrementTimerSpawn(void) {
+			timerSpawn_--;
 		}
 
 
@@ -94,11 +112,11 @@ class Ghost : public Person {
 		void resetStatus(void);
 
 		/**
-		 * @brief Active le fantôme en lui changeant le status au bout d'un
-		 * 		  certain temps
+		 * @brief Active le fantôme en lui changeant le status lorsque son
+		 * 		  timer est à 0
 		 * 
 		 */
-		static void enableGhost(std::vector<Ghost> &ghosts, int count);
+		void enableGhost(void);
 
 	private:
 		/**

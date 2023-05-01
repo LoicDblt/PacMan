@@ -4,13 +4,12 @@ SDL_Window* pWindow = nullptr;
 SDL_Surface* win_surf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
 
-// Carte
-SDL_Rect src_bg =	{369, 3, 168, 216};
-SDL_Rect bg =		{4, 104, 672, 864}; // Mise à l'échelle x4
+// Carte (mise à l'échelle x4)
+SDL_Rect bg = {4, 104, 672, 864};
 
 // Personnages (mise à l'échelle x2)
-SDL_Rect ghost =	{34, 134, 32, 32};
-SDL_Rect pac =		{34, 134, 32, 32};
+SDL_Rect ghost = {34, 134, 32, 32};
+SDL_Rect pac = {34, 134, 32, 32};
 
 // Murs
 std::vector<SDL_Rect> walls = Coordinate::walls;
@@ -108,24 +107,23 @@ void resetGame()
 	}
 }
 
-// Fonction mettant à jour la surface de la fenêtre "win_surf"
 void draw(void) {
 	SDL_SetColorKey(plancheSprites, false, 0);
-	SDL_BlitScaled(plancheSprites, &src_bg, win_surf, &bg);
+	SDL_BlitScaled(plancheSprites, &Coordinate::backMap[0], win_surf, &bg);
 
 	// Couleur transparente
 	SDL_SetColorKey(plancheSprites, true, 0);
 
-	count = (count + 1)%(2048);
+	count = (count + 1) % (2048);
 
 	// Affichage Pacgommes
-	for (int i=0;i<dots.size();i++) {
+	for (int i = 0; i < dots.size(); i++) {
 		SDL_BlitScaled(plancheSprites, &Coordinate::dots_texture, win_surf,
 			&dots[i]);
 	}
 
 	// Affichage Super Pacgommes
-	for (int i=0;i<energizers.size();i++) {
+	for (int i = 0; i < energizers.size(); i++) {
 		SDL_BlitScaled(plancheSprites, &Coordinate::energizer_texture, win_surf,
 			&energizers[i]);
 	}
@@ -168,7 +166,8 @@ int main(int argc, char** argv) {
 			1,
 			Ghost::HUNTER,
 			Ghost::BLINKY,
-			true
+			true,
+			0
 		},
 
 		// Blue ghost
@@ -181,7 +180,8 @@ int main(int argc, char** argv) {
 			1,
 			Ghost::WAIT,
 			Ghost::INKY,
-			false
+			false,
+			Ghost::TIMER_BLUE
 		},
 
 		// Pink ghost
@@ -194,7 +194,8 @@ int main(int argc, char** argv) {
 			1,
 			Ghost::WAIT,
 			Ghost::PINKY,
-			false
+			false,
+			Ghost::TIMER_PINK
 		},
 
 		// Orange ghost
@@ -207,7 +208,8 @@ int main(int argc, char** argv) {
 			1,
 			Ghost::WAIT,
 			Ghost::CLYDE,
-			false
+			false,
+			Ghost::TIMER_ORANGE
 		}
 	};
 
@@ -280,9 +282,8 @@ int main(int argc, char** argv) {
 		pacman.checkPelletActive(ghosts, statsPac);
 		pacman.animation(count);
 
-		Ghost::enableGhost(ghosts, count);
-
 		for (int i = 0; i < ghosts.size(); i++) {
+			ghosts[i].enableGhost();
 			ghosts[i].aleaMove(walls, tunnels);
 			ghosts[i].animation(count);
 		}

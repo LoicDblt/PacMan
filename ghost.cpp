@@ -11,7 +11,8 @@ Ghost::Ghost(
 	int healthPoints,
 	State status,
 	Name name,
-	bool outSpawn
+	bool outSpawn,
+	int timerSpawn
 ):
 	Person{
 		entityRect,
@@ -24,7 +25,8 @@ Ghost::Ghost(
 	},
 	name_{name},
 	status_{status},
-	previousPosition_{entityRect}
+	previousPosition_{entityRect},
+	timerSpawn_{timerSpawn}
 {}
 
 void Ghost::aleaMove(
@@ -102,6 +104,7 @@ void Ghost::eated(void) {
 	this->setWishDirection(UP);
 	this->resetStatus();
 	this->setStatus(WAIT);
+	this->setTimerSpawn(Ghost::TIMER_DEAD);
 
 	switch (this->getName()) {
 		case BLINKY:
@@ -170,25 +173,9 @@ void Ghost::resetStatus(void) {
 	}
 }
 
-void Ghost::enableGhost(std::vector<Ghost> &ghosts, int count) {
-	// Départs à 5/10/15 secondes
-	switch (count) {
-		// Pink ghost
-		case 312:
-			ghosts[2].setStatus(HUNTER);
-			break;
-
-		// Blue ghost
-		case 624:
-			ghosts[1].setStatus(HUNTER);
-			break;
-
-		// Orange ghost
-		case 936:
-			ghosts[3].setStatus(HUNTER);
-			break;
-
-		default:
-			break;
-	}
+void Ghost::enableGhost(void) {
+	if (this->getStatus() == WAIT && this->getTimerSpawn() == 0)
+		this->setStatus(HUNTER);
+	else
+		this->decrementTimerSpawn();
 }
