@@ -65,6 +65,8 @@ class Stats {
 			score_ += ENERGIZER;
 		}
 
+
+	/* Methods */
 	public:
 		inline void addGhost(void) {
 			score_ += pow(GHOST, this->getGhostsEaten());
@@ -80,8 +82,6 @@ class Stats {
 			ghostsEaten_ = 0;
 		}
 
-
-	/* Methods */
 	public:
 		/**
 		 * @brief Update the score according to the type of what have been eaten
@@ -89,11 +89,6 @@ class Stats {
 		 * @param earnedPoints number of points earned
 		 */
 		void updateScore(int earnedPoints);
-
-		/**
-		 * @brief Write the score in the scores file
-		 */
-		void writeScore(void);
 
 		/**
 		 * @brief Read the scores file and return a vector of the "n" highest
@@ -118,6 +113,11 @@ class Stats {
 		 * @brief Check if the player has won the game
 		 */
 		void checkWon(void);
+
+		/**
+		 * @brief Write the score in the scores file
+		 */
+		void writeScore(void);
 };
 
 #endif

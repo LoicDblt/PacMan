@@ -57,7 +57,7 @@ class Coordinate {
 			{88, 123, 16, 16}};
 		inline static std::vector<SDL_Rect> ghost_red_d{{105, 123, 16, 16},
 			{122, 123, 16, 16}};
-		inline static SDL_Rect ghost_red_default_pos{81*4, (81*4)+100, 32, 32};
+		inline static SDL_Rect ghost_red_default_pos{324, 424, 32, 32};
 
 		// Coordonnées du fantôme bleu
 		inline static std::vector<SDL_Rect> ghost_blue_r{{3, 159, 16, 16},
@@ -69,7 +69,7 @@ class Coordinate {
 		inline static std::vector<SDL_Rect> ghost_blue_d{{105, 159, 16, 16},
 			{122, 159, 16, 16}};
 		inline static SDL_Rect ghost_blue_default_pos{
-			72*4, (101*4)+100, 32, 32};
+			288, 504, 32, 32};
 
 		// Coordonnées du fantôme rose
 		inline static std::vector<SDL_Rect> ghost_pink_r{{3, 141, 16, 16},
@@ -81,7 +81,7 @@ class Coordinate {
 		inline static std::vector<SDL_Rect> ghost_pink_d{{105, 141, 16, 16},
 			{122, 141, 16, 16}};
 		inline static SDL_Rect ghost_pink_default_pos{
-			81*4, (101*4)+100, 32, 32};
+			324, 504, 32, 32};
 
 		// Coordonnées du fantôme orange
 		inline static std::vector<SDL_Rect> ghost_orange_r{{3, 177, 16, 16},
@@ -93,7 +93,7 @@ class Coordinate {
 		inline static std::vector<SDL_Rect> ghost_orange_d{{105, 177, 16, 16},
 			{122, 177, 16, 16}};
 		inline static SDL_Rect ghost_orange_default_pos{
-			90*4, (101*4)+100, 32, 32};
+			360, 504, 32, 32};
 
 		// Coordonnées du fantôme appeuré
 		inline static std::vector<SDL_Rect> ghost_afraid_blue{{3, 195, 16, 16},
@@ -189,7 +189,7 @@ class Coordinate {
 		/*
 		 * =============== SORTIE SPAWN =======================
 		*/
-		inline static SDL_Rect door{80*4, (89*4)+100, 8*4, 8*4};
+		inline static SDL_Rect door{320, 456, 32, 32};
 
 
 		/*
