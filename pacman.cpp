@@ -23,7 +23,7 @@ std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 int count;
 
-void init(Player& player, Ghost& red, Ghost &pink, Ghost& blue, Ghost& orange) {
+void init(Player &player, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange) {
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, Interface::WINDOW_WIDTH,
 		Interface::WINDOW_HEIGHT, SDL_WINDOW_SHOWN);

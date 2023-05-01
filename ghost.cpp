@@ -29,36 +29,44 @@ Ghost::Ghost(
 	timerSpawn_{timerSpawn}
 {}
 
+Person::Direction Ghost::oppositeDirection(Direction d) {
+	Direction res = Person::NONE;
+	switch (d)
+	{
+	case Person::UP:
+		res = Person::DOWN;
+		break;
+	case Person::DOWN:
+		res = Person::UP;
+		break;
+	case Person::LEFT:
+		res = Person::RIGHT;
+		break;
+	case Person::RIGHT:
+		res = Person::LEFT;
+		break;
+	default:
+		res = Person::NONE;
+		break;
+	}
+
+	return res;
+}
+
 void Ghost::moveOutOfSpawn(
 	std::vector<SDL_Rect> &walls,
 	std::vector<SDL_Rect> &tunnels
 ) {
 	if (this->getStatus() == HUNTER) {
-		switch (this->getName()) {
-			case INKY:
-				if (this->entityRect_.x < Coordinate::ghost_pink_default_pos.x)
-					this->setWishDirection(RIGHT);
+		if (this->getX() == Coordinate::ghost_pink_default_pos.x)
+			this->setWishDirection(Person::UP);
 
-				else if (
-					this->entityRect_.x == Coordinate::ghost_pink_default_pos.x
-				)
-					this->setWishDirection(UP);
-				break;
+		else if (this->getX() < Coordinate::ghost_pink_default_pos.x)
+			this->setWishDirection(Person::RIGHT);
 
+		else
+			this->setWishDirection(Person::LEFT);
 
-			case CLYDE:
-				if (this->entityRect_.x > Coordinate::ghost_pink_default_pos.x)
-					this->setWishDirection(LEFT);
-
-				else if (
-					this->entityRect_.x == Coordinate::ghost_pink_default_pos.x
-				)
-					this->setWishDirection(UP);
-				break;
-
-			default:
-				break;
-		}
 		move(walls, tunnels);
 	}
 }
@@ -74,12 +82,14 @@ void Ghost::aleaMove(
 	std::list<Direction> validDirection;
 	intersectionDirection(walls, validDirection);
 
+	//validDirection.remove(previousDirection_);
+
 	// Si à une intersection de 3 chemins minimum
 	int size = validDirection.size();
 	auto iterList = validDirection.begin();
 
-	if (size > 2 && this->getOutSpawn()) {
-		int nb = aleaRand(1,size);
+	if (size == 3) {
+		int nb = aleaRand(0,size-1);
 		std::advance(iterList, nb);
 		setWishDirection(*iterList);
 	}

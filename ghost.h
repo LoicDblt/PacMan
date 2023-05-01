@@ -146,6 +146,14 @@ class Ghost : public Person {
 		 * @param y ordonnée
 		 */
 		void goCoordinate(int x, int y);
+
+		/**
+		 * @brief Retourne la direction opposée à celle donnée
+		 * 
+		 * @param d direction à inverser
+		 * @return Person::Direction 
+		 */
+		Person::Direction oppositeDirection(Direction d);
 };
 
 #endif
