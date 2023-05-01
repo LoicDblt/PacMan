@@ -136,8 +136,12 @@ class Ghost : public Person {
 		 */
 		void goCoordinate(int x, int y);
 
-
+		/**
+		 * @brief Force la sortie du spawn en mettant wishDirection à UP
+		*/
 		void moveOutOfSpawn();
+
+		Person::Direction oppositeDirection(Direction d);
 };
 
 #endif
