@@ -45,10 +45,8 @@ void Player::checkPostion(
 ) {
 	onElement(dots, statsPac, Stats::DOT);
 	if (onElement(energizers, statsPac, Stats::ENERGIZER)) {
-		this->setSlayerTime(PELLET_TIME);
+		this->setSlayerTime(TIMER_PELLET);
 		for (int i = 0; i < ghosts.size(); i++) {
-			if (ghosts[i].getStatus() != Ghost::HUNTER)
-				continue;
 			ghosts[i].setStatus(Ghost::PREY);
 			ghosts[i].setAnimation(
 				Coordinate::ghost_afraid_blue,
@@ -90,10 +88,9 @@ void Player::checkGhost(std::vector<Ghost> &ghosts, Stats &statsPac) {
 	}
 }
 
-void Player::checkPelletActive(std::vector<Ghost>  &ghosts, Stats &statsPac) {
+void Player::checkPelletActive(std::vector<Ghost> &ghosts, Stats &statsPac) {
 	if (this->getSlayerTime() > 0)
 		this->setSlayerTime(-1);
-	
 	else {
 		for (int i = 0; i < ghosts.size(); i++) {
 			if (ghosts[i].getStatus() == Ghost::PREY) {

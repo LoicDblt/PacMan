@@ -12,15 +12,27 @@ class Coordinate {
 
 	public:
 		/*
+		 * =============== FOND DE CARTE ======================
+		*/
+		inline static std::vector<SDL_Rect> backMap{{369, 3, 168, 216},
+			{540, 3, 168, 216}};
+
+
+		/*
+		 * =============== FRUITS =============================
+		*/
+		inline static std::vector<SDL_Rect> cherry{{289, 257, 14, 14},
+			{289, 237, 14, 14}};
+
+
+		/*
 		 * =============== PERSONNAGES ========================
-		 * La terminaison de chaque coordonnées à
-		 * son sens (voir ci-dessous):
+		 * Terminaison des variables :
 		 * b -> "base"
 		 * r -> "right"
 		 * l -> "left"
 		 * d -> "down"
 		 * u -> "up"
-		 * Format (x, y, w, h)
 		*/
 		// Coordonnées de Pacman
 		inline static SDL_Rect pacLives{14, 976, 32, 32};

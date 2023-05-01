@@ -121,7 +121,7 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity) {
 }
 
 void Person::animation(int count) {
-	if (count%5 == 0) {
+	if (count % 5 == 0) {
 		if (tmpAnimation_ == 1)
 			tmpAnimation_ = 0;
 		else
