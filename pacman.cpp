@@ -23,7 +23,7 @@ std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 int count;
 
-void init(Player& player, Ghost& red, Ghost &pink, Ghost& blue, Ghost& orange) {
+void init(Player &player, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange) {
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, Interface::WINDOW_WIDTH,
 		Interface::WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
@@ -210,7 +210,7 @@ int main(int argc, char** argv) {
 			Coordinate::ghost_pink_default_pos,
 			Coordinate::ghost_pink_d[0],
 			1,
-			Person::UP,
+			Person::DOWN,
 			Person::UP,
 			1,
 			Ghost::WAIT,
@@ -278,6 +278,12 @@ int main(int argc, char** argv) {
 		if (keys[SDL_SCANCODE_ESCAPE])
 			quit = true;
 
+		// Reset Game on W
+		else if (keys[SDL_SCANCODE_W]){
+			resetGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3]);
+			std::cout << "W is tape" << std::endl;
+		}
+
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT])
 			pacman.setWishDirection(Person::RIGHT);
@@ -293,7 +299,7 @@ int main(int argc, char** argv) {
 		// Bas
 		else if (keys[SDL_SCANCODE_DOWN])
 			pacman.setWishDirection(Person::DOWN);
-
+		
 		// Debug vitesse
 		else if (keys[SDL_SCANCODE_SPACE]) {
 			if (vitesse_debug == 16)
@@ -311,7 +317,10 @@ int main(int argc, char** argv) {
 
 		for (int i = 0; i < ghosts.size(); i++) {
 			ghosts[i].enableGhost();
-			ghosts[i].aleaMove(walls, tunnels);
+			if (ghosts[i].getOutSpawn())
+				ghosts[i].aleaMove(walls, tunnels);
+			else
+				ghosts[i].moveOutOfSpawn(walls, tunnels);
 			ghosts[i].animation(count);
 		}
 

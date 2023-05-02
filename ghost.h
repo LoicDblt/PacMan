@@ -92,6 +92,17 @@ class Ghost : public Person {
 	/* Methods */
 	public:
 		/**
+		 * @brief Centre la sortie des fantômes dans le spawn
+		 * 
+		 * @param walls les murs présents sur la carte
+		 * @param tunnels les tunnels présents sur la carte
+		 */
+		void moveOutOfSpawn(
+			std::vector<SDL_Rect> &walls,
+			std::vector<SDL_Rect> &tunnels
+		);
+
+		/**
 		 * @brief Déplace le fantôme aléatoire sur la carte
 		 *
 		 * @param walls les murs présents sur la carte
@@ -145,6 +156,12 @@ class Ghost : public Person {
 		*/
 		void moveOutOfSpawn(void);
 
+		/**
+		 * @brief Retourne la direction opposée à celle donnée
+		 * 
+		 * @param d direction à inverser
+		 * @return Person::Direction 
+		 */
 		Person::Direction oppositeDirection(Direction d);
 };
 

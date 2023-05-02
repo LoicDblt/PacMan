@@ -62,6 +62,24 @@ Person::Direction Ghost::oppositeDirection(Direction d) {
 	return res;
 }
 
+void Ghost::moveOutOfSpawn(
+	std::vector<SDL_Rect> &walls,
+	std::vector<SDL_Rect> &tunnels
+) {
+	if (this->getStatus() == HUNTER) {
+		if (this->getX() == Coordinate::ghost_pink_default_pos.x)
+			this->setWishDirection(Person::UP);
+
+		else if (this->getX() < Coordinate::ghost_pink_default_pos.x)
+			this->setWishDirection(Person::RIGHT);
+
+		else
+			this->setWishDirection(Person::LEFT);
+
+		move(walls, tunnels);
+	}
+}
+
 void Ghost::aleaMove(
 	std::vector<SDL_Rect> &walls,
 	std::vector<SDL_Rect> &tunnels
@@ -69,9 +87,6 @@ void Ghost::aleaMove(
 	// Ne sort pas du spawn et attend
 	if (this->getStatus() == WAIT)
 		return;
-	
-	if (this->getOutSpawn() == false)
-		moveOutOfSpawn();
 
 	std::list<Direction> validDirection;
 	intersectionDirection(walls, validDirection);

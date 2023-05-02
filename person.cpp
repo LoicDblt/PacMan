@@ -108,6 +108,7 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity) {
 		else {
 			if (this->checkOutSpawn(entity))
 				this->setOutSpawn();
+
 			return false;
 		}
 	}
@@ -219,5 +220,6 @@ bool Person::checkOutSpawn(SDL_Rect &entity) {
 		this->entityRect_.y = Coordinate::door.y - 32;
 		return true;
 	}
+
 	return false;
 }
