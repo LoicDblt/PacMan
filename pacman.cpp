@@ -87,15 +87,13 @@ void init(Player &player, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange) {
 	resetGame(player, red, pink, blue, orange);
 }
 
-// Remet les éléments de la carte et les perons
 void resetGame(
-	Player& player, 
-	Ghost& pink, 
-	Ghost& red,
-	Ghost& blue,
-	Ghost& orange
-)
-{
+	Player &player,
+	Ghost &red,
+	Ghost &pink,
+	Ghost &blue,
+	Ghost &orange
+) {
 	// Init les Pacgommes
 	dots = Coordinate::dots;
 	for (int i = 0; i < dots.size(); i++) {
@@ -299,7 +297,7 @@ int main(int argc, char** argv) {
 		// Bas
 		else if (keys[SDL_SCANCODE_DOWN])
 			pacman.setWishDirection(Person::DOWN);
-		
+
 		// Debug vitesse
 		else if (keys[SDL_SCANCODE_SPACE]) {
 			if (vitesse_debug == 16)
