@@ -16,6 +16,10 @@ void Interface::titleScreen(void) {
 	int windowWidth, windowHeight;
 	SDL_GetWindowSize(this->getWindow(), &windowWidth, &windowHeight);
 
+	// Reset le background
+	SDL_Rect background{0, 0, windowWidth, windowHeight};
+	drawRectangle(background);
+
 	// Affichage des logos
 	SDL_BlitScaled(this->getSprites(), &Coordinate::pacmanLogo,
 		this->getSurface(), &Coordinate::posPacmanLogo);

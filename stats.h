@@ -108,16 +108,16 @@ class Stats {
 		 */
 		static std::vector<int> uncomposeNumber(int number);
 
+		/**
+		 * @brief Write the score in the scores file
+		 */
+		void writeScore(void);
+
 	private:
 		/**
 		 * @brief Check if the player has won the game
 		 */
 		void checkWon(void);
-
-		/**
-		 * @brief Write the score in the scores file
-		 */
-		void writeScore(void);
 };
 
 #endif

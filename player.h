@@ -3,6 +3,7 @@
 
 #include "coordinate.h"
 #include "ghost.h"
+#include "interface.h"
 #include "person.h"
 #include "stats.h"
 
@@ -84,8 +85,13 @@ class Player : public Person {
 		 *
 		 * @param ghosts à vérifier et à renvoyer au spawn si en mode apeuré
 		 * @param statsPac à mettre à jour en fonction des points
+		 * @param interface afficher l'écran de titre si plus de vie
 		 */
-		void checkGhost(std::vector<Ghost> &ghosts, Stats &statsPac);
+		void checkGhost(
+			std::vector<Ghost> &ghosts,
+			Stats &statsPac,
+			Interface &interface
+		);
 
 		/**
 		 * @brief Vérifie si le joueur est encore en mode slayer
@@ -95,6 +101,14 @@ class Player : public Person {
 		 * 				   ghosts tués pendant la période slayer
 		 */
 		void checkPelletActive(std::vector<Ghost> &ghost, Stats &statsPac);
+
+		/**
+		 * @brief Vérifie si le joueur est mort
+		 * 
+		 * @param statsPac pour écrire le score
+		 * @param interface afficher l'écran de titre si plus de vie
+		 */
+		void isDead(Stats &statsPac, Interface &interface);
 };
 
 #endif

@@ -58,7 +58,18 @@ void Player::checkPostion(
 	}
 }
 
-void Player::checkGhost(std::vector<Ghost> &ghosts, Stats &statsPac) {
+void Player::isDead(Stats &statsPac, Interface &interface) {
+	if (this->getLives() == 0) {
+		statsPac.writeScore();
+		interface.titleScreen();
+	}
+}
+
+void Player::checkGhost(
+	std::vector<Ghost> &ghosts,
+	Stats &statsPac,
+	Interface &interface
+) {
 	for (int i = 0; i < ghosts.size(); i++) {
 		if (
 			SDL_HasIntersection(
@@ -72,11 +83,7 @@ void Player::checkGhost(std::vector<Ghost> &ghosts, Stats &statsPac) {
 
 			else {
 				this->lostLive();
-
-				if (this->getLives() == 0) {
-					puts("PacMan est mort !");
-					exit(0); // Gérer la fin du jeu <=========================== TODO
-				}
+				this->isDead(statsPac, interface);
 
 				// Reset PacMan à sa position d'origine
 				this->setEntityRect(Coordinate::pac_default_pos);

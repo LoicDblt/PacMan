@@ -309,7 +309,7 @@ int main(int argc, char** argv) {
 		// On fait bouger PacMan
 		pacman.move(walls, tunnels);
 		pacman.checkPostion(dots, energizers, statsPac, ghosts);
-		pacman.checkGhost(ghosts, statsPac);
+		pacman.checkGhost(ghosts, statsPac, interface);
 		pacman.checkPelletActive(ghosts, statsPac);
 		pacman.animation(count);
 
@@ -345,7 +345,6 @@ int main(int argc, char** argv) {
 		// Check si la game est fini
 		if (dots.empty() && energizers.empty())
 			resetGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3]);
-
 
 		SDL_UpdateWindowSurface(pWindow);
 
