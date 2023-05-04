@@ -68,7 +68,7 @@ class Stats {
 	/* Méthodes */
 	public:
 		inline void addGhost(void) {
-			score_ += pow(GHOST, this->getGhostsEaten());
+			score_ += GHOST * pow(2, this->getGhostsEaten() - 1);
 		}
 
 		inline void addGhostsEaten(void) {

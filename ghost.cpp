@@ -174,6 +174,7 @@ void Ghost::eated(void) {
 
 		case PINKY:
 			this->setEntityRect(Coordinate::ghostPinkDefaultPos);
+			this->setDirection(DOWN);
 			break;
 
 		case INKY:
