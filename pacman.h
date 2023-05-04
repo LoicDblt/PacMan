@@ -16,7 +16,7 @@
 /**
  * @brief Initialise le jeu et l'interface
  *
- * @param player pacman
+ * @param player Pac-Man
  * @param red fantôme rouge
  * @param blue fantôme bleu
  * @param pink fantôme rose
@@ -35,7 +35,7 @@ void initGame(
 /**
  * @brief Replace les dots, energizers, ghosts à leur position d'origine
  *
- * @param player pacman
+ * @param player Pac-Man
  * @param red fantôme rouge
  * @param blue fantôme bleu
  * @param pink fantôme rose

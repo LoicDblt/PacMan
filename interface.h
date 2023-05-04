@@ -50,7 +50,7 @@ class Interface {
 	public:
 		/**
 		 * @brief Affiche l'écran titre
-		 * 		- Logo Pacman
+		 * 		- Logo Pac-Man
 		 * 		- Les scores (actuel et maximum)
 		 * 		- Le message "Push space key"
 		 * 		- Les 10 meilleurs scores
@@ -70,7 +70,7 @@ class Interface {
 		void drawScore(std::vector<int> digits);
 
 		/**
-		 * @brief Affiche le nombre de vies restantes (sous forme de Pacman)
+		 * @brief Affiche le nombre de vies restantes (sous forme de Pac-Man)
 		 *
 		 * @param healthPoints nombre de vies restantes à afficher
 		 */

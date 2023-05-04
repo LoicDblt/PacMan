@@ -10,10 +10,10 @@ class Ghost : public Person {
 	/* Variables et constantes */
 	public:
 		/**
-		 * Etats possibles pour les fantômes
-		 * HUNTER : chasse pacman
-		 * PREY : fuit pacman
-		 * WAIT : attend de sortir du spawn
+		 * Etats possibles pour les fantômes :
+		 * - HUNTER : chasse Pac-Man
+		 * - PREY : fuit Pac-Man
+		 * - WAIT : attend de sortir du spawn
 		 */
 		enum State {HUNTER, PREY, WAIT};
 		enum Name {BLINKY, PINKY, INKY, CLYDE};

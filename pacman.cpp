@@ -33,7 +33,7 @@ void initGame(
 	Stats &statsPac
 ) {
 	// Créé la fenêtre de jeu
-	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
+	pWindow = SDL_CreateWindow("Pac-Man", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, Interface::WINDOW_WIDTH,
 		Interface::WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
@@ -177,7 +177,7 @@ int main(int argc, char** argv) {
 		return EXIT_FAILURE;
 	}
 
-	// PacMan
+	// Pac-Man
 	Player pacman{
 		Coordinate::pacDefaultPos,
 		Coordinate::pacB[0],
@@ -319,7 +319,7 @@ int main(int argc, char** argv) {
 
 
 		/**
-		 * Vérifie si PacMan et mort et attend une entrée pour recommencer
+		 * Vérifie si Pac-Man et mort et attend une entrée pour recommencer
 		 * la partie
 		 */
 		if (pacman.isDead(statsPac, interface)) {
@@ -336,7 +336,7 @@ int main(int argc, char** argv) {
 		// Affichage du fond
 		draw();
 
-		// Mets à jour l'affichage de PacMan et des fantômes
+		// Mets à jour l'affichage de Pac-Man et des fantômes
 		pacBuffer = pacman.getEntityPic();
 		pacIn = &(pacBuffer);
 		SDL_BlitScaled(plancheSprites, pacIn, winSurf, &pacman.getEntityRect());

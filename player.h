@@ -55,7 +55,7 @@ class Player : public Person {
 		/**
 		 * @brief Vérifie si le joueur est sur un élément
 		 *
-		 * @param pac pacman
+		 * @param pac Pac-Man
 		 * @param statsPac les stats à mettre à jour en fonction des points
 		 * @param element pacgommes ou super pacgommes
 		 * @return true si le joueur est sur un élément

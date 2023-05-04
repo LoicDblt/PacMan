@@ -12,21 +12,21 @@ class Coordinate {
 		static const int NUMBER_TEXTURE_WIDTH{18};
 
 	public:
-		/*
+		/**
 		 * =============== FOND DE CARTE ======================
-		*/
+		 */
 		inline static std::vector<SDL_Rect> backMap{{369, 3, 168, 216},
 			{540, 3, 168, 216}};
 
 
-		/*
+		/**
 		 * =============== FRUITS =============================
-		*/
+		 */
 		inline static std::vector<SDL_Rect> cherry{{289, 257, 14, 14},
 			{289, 237, 14, 14}};
 
 
-		/*
+		/**
 		 * =============== PERSONNAGES ========================
 		 * Terminaison des variables :
 		 * b -> "base"
@@ -34,8 +34,8 @@ class Coordinate {
 		 * l -> "left"
 		 * d -> "down"
 		 * u -> "up"
-		*/
-		// Coordonnées de Pacman
+		 */
+		// Coordonnées de Pac-Man
 		inline static SDL_Rect pacLives{14, 976, 32, 32};
 
 		inline static std::vector<SDL_Rect> pacB{{3, 89, 16, 16}};
@@ -103,9 +103,9 @@ class Coordinate {
 			{37, 195, 16, 16}, {54, 195, 16, 16}};
 
 
-		/*
+		/**
 		 * =============== MURS ===============================
-		*/
+		 */
 		inline static std::vector<SDL_Rect> walls{
 			// ============= Murs de bordure =======
 			// Zone haut gauche
@@ -187,15 +187,15 @@ class Coordinate {
 		};
 
 
-		/*
+		/**
 		 * =============== SORTIE SPAWN =======================
-		*/
+		 */
 		inline static SDL_Rect door{320, 456, 32, 32};
 
 
-		/*
+		/**
 		 * =============== TUNNELS ============================
-		*/
+		 */
 		inline static std::vector<SDL_Rect> tunnels{
 			// Droite
 			{166, 103, 1, 10},
@@ -205,9 +205,9 @@ class Coordinate {
 		};
 
 
-		/*
+		/**
 		 * =============== PACGOMME "dots" ====================
-		*/
+		 */
 		inline static SDL_Rect dotsTexture{4, 81, 2, 2};
 		inline static std::vector<SDL_Rect> dots{
 			// ============= Ligne 1 ===============
@@ -388,7 +388,6 @@ class Coordinate {
 			{75, 155, 1, 1},
 			{75, 195, 1, 1},
 
-			/* A partir d'ici symétrie */
 			// ============== Colonne 6 ============
 			{91, 19, 1, 1},
 			{91, 27, 1, 1},
@@ -434,9 +433,9 @@ class Coordinate {
 			{155, 195, 1, 1}
 		};
 
-		/*
+		/**
 		 * =============== SUPER PACGOMME "energizer" =========
-		*/
+		 */
 		inline static SDL_Rect energizerTexture{9, 79, 7, 7};
 		inline static std::vector<SDL_Rect> energizers{
 			{8, 24, 7, 7},
@@ -446,9 +445,9 @@ class Coordinate {
 		};
 
 
-		/*
+		/**
 		 * =============== ALPHABET ===========================
-		*/
+		 */
 		inline static SDL_Rect alphabetTexture{25, 25, ALPHABET_TEXTURE_WIDTH,
 			18};
 		inline static std::vector<SDL_Rect> alphabet{
@@ -483,9 +482,9 @@ class Coordinate {
 			{83, 68, 9, 9}
 		};
 
-		/*
+		/**
 		 * =============== CHIFFRES ===========================
-		*/
+		 */
 		inline static SDL_Rect numberTexture{25, 50, NUMBER_TEXTURE_WIDTH,
 			18};
 		inline static std::vector<SDL_Rect> number{
@@ -502,9 +501,9 @@ class Coordinate {
 		};
 
 
-		/*
+		/**
 		 * =============== WORDS ==============================
-		*/
+		 */
 		inline static std::vector<int> indexScore{18, 2, 14, 17, 4};
 		inline static std::vector<int> indexHigh{7, 8, 6, 7};
 		inline static std::vector<int> indexRank{17, 0, 13, 10};
@@ -515,9 +514,9 @@ class Coordinate {
 		};
 
 
-		/*
+		/**
 		 * =============== MENU ===============================
-		*/
+		 */
 		inline static SDL_Rect pacmanLogo{3, 3, 182, 48};
 		inline static SDL_Rect posPacmanLogo{67, 100, 546, 144};
 		inline static SDL_Rect namcoLogo{27, 77, 62, 10};

@@ -91,7 +91,7 @@ void Player::checkGhost(
 			else if (ghosts[i].getStatus() == Ghost::HUNTER) {
 				this->lostHelthPoint();
 
-				// Reset PacMan à sa position d'origine
+				// Reset Pac-Man à sa position d'origine
 				this->setEntityRect(Coordinate::pacDefaultPos);
 				this->setEntityPic(Coordinate::pacB[0]);
 				this->setDirection(Person::NONE);

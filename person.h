@@ -133,7 +133,7 @@ class Person : public Entity {
 		 * @brief Vérifie si il y a un mur dans la direction donnée
 		 *
 		 * @param walls les murs présents sur la carte
-		 * @param entity le personnage (pacman ou les ghosts)
+		 * @param entity le personnage (Pac-Man ou les fantômes)
 		 * @return true si il y a un mur
 		 * @return false si il n'y a pas de mur
 		 */
@@ -164,7 +164,7 @@ class Person : public Entity {
 		/**
 		 * @brief Vérifie si le personnage est sorti de la zone de spawn
 		 *
-		 * @param entity le personnage (ghosts)
+		 * @param entity le personnage (fantômes)
 		 * @return true s'il a franchi la porte
 		 * @return false s'il n'a pas franchi la porte
 		 */
