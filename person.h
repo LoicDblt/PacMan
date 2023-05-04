@@ -9,6 +9,7 @@
 #include "entity.h"
 
 class Person : public Entity {
+	/* Variables et constantes */
 	public:
 		enum Direction {UP, DOWN, RIGHT, LEFT, NONE};
 		enum CaracterType {PACMAN, GRED, GPINK, GBLUE, GORANGE};
@@ -27,7 +28,7 @@ class Person : public Entity {
 		bool outSpawn_{true};
 
 
-	/* Constructors */
+	/* Constructeurs et destructeur */
 	public:
 		Person() = default;
 		Person(
@@ -61,7 +62,7 @@ class Person : public Entity {
 			return direction_;
 		}
 
-		inline int getLives(void) const {
+		inline int getHelthPoints(void) const {
 			return healthPoints_;
 		}
 
@@ -84,7 +85,11 @@ class Person : public Entity {
 			wishDirection_ = wishDirection;
 		}
 
-		inline void lostLive(void) {
+		inline void setHelthPoints(int healthPoints) {
+			healthPoints_ = healthPoints;
+		}
+
+		inline void lostHelthPoint(void) {
 			healthPoints_ -= 1;
 		}
 
@@ -105,7 +110,7 @@ class Person : public Entity {
 		}
 
 
-	/* Methods */
+	/* Méthodes */
 	public:
 		/**
 		 * @brief Déplace le personnage si la direction est accessible

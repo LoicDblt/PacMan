@@ -7,6 +7,7 @@
 #include "person.h"
 
 class Ghost : public Person {
+	/* Variables et constantes */
 	public:
 		/**
 		 * Etats possibles pour les fantômes
@@ -37,7 +38,7 @@ class Ghost : public Person {
 		int timerSpawn_{0};
 
 
-	/* Constructors */
+	/* Constructeurs et destructeur */
 	public:
 		Ghost() = default;
 		~Ghost();
@@ -89,7 +90,7 @@ class Ghost : public Person {
 		}
 
 
-	/* Methods */
+	/* Méthodes */
 	public:
 		/**
 		 * @brief Centre la sortie des fantômes dans le spawn
@@ -141,7 +142,7 @@ class Ghost : public Person {
 		 * @param y borne haute
 		 * @return int le nombre aléatoire
 		 */
-		int aleaRand(int x , int y);
+		int aleaRand(int x, int y);
 
 		/**
 		 * @brief [TODO] Permet d'aller à des coordonnées donnée
@@ -159,10 +160,10 @@ class Ghost : public Person {
 		/**
 		 * @brief Retourne la direction opposée à celle donnée
 		 * 
-		 * @param d direction à inverser
+		 * @param direction à inverser
 		 * @return Person::Direction 
 		 */
-		Person::Direction oppositeDirection(Direction d);
+		Person::Direction oppositeDirection(Direction direction);
 };
 
 #endif

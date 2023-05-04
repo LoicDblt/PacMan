@@ -45,24 +45,25 @@ void Player::checkPostion(
 ) {
 	onElement(dots, statsPac, Stats::DOT);
 	if (onElement(energizers, statsPac, Stats::ENERGIZER)) {
-		this->setSlayerTime(TIMER_PELLET);
+		this->setPelletTime(TIMER_PELLET);
 		for (int i = 0; i < ghosts.size(); i++) {
 			ghosts[i].setStatus(Ghost::PREY);
 			ghosts[i].setAnimation(
-				Coordinate::ghost_afraid_blue,
-				Coordinate::ghost_afraid_blue,
-				Coordinate::ghost_afraid_blue,
-				Coordinate::ghost_afraid_blue
+				Coordinate::ghostAfraidBlue,
+				Coordinate::ghostAfraidBlue,
+				Coordinate::ghostAfraidBlue,
+				Coordinate::ghostAfraidBlue
 			);
 		}
 	}
 }
 
-void Player::isDead(Stats &statsPac, Interface &interface) {
-	if (this->getLives() == 0) {
+bool Player::isDead(Stats &statsPac, Interface &interface) {
+	if (this->getHelthPoints() == 0) {
 		statsPac.writeScore();
-		interface.titleScreen();
+		return true;
 	}
+	return false;
 }
 
 void Player::checkGhost(
@@ -73,7 +74,9 @@ void Player::checkGhost(
 	for (int i = 0; i < ghosts.size(); i++) {
 		if (
 			SDL_HasIntersection(
-				&this->getEntityRect(), &ghosts[i].getEntityRect())
+				&this->getEntityRect(),
+				&ghosts[i].getEntityRect()
+			)
 		) {
 			if (ghosts[i].getStatus() == Ghost::PREY) {
 				statsPac.addGhostsEaten();
@@ -81,13 +84,12 @@ void Player::checkGhost(
 				ghosts[i].eated();
 			}
 
-			else {
-				this->lostLive();
-				this->isDead(statsPac, interface);
+			else if (ghosts[i].getStatus() == Ghost::HUNTER) {
+				this->lostHelthPoint();
 
 				// Reset PacMan à sa position d'origine
-				this->setEntityRect(Coordinate::pac_default_pos);
-				this->setEntityPic(Coordinate::pac_b[0]);
+				this->setEntityRect(Coordinate::pacDefaultPos);
+				this->setEntityPic(Coordinate::pacB[0]);
 				this->setDirection(Person::NONE);
 				this->setWishDirection(Person::NONE);
 			}
@@ -96,8 +98,8 @@ void Player::checkGhost(
 }
 
 void Player::checkPelletActive(std::vector<Ghost> &ghosts, Stats &statsPac) {
-	if (this->getSlayerTime() > 0)
-		this->setSlayerTime(-1);
+	if (this->getPelletTime() > 0)
+		this->setPelletTime(-1);
 	else {
 		for (int i = 0; i < ghosts.size(); i++) {
 			if (ghosts[i].getStatus() == Ghost::PREY) {

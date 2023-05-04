@@ -6,6 +6,7 @@
 #include <SDL.h>
 
 class Entity {
+	/* Variables */
 	private:
 		SDL_Rect entityPicture_{};
 
@@ -13,7 +14,7 @@ class Entity {
 		SDL_Rect entityRect_{};
 
 
-	/* Constructors */
+	/* Constructeurs et destructeur */
 	public:
 		Entity() = default;
 		Entity(

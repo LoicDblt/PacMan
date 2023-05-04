@@ -8,10 +8,11 @@
 #include "stats.h"
 
 class Interface {
+	/* Variables et constantes */
 	public:
-		static const int WINDOW_WIDTH = 680;
-		static const int WINDOW_HEIGHT = 1022;
-		static const int DELAY = 16;
+		static const int WINDOW_WIDTH{680};
+		static const int WINDOW_HEIGHT{1022};
+		static const int DELAY{16};
 
 	private:
 		SDL_Window* window_ = nullptr;
@@ -19,7 +20,7 @@ class Interface {
 		SDL_Surface* sprites_ = nullptr;
 
 
-	/* Constructors */
+	/* Constructeurs et destructeur */
 	public:
 		Interface() = default;
 		Interface(
@@ -45,7 +46,7 @@ class Interface {
 		}
 
 
-	/* Methods */
+	/* Méthodes */
 	public:
 		/**
 		 * @brief Affiche l'écran titre
@@ -54,8 +55,12 @@ class Interface {
 		 * 		- Le message "Push space key"
 		 * 		- Les 10 meilleurs scores
 		 * 		- Le logo Namco
+		 *	
+		 * @param statsPac statistiques de la partie
+		 * @return true si l'utilisateur a appuyé sur la touche échap
+		 * @return false si l'utilisateur a appuyé sur la touche espace
 		 */
-		void titleScreen(void);
+		bool titleScreen(Stats &statsPac);
 
 		/**
 		 * @brief Mets à jour le score pendant la partie
@@ -67,9 +72,9 @@ class Interface {
 		/**
 		 * @brief Affiche le nombre de vies restantes (sous forme de Pacman)
 		 *
-		 * @param lives nombre de vies restantes à afficher
+		 * @param healthPoints nombre de vies restantes à afficher
 		 */
-		void drawLives(int lives);
+		void drawLives(int healthPoints);
 
 	private:
 		/**

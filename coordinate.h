@@ -6,6 +6,7 @@
 #include <vector>
 
 class Coordinate {
+	/* Constantes */
 	public:
 		static const int ALPHABET_TEXTURE_WIDTH{18};
 		static const int NUMBER_TEXTURE_WIDTH{18};
@@ -37,68 +38,68 @@ class Coordinate {
 		// Coordonnées de Pacman
 		inline static SDL_Rect pacLives{14, 976, 32, 32};
 
-		inline static std::vector<SDL_Rect> pac_b{{3, 89, 16, 16}};
-		inline static std::vector<SDL_Rect> pac_r{{20, 89, 15, 16},
+		inline static std::vector<SDL_Rect> pacB{{3, 89, 16, 16}};
+		inline static std::vector<SDL_Rect> pacR{{20, 89, 15, 16},
 			{35, 89, 11, 16}};
-		inline static std::vector<SDL_Rect> pac_l{{47, 89, 15, 16},
+		inline static std::vector<SDL_Rect> pacL{{47, 89, 15, 16},
 			{63, 89, 11, 16}};
-		inline static std::vector<SDL_Rect> pac_u{{75, 90, 16, 15},
+		inline static std::vector<SDL_Rect> pacU{{75, 90, 16, 15},
 			{92, 94, 16, 11}};
-		inline static std::vector<SDL_Rect> pac_d{{109, 90, 16, 15},
+		inline static std::vector<SDL_Rect> pacD{{109, 90, 16, 15},
 			{126, 94, 16, 11}};
-		inline static SDL_Rect pac_default_pos{324, 744, 32, 32};
+		inline static SDL_Rect pacDefaultPos{324, 744, 32, 32};
 
 		// Coordonnées du fantôme rouge
-		inline static std::vector<SDL_Rect> ghost_red_r{{3, 123, 16, 16},
+		inline static std::vector<SDL_Rect> ghostRedR{{3, 123, 16, 16},
 			{20, 123, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_red_l{{37, 123, 16, 16},
+		inline static std::vector<SDL_Rect> ghostRedL{{37, 123, 16, 16},
 			{54, 123, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_red_u{{71, 123, 16, 16},
+		inline static std::vector<SDL_Rect> ghostRedU{{71, 123, 16, 16},
 			{88, 123, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_red_d{{105, 123, 16, 16},
+		inline static std::vector<SDL_Rect> ghostRedD{{105, 123, 16, 16},
 			{122, 123, 16, 16}};
-		inline static SDL_Rect ghost_red_default_pos{324, 424, 32, 32};
+		inline static SDL_Rect ghostRedDefaultPos{324, 424, 32, 32};
 
 		// Coordonnées du fantôme bleu
-		inline static std::vector<SDL_Rect> ghost_blue_r{{3, 159, 16, 16},
+		inline static std::vector<SDL_Rect> ghostBlueR{{3, 159, 16, 16},
 			{20, 159, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_blue_l{{37, 159, 16, 16},
+		inline static std::vector<SDL_Rect> ghostBlueL{{37, 159, 16, 16},
 			{54, 159, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_blue_u{{71, 159, 16, 16},
+		inline static std::vector<SDL_Rect> ghostBlueU{{71, 159, 16, 16},
 			{88, 159, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_blue_d{{105, 159, 16, 16},
+		inline static std::vector<SDL_Rect> ghostBlueD{{105, 159, 16, 16},
 			{122, 159, 16, 16}};
-		inline static SDL_Rect ghost_blue_default_pos{
+		inline static SDL_Rect ghostBlueDefaultPos{
 			288, 504, 32, 32};
 
 		// Coordonnées du fantôme rose
-		inline static std::vector<SDL_Rect> ghost_pink_r{{3, 141, 16, 16},
+		inline static std::vector<SDL_Rect> ghostPinkR{{3, 141, 16, 16},
 			{20, 141, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_pink_l{{37, 141, 16, 16},
+		inline static std::vector<SDL_Rect> ghostPinkL{{37, 141, 16, 16},
 			{54, 141, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_pink_u{{71, 141, 16, 16},
+		inline static std::vector<SDL_Rect> ghostPinkU{{71, 141, 16, 16},
 			{88, 141, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_pink_d{{105, 141, 16, 16},
+		inline static std::vector<SDL_Rect> ghostPinkD{{105, 141, 16, 16},
 			{122, 141, 16, 16}};
-		inline static SDL_Rect ghost_pink_default_pos{
+		inline static SDL_Rect ghostPinkDefaultPos{
 			324, 504, 32, 32};
 
 		// Coordonnées du fantôme orange
-		inline static std::vector<SDL_Rect> ghost_orange_r{{3, 177, 16, 16},
+		inline static std::vector<SDL_Rect> ghostOrangeR{{3, 177, 16, 16},
 			{20, 177, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_orange_l{{37, 177, 16, 16},
+		inline static std::vector<SDL_Rect> ghostOrangeL{{37, 177, 16, 16},
 			{54, 177, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_orange_u{{71, 177, 16, 16},
+		inline static std::vector<SDL_Rect> ghostOrangeU{{71, 177, 16, 16},
 			{88, 177, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_orange_d{{105, 177, 16, 16},
+		inline static std::vector<SDL_Rect> ghostOrangeD{{105, 177, 16, 16},
 			{122, 177, 16, 16}};
-		inline static SDL_Rect ghost_orange_default_pos{
+		inline static SDL_Rect ghostOrangeDefaultPos{
 			360, 504, 32, 32};
 
 		// Coordonnées du fantôme appeuré
-		inline static std::vector<SDL_Rect> ghost_afraid_blue{{3, 195, 16, 16},
+		inline static std::vector<SDL_Rect> ghostAfraidBlue{{3, 195, 16, 16},
 			{20, 195, 16, 16}};
-		inline static std::vector<SDL_Rect> ghost_afraid_white{
+		inline static std::vector<SDL_Rect> ghostAfraidWhite{
 			{37, 195, 16, 16}, {54, 195, 16, 16}};
 
 
@@ -207,7 +208,7 @@ class Coordinate {
 		/*
 		 * =============== PACGOMME "dots" ====================
 		*/
-		inline static SDL_Rect dots_texture {4, 81, 2, 2};
+		inline static SDL_Rect dotsTexture{4, 81, 2, 2};
 		inline static std::vector<SDL_Rect> dots{
 			// ============= Ligne 1 ===============
 			{11, 11, 1, 1},
@@ -436,7 +437,7 @@ class Coordinate {
 		/*
 		 * =============== SUPER PACGOMME "energizer" =========
 		*/
-		inline static SDL_Rect energizer_texture {9, 79, 7, 7};
+		inline static SDL_Rect energizerTexture{9, 79, 7, 7};
 		inline static std::vector<SDL_Rect> energizers{
 			{8, 24, 7, 7},
 			{8, 160, 7, 7},
@@ -448,7 +449,7 @@ class Coordinate {
 		/*
 		 * =============== ALPHABET ===========================
 		*/
-		inline static SDL_Rect alphabet_texture {25, 25, ALPHABET_TEXTURE_WIDTH,
+		inline static SDL_Rect alphabetTexture{25, 25, ALPHABET_TEXTURE_WIDTH,
 			18};
 		inline static std::vector<SDL_Rect> alphabet{
 			/****** A - O (première colonne) *****/
@@ -485,7 +486,7 @@ class Coordinate {
 		/*
 		 * =============== CHIFFRES ===========================
 		*/
-		inline static SDL_Rect number_texture {25, 50, NUMBER_TEXTURE_WIDTH,
+		inline static SDL_Rect numberTexture{25, 50, NUMBER_TEXTURE_WIDTH,
 			18};
 		inline static std::vector<SDL_Rect> number{
 			{3, 52, 9, 9},
@@ -504,10 +505,10 @@ class Coordinate {
 		/*
 		 * =============== WORDS ==============================
 		*/
-		inline static std::vector<int> indexScore {18, 2, 14, 17, 4};
-		inline static std::vector<int> indexHigh {7, 8, 6, 7};
-		inline static std::vector<int> indexRank {17, 0, 13, 10};
-		inline static std::vector<int> indexPressSpace {
+		inline static std::vector<int> indexScore{18, 2, 14, 17, 4};
+		inline static std::vector<int> indexHigh{7, 8, 6, 7};
+		inline static std::vector<int> indexRank{17, 0, 13, 10};
+		inline static std::vector<int> indexPressSpace{
 			15, 20, 18, 7, -1,
 			18, 15, 0, 2, 4, -1,
 			10, 4, 24
@@ -517,10 +518,10 @@ class Coordinate {
 		/*
 		 * =============== MENU ===============================
 		*/
-		inline static SDL_Rect pacmanLogo {3, 3, 182, 48};
-		inline static SDL_Rect posPacmanLogo {67, 100, 546, 144};
-		inline static SDL_Rect namcoLogo {27, 77, 62, 10};
-		inline static SDL_Rect posNamcoLogo {278, 912, 124, 20};
+		inline static SDL_Rect pacmanLogo{3, 3, 182, 48};
+		inline static SDL_Rect posPacmanLogo{67, 100, 546, 144};
+		inline static SDL_Rect namcoLogo{27, 77, 62, 10};
+		inline static SDL_Rect posNamcoLogo{278, 912, 124, 20};
 };
 
 #endif

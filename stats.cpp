@@ -31,13 +31,6 @@ void Stats::updateScore(int earnedPoints) {
 	}
 }
 
-void Stats::checkWon(void) {
-	if (this->getDots() == 189) {
-		std::cout << "You win!" << std::endl;
-		writeScore();
-	}
-}
-
 void Stats::writeScore(void) {
 	std::ofstream scoresFile(Stats::SCORES_FILE, std::ios_base::app);
 	if (scoresFile.is_open()) {
@@ -56,6 +49,7 @@ std::vector<unsigned int> Stats::readScores(int numberOfScores) {
 		std::string line;
 		while (std::getline(file, line)) {
 			numberOfLines++;
+
 			try {
 				scores.push_back(std::stoi(line));
 			}
@@ -71,9 +65,8 @@ std::vector<unsigned int> Stats::readScores(int numberOfScores) {
 	if (numberOfScores > numberOfLines)
 		numberOfScores = numberOfLines;
 
-	std::vector<unsigned int> nHighest =
-		std::vector<unsigned int>(scores.begin(), scores.begin() +
-		numberOfScores);
+	std::vector<unsigned int> nHighest = std::vector<unsigned int>(
+		scores.begin(), scores.begin() + numberOfScores);
 
 	return nHighest;
 }
@@ -84,5 +77,6 @@ std::vector<int> Stats::uncomposeNumber(int number) {
 		digits.push_back(number % 10);
 		number /= 10;
 	}
+
 	return digits;
 }

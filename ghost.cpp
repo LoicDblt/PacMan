@@ -30,36 +30,41 @@ Ghost::Ghost(
 {}
 
 void Ghost::moveOutOfSpawn(void) {
-	if (this->getX() == Coordinate::ghost_pink_default_pos.x)
+	if (this->getX() == Coordinate::ghostPinkDefaultPos.x)
 		this->setWishDirection(Person::UP);
-	else if (this->getX() < Coordinate::ghost_pink_default_pos.x)
+
+	else if (this->getX() < Coordinate::ghostPinkDefaultPos.x)
 		this->setWishDirection(Person::RIGHT);
+
 	else
 		this->setWishDirection(Person::LEFT);
 };
 
-Person::Direction Ghost::oppositeDirection(Direction d) {
-	Direction res = Person::NONE;
-	switch (d)
-	{
-	case Person::UP:
-		res = Person::DOWN;
-		break;
-	case Person::DOWN:
-		res = Person::UP;
-		break;
-	case Person::LEFT:
-		res = Person::RIGHT;
-		break;
-	case Person::RIGHT:
-		res = Person::LEFT;
-		break;
-	default:
-		res = Person::NONE;
-		break;
+Person::Direction Ghost::oppositeDirection(Direction direction) {
+	Direction ret = Person::NONE;
+	switch (direction) {
+		case Person::UP:
+			ret = Person::DOWN;
+			break;
+
+		case Person::DOWN:
+			ret = Person::UP;
+			break;
+
+		case Person::LEFT:
+			ret = Person::RIGHT;
+			break;
+
+		case Person::RIGHT:
+			ret = Person::LEFT;
+			break;
+
+		default:
+			ret = Person::NONE;
+			break;
 	}
 
-	return res;
+	return ret;
 }
 
 void Ghost::moveOutOfSpawn(
@@ -67,10 +72,10 @@ void Ghost::moveOutOfSpawn(
 	std::vector<SDL_Rect> &tunnels
 ) {
 	if (this->getStatus() == HUNTER) {
-		if (this->getX() == Coordinate::ghost_pink_default_pos.x)
+		if (this->getX() == Coordinate::ghostPinkDefaultPos.x)
 			this->setWishDirection(Person::UP);
 
-		else if (this->getX() < Coordinate::ghost_pink_default_pos.x)
+		else if (this->getX() < Coordinate::ghostPinkDefaultPos.x)
 			this->setWishDirection(Person::RIGHT);
 
 		else
@@ -138,9 +143,9 @@ void Ghost::aleaMove(
 }
 
 int Ghost::aleaRand(int x, int y) {
-	std::random_device rd;							// nb alea du hardware
-	std::mt19937 gen(rd());							// génére une seed
-	std::uniform_int_distribution<> distr(x,y);		// défini l'intervalle
+	std::random_device rd;							// Nbr aléatoire du hardware
+	std::mt19937 gen(rd());							// Génère une graine
+	std::uniform_int_distribution<> distr(x, y);	// Défini l'intervalle
 
 	return distr(gen);
 }
@@ -162,19 +167,19 @@ void Ghost::eated(void) {
 
 	switch (this->getName()) {
 		case BLINKY:
-			this->setEntityRect(Coordinate::ghost_red_default_pos);
+			this->setEntityRect(Coordinate::ghostRedDefaultPos);
 			break;
 
 		case PINKY:
-			this->setEntityRect(Coordinate::ghost_pink_default_pos);
+			this->setEntityRect(Coordinate::ghostPinkDefaultPos);
 			break;
 
 		case INKY:
-			this->setEntityRect(Coordinate::ghost_blue_default_pos);
+			this->setEntityRect(Coordinate::ghostBlueDefaultPos);
 			break;
 
 		case CLYDE:
-			this->setEntityRect(Coordinate::ghost_orange_default_pos);
+			this->setEntityRect(Coordinate::ghostOrangeDefaultPos);
 			break;
 
 		default:
@@ -188,37 +193,37 @@ void Ghost::resetStatus(void) {
 	switch (this->getName()) {
 		case BLINKY:
 			this->setAnimation(
-				Coordinate::ghost_red_l,
-				Coordinate::ghost_red_r,
-				Coordinate::ghost_red_u,
-				Coordinate::ghost_red_d
+				Coordinate::ghostRedL,
+				Coordinate::ghostRedR,
+				Coordinate::ghostRedU,
+				Coordinate::ghostRedD
 			);
 			break;
 
 		case PINKY:
 			this->setAnimation(
-				Coordinate::ghost_pink_l,
-				Coordinate::ghost_pink_r,
-				Coordinate::ghost_pink_u,
-				Coordinate::ghost_pink_d
+				Coordinate::ghostPinkL,
+				Coordinate::ghostPinkR,
+				Coordinate::ghostPinkU,
+				Coordinate::ghostPinkD
 			);
 			break;
 
 		case INKY:
 			this->setAnimation(
-				Coordinate::ghost_blue_l,
-				Coordinate::ghost_blue_r,
-				Coordinate::ghost_blue_u,
-				Coordinate::ghost_blue_d
+				Coordinate::ghostBlueL,
+				Coordinate::ghostBlueR,
+				Coordinate::ghostBlueU,
+				Coordinate::ghostBlueD
 			);
 			break;
 
 		case CLYDE:
 			this->setAnimation(
-				Coordinate::ghost_orange_l,
-				Coordinate::ghost_orange_r,
-				Coordinate::ghost_orange_u,
-				Coordinate::ghost_orange_d
+				Coordinate::ghostOrangeL,
+				Coordinate::ghostOrangeR,
+				Coordinate::ghostOrangeU,
+				Coordinate::ghostOrangeD
 			);
 			break;
 

@@ -1,7 +1,8 @@
 #include "pacman.h"
 
+// Pointeurs
 SDL_Window* pWindow = nullptr;
-SDL_Surface* win_surf = nullptr;
+SDL_Surface* winSurf = nullptr;
 SDL_Surface* plancheSprites = nullptr;
 
 // Carte (mise à l'échelle x4)
@@ -23,17 +24,25 @@ std::vector<SDL_Rect> energizers = Coordinate::energizers;
 
 int count;
 
-void init(Player &player, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange) {
+void initGame(
+	Player &player,
+	Ghost &red,
+	Ghost &blue,
+	Ghost &pink,
+	Ghost &orange,
+	Stats &statsPac
+) {
+	// Créé la fenêtre de jeu
 	pWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, Interface::WINDOW_WIDTH,
 		Interface::WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
-	win_surf = SDL_GetWindowSurface(pWindow);
+	winSurf = SDL_GetWindowSurface(pWindow);
 	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
 
 	count = 0;
 
-	// Init les murs avec mise à l'échelle
+	// Initialise les murs avec mise à l'échelle
 	for (int i = 0; i < walls.size(); i++) {
 		walls[i].x *= 4;
 		walls[i].y = 4 * (walls[i].y) + 100;
@@ -41,7 +50,7 @@ void init(Player &player, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange) {
 		walls[i].h *= 4;
 	}
 
-	// Init les tunnels avec mise à l'échelle
+	// Initialise les tunnels avec mise à l'échelle
 	for (int i = 0; i < tunnels.size(); i++) {
 		tunnels[i].x *= 4;
 		tunnels[i].y = 4 * (tunnels[i].y) + 100;
@@ -50,51 +59,52 @@ void init(Player &player, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange) {
 	}
 
 	player.setAnimation(
-		Coordinate::pac_l,
-		Coordinate::pac_r,
-		Coordinate::pac_u,
-		Coordinate::pac_d
+		Coordinate::pacL,
+		Coordinate::pacR,
+		Coordinate::pacU,
+		Coordinate::pacD
 	);
 
 	red.setAnimation(
-		Coordinate::ghost_red_l,
-		Coordinate::ghost_red_r,
-		Coordinate::ghost_red_u,
-		Coordinate::ghost_red_d
+		Coordinate::ghostRedL,
+		Coordinate::ghostRedR,
+		Coordinate::ghostRedU,
+		Coordinate::ghostRedD
 	);
 
 	pink.setAnimation(
-		Coordinate::ghost_pink_l,
-		Coordinate::ghost_pink_r,
-		Coordinate::ghost_pink_u,
-		Coordinate::ghost_pink_d
+		Coordinate::ghostPinkL,
+		Coordinate::ghostPinkR,
+		Coordinate::ghostPinkU,
+		Coordinate::ghostPinkD
 	);
 
 	blue.setAnimation(
-		Coordinate::ghost_blue_l,
-		Coordinate::ghost_blue_r,
-		Coordinate::ghost_blue_u,
-		Coordinate::ghost_blue_d
+		Coordinate::ghostBlueL,
+		Coordinate::ghostBlueR,
+		Coordinate::ghostBlueU,
+		Coordinate::ghostBlueD
 	);
 
 	orange.setAnimation(
-		Coordinate::ghost_orange_l,
-		Coordinate::ghost_orange_r,
-		Coordinate::ghost_orange_u,
-		Coordinate::ghost_orange_d
+		Coordinate::ghostOrangeL,
+		Coordinate::ghostOrangeR,
+		Coordinate::ghostOrangeU,
+		Coordinate::ghostOrangeD
 	);
 
-	resetGame(player, red, pink, blue, orange);
+	resetGame(player, red, blue, pink, orange, statsPac);
 }
 
 void resetGame(
 	Player &player,
 	Ghost &red,
-	Ghost &pink,
 	Ghost &blue,
-	Ghost &orange
+	Ghost &pink,
+	Ghost &orange,
+	Stats &statsPac
 ) {
-	// Init les Pacgommes
+	// Initialise les Pacgommes
 	dots = Coordinate::dots;
 	for (int i = 0; i < dots.size(); i++) {
 		dots[i].x = 4 * (dots[i].x + 1);
@@ -103,7 +113,7 @@ void resetGame(
 		dots[i].h *= 8;
 	}
 
-	// Init les super Pacgommes
+	// Initialise les super Pacgommes
 	energizers = Coordinate::energizers;
 	for (int i = 0; i < energizers.size(); i++) {
 		energizers[i].x = 4 * (energizers[i].x + 1);
@@ -112,25 +122,26 @@ void resetGame(
 		energizers[i].h *= 4;
 	}
 
-	// Remet tout les éléments à leur place
-	player.setEntityRect(Coordinate::pac_default_pos);
+	// Remet tous les éléments à leur place
+	player.setEntityRect(Coordinate::pacDefaultPos);
 	player.setWishDirection(Ghost::NONE);
-	player.setEntityPic(Coordinate::pac_b[0]);
-	pink.setEntityRect(Coordinate::ghost_pink_default_pos);
-	red.setEntityRect(Coordinate::ghost_red_default_pos);
-	orange.setEntityRect(Coordinate::ghost_orange_default_pos);
-	blue.setEntityRect(Coordinate::ghost_blue_default_pos);
+	player.setEntityPic(Coordinate::pacB[0]);
 
-	// Ghost reset spawn
-	pink.setOutSpawn(false);
+	red.setEntityRect(Coordinate::ghostRedDefaultPos);
+	pink.setEntityRect(Coordinate::ghostPinkDefaultPos);
+	blue.setEntityRect(Coordinate::ghostBlueDefaultPos);
+	orange.setEntityRect(Coordinate::ghostOrangeDefaultPos);
+
+	// Réinitialise le status d'emplacement des fantômes
 	red.setOutSpawn(false);
-	orange.setOutSpawn(false);
+	pink.setOutSpawn(false);
 	blue.setOutSpawn(false);
+	orange.setOutSpawn(false);
 }
 
 void draw(void) {
 	SDL_SetColorKey(plancheSprites, false, 0);
-	SDL_BlitScaled(plancheSprites, &Coordinate::backMap[0], win_surf, &bg);
+	SDL_BlitScaled(plancheSprites, &Coordinate::backMap[0], winSurf, &bg);
 
 	// Couleur transparente
 	SDL_SetColorKey(plancheSprites, true, 0);
@@ -139,21 +150,21 @@ void draw(void) {
 
 	// Affichage Pacgommes
 	for (int i = 0; i < dots.size(); i++) {
-		SDL_BlitScaled(plancheSprites, &Coordinate::dots_texture, win_surf,
+		SDL_BlitScaled(plancheSprites, &Coordinate::dotsTexture, winSurf,
 			&dots[i]);
 	}
 
 	// Affichage Super Pacgommes
 	for (int i = 0; i < energizers.size(); i++) {
-		SDL_BlitScaled(plancheSprites, &Coordinate::energizer_texture, win_surf,
+		SDL_BlitScaled(plancheSprites, &Coordinate::energizerTexture, winSurf,
 			&energizers[i]);
 	}
 
 	// Affichage du "SCORE"
-	SDL_Rect positionLettre = Coordinate::alphabet_texture;
+	SDL_Rect positionLettre = Coordinate::alphabetTexture;
 
 	for (int i: Coordinate::indexScore) {
-		SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i], win_surf,
+		SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i], winSurf,
 			&positionLettre);
 		positionLettre.x += Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
@@ -167,20 +178,20 @@ int main(int argc, char** argv) {
 	}
 
 	// PacMan
-	Player pacman = {
-		Coordinate::pac_default_pos,
-		Coordinate::pac_b[0],
+	Player pacman{
+		Coordinate::pacDefaultPos,
+		Coordinate::pacB[0],
 		2,
 		Person::NONE,
 		Person::NONE,
-		3
+		Player::PAC_HEALTH
 	};
 
-	std::vector<Ghost> ghosts {
-		// Red ghost
+	std::vector<Ghost> ghosts{
+		// Fantôme rouge
 		{
-			Coordinate::ghost_red_default_pos,
-			Coordinate::ghost_red_l[0],
+			Coordinate::ghostRedDefaultPos,
+			Coordinate::ghostRedL[0],
 			1,
 			Person::LEFT,
 			Person::LEFT,
@@ -191,10 +202,10 @@ int main(int argc, char** argv) {
 			0
 		},
 
-		// Blue ghost
+		// Fantôme bleu
 		{
-			Coordinate::ghost_blue_default_pos,
-			Coordinate::ghost_blue_u[0],
+			Coordinate::ghostBlueDefaultPos,
+			Coordinate::ghostBlueU[0],
 			1,
 			Person::UP,
 			Person::UP,
@@ -205,10 +216,10 @@ int main(int argc, char** argv) {
 			Ghost::TIMER_BLUE
 		},
 
-		// Pink ghost
+		// Fantôme rose
 		{
-			Coordinate::ghost_pink_default_pos,
-			Coordinate::ghost_pink_d[0],
+			Coordinate::ghostPinkDefaultPos,
+			Coordinate::ghostPinkD[0],
 			1,
 			Person::DOWN,
 			Person::UP,
@@ -219,10 +230,10 @@ int main(int argc, char** argv) {
 			Ghost::TIMER_PINK
 		},
 
-		// Orange ghost
+		// Fantôme orange
 		{
-			Coordinate::ghost_orange_default_pos,
-			Coordinate::ghost_orange_u[0],
+			Coordinate::ghostOrangeDefaultPos,
+			Coordinate::ghostOrangeU[0],
 			1,
 			Person::UP,
 			Person::UP,
@@ -234,30 +245,26 @@ int main(int argc, char** argv) {
 		}
 	};
 
-	/*
-	0 red
-	1 pink
-	2 blue
-	3 orange
-	*/
-	init(pacman, ghosts[0], ghosts[2], ghosts[1],ghosts[3]);
-	Interface interface = {pWindow, win_surf, plancheSprites};
-	interface.titleScreen();
-
+	/**
+	 * Index employés :
+	 * 0 : Fantôme rouge
+	 * 1 : Fantôme bleu
+	 * 2 : Fantôme rose
+	 * 3 : Fantome orange
+	 */
 	Stats statsPac = {0, 0, 0};
+	initGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3], statsPac);
 
-	SDL_Rect* pac_in = nullptr;
-	SDL_Rect pac_tampon;
-	SDL_Rect* ghost_in = nullptr;
-	SDL_Rect ghost_tampon;
+	SDL_Rect* pacIn = nullptr;
+	SDL_Rect pacBuffer;
+	SDL_Rect* ghostIn = nullptr;
+	SDL_Rect ghostBuffer;
 
-	int ghostInited = 0;
+	Interface interface = {pWindow, winSurf, plancheSprites};
+	bool quit = interface.titleScreen(statsPac);
 
 	// Boucle principale
-	bool quit = false;
 	while (!quit) {
-		int vitesse_debug; // <================================================= A SUPPRIMER
-
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -278,12 +285,6 @@ int main(int argc, char** argv) {
 		if (keys[SDL_SCANCODE_ESCAPE])
 			quit = true;
 
-		// Reset Game on W
-		else if (keys[SDL_SCANCODE_W]){
-			resetGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3]);
-			std::cout << "Forced reset" << std::endl;
-		}
-
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT])
 			pacman.setWishDirection(Person::RIGHT);
@@ -299,14 +300,6 @@ int main(int argc, char** argv) {
 		// Bas
 		else if (keys[SDL_SCANCODE_DOWN])
 			pacman.setWishDirection(Person::DOWN);
-
-		// Debug vitesse
-		else if (keys[SDL_SCANCODE_SPACE]) {
-			if (vitesse_debug == 16)
-				vitesse_debug = 0;
-			else
-				vitesse_debug = Interface::DELAY;
-		}
 
 		// On fait bouger PacMan
 		pacman.move(walls, tunnels);
@@ -324,36 +317,52 @@ int main(int argc, char** argv) {
 			ghosts[i].animation(count);
 		}
 
-		// Affichage
+
+		/**
+		 * Vérifie si PacMan et mort et attend une entrée pour recommencer
+		 * la partie
+		 */
+		if (pacman.isDead(statsPac, interface)) {
+			if (interface.titleScreen(statsPac) == false) {
+				pacman.setHelthPoints(Player::PAC_HEALTH);
+				continue;
+			}
+			else {
+				quit = true;
+				continue;
+			}
+		}
+
+		// Affichage du fond
 		draw();
 
-		pac_tampon = pacman.getEntityPic();
-		pac_in = &(pac_tampon);
-		SDL_BlitScaled(plancheSprites, pac_in, win_surf,
-			&pacman.getEntityRect());
+		// Mets à jour l'affichage de PacMan et des fantômes
+		pacBuffer = pacman.getEntityPic();
+		pacIn = &(pacBuffer);
+		SDL_BlitScaled(plancheSprites, pacIn, winSurf, &pacman.getEntityRect());
 
 		for (int i = 0; i < ghosts.size(); i++) {
-			ghost_tampon = ghosts[i].getEntityPic();
-			ghost_in = &(ghost_tampon);
-			SDL_BlitScaled(plancheSprites, ghost_in, win_surf,
+			ghostBuffer = ghosts[i].getEntityPic();
+			ghostIn = &(ghostBuffer);
+			SDL_BlitScaled(plancheSprites, ghostIn, winSurf,
 				&ghosts[i].getEntityRect());
 		}
 
-		// Mise à jour du score et des vies
+		// Mise à jour de l'affichage du score et des vies
 		std::vector<int> digits = statsPac.uncomposeNumber(statsPac.getScore());
 		interface.drawScore(digits);
-		interface.drawLives(pacman.getLives());
+		interface.drawLives(pacman.getHelthPoints());
 
-		// Check si la game est fini
-		if (dots.empty() && energizers.empty())
-			resetGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3]);
+		// Vérifie si le niveau est terminé
+		if (dots.empty() && energizers.empty()) {
+			resetGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3],
+				statsPac);
+		}
 
 		SDL_UpdateWindowSurface(pWindow);
 
 		// Limite à 60 FPS
-		SDL_Delay(vitesse_debug);	// Utiliser SDL_GetTicks64() pour
-									// plus de précision
-
+		SDL_Delay(Interface::DELAY);
 	}
 	SDL_Quit();
 

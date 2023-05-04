@@ -8,19 +8,21 @@
 #include "stats.h"
 
 class Player : public Person {
+	/* Variables et constantes */
 	public:
 		/**
 		 * 10 seconde = 10000ms
 		 * 10000/16 = 625
 		 * 16 = durée d'attente de SDL_Delay = 1 tour de boucle
 		 */
-		static const int TIMER_PELLET = 625;
+		static const int TIMER_PELLET{625};
+		static const int PAC_HEALTH{3};
 
 	private:
-		int slayerTime_{0};
+		int pelletTime_{0};
 
 
-	/* Constructor */
+	/* Constructeurs et destructeur */
 	public:
 		Player() = default;
 		~Player();
@@ -36,19 +38,19 @@ class Player : public Person {
 
 	/* Getters */
 	public:
-		inline int getSlayerTime(void) const {
-			return slayerTime_;
+		inline int getPelletTime(void) const {
+			return pelletTime_;
 		}
 
 
 	/* Setters */
 	public:
-		inline void setSlayerTime(int slayerTime) {
-			slayerTime_ += slayerTime;
+		inline void setPelletTime(int pelletTime) {
+			pelletTime_ += pelletTime;
 		}
 
 
-	/* Methods */
+	/* Méthodes */
 	public:
 		/**
 		 * @brief Vérifie si le joueur est sur un élément
@@ -94,11 +96,11 @@ class Player : public Person {
 		);
 
 		/**
-		 * @brief Vérifie si le joueur est encore en mode slayer
+		 * @brief Vérifie si le joueur est encore en mode "pellet"
 		 *
-		 * @param ghost à reset si fin du mode slayer
-		 * @param statsPac à reset si fin du mode slayer (pour le coeff) de
-		 * 				   ghosts tués pendant la période slayer
+		 * @param ghost à reset si fin du mode "pellet"
+		 * @param statsPac à reset si fin du mode "pelelet" (pour le coeff) de
+		 * 				   ghosts tués pendant la période
 		 */
 		void checkPelletActive(std::vector<Ghost> &ghost, Stats &statsPac);
 
@@ -107,8 +109,10 @@ class Player : public Person {
 		 * 
 		 * @param statsPac pour écrire le score
 		 * @param interface afficher l'écran de titre si plus de vie
+		 * @return true si le joueur est mort
+		 * @return false si le joueur n'est pas mort
 		 */
-		void isDead(Stats &statsPac, Interface &interface);
+		bool isDead(Stats &statsPac, Interface &interface);
 };
 
 #endif

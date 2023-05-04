@@ -18,31 +18,41 @@
  *
  * @param player pacman
  * @param red fantôme rouge
- * @param pink fantôme rose
  * @param blue fantôme bleu
+ * @param pink fantôme rose
  * @param orange fantôme orange
+ * @param statsPac les stats à afficher
  */
-void init(Player &player, Ghost &red, Ghost &pink, Ghost &blue, Ghost &orange);
+void initGame(
+	Player &player,
+	Ghost &red,
+	Ghost &blue,
+	Ghost &pink,
+	Ghost &orange,
+	Stats &statsPac
+);
 
 /**
- * @brief Remet les dots, energizers, ghosts à leur position
+ * @brief Replace les dots, energizers, ghosts à leur position d'origine
  *
  * @param player pacman
  * @param red fantôme rouge
- * @param pink fantôme rose
  * @param blue fantôme bleu
+ * @param pink fantôme rose
  * @param orange fantôme orange
+ * @param statsPac les stats à afficher
  */
 void resetGame(
 	Player &Player,
 	Ghost &red,
-	Ghost &pink,
 	Ghost &blue,
-	Ghost &orange
+	Ghost &pink,
+	Ghost &orange,
+	Stats &statsPac
 );
 
 /**
- * @brief Mets à jour la fenêtre
+ * @brief Mets à jour la fenêtre de jeu
  *
  */
 void draw(void);
