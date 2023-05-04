@@ -114,6 +114,8 @@ void resetGame(
 
 	// Remet tout les éléments à leur place
 	player.setEntityRect(Coordinate::pac_default_pos);
+	player.setWishDirection(Ghost::NONE);
+	player.setEntityPic(Coordinate::pac_b[0]);
 	pink.setEntityRect(Coordinate::ghost_pink_default_pos);
 	red.setEntityRect(Coordinate::ghost_red_default_pos);
 	orange.setEntityRect(Coordinate::ghost_orange_default_pos);
@@ -279,7 +281,7 @@ int main(int argc, char** argv) {
 		// Reset Game on W
 		else if (keys[SDL_SCANCODE_W]){
 			resetGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3]);
-			std::cout << "W is tape" << std::endl;
+			std::cout << "Forced reset" << std::endl;
 		}
 
 		// Droite
