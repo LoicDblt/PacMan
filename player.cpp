@@ -26,10 +26,11 @@ bool Player::onElement(
 	Stats &statsPac,
 	int element
 ) {
-	for (int i = 0; i < pac.size(); i++) {
-		if (SDL_HasIntersection(&this->getEntityRect(), &pac[i])){
+	for (int i{0}; i < pac.size(); i++) {
+		if (SDL_HasIntersection(&this->getEntityRect(), &pac[i])) {
 			pac.erase(pac.begin() + i);
 			statsPac.updateScore(element);
+
 			return true;
 		}
 	}
@@ -46,7 +47,8 @@ void Player::checkPostion(
 	onElement(dots, statsPac, Stats::DOT);
 	if (onElement(energizers, statsPac, Stats::ENERGIZER)) {
 		this->setPelletTime(TIMER_PELLET);
-		for (int i = 0; i < ghosts.size(); i++) {
+
+		for (int i{0}; i < ghosts.size(); i++) {
 			ghosts[i].setStatus(Ghost::PREY);
 			ghosts[i].setAnimation(
 				Coordinate::ghostAfraidBlue,
@@ -61,8 +63,10 @@ void Player::checkPostion(
 bool Player::isDead(Stats &statsPac, Interface &interface) {
 	if (this->getHelthPoints() == 0) {
 		statsPac.writeScore();
+
 		return true;
 	}
+
 	return false;
 }
 
@@ -71,7 +75,7 @@ void Player::checkGhost(
 	Stats &statsPac,
 	Interface &interface
 ) {
-	for (int i = 0; i < ghosts.size(); i++) {
+	for (int i{0}; i < ghosts.size(); i++) {
 		if (
 			SDL_HasIntersection(
 				&this->getEntityRect(),
@@ -100,8 +104,9 @@ void Player::checkGhost(
 void Player::checkPelletActive(std::vector<Ghost> &ghosts, Stats &statsPac) {
 	if (this->getPelletTime() > 0)
 		this->setPelletTime(-1);
+
 	else {
-		for (int i = 0; i < ghosts.size(); i++) {
+		for (int i{0}; i < ghosts.size(); i++) {
 			if (ghosts[i].getStatus() == Ghost::PREY) {
 				statsPac.resetGhostsEaten();
 				ghosts[i].resetStatus();

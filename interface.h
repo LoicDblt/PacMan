@@ -55,7 +55,7 @@ class Interface {
 		 * 		- Le message "Push space key"
 		 * 		- Les 10 meilleurs scores
 		 * 		- Le logo Namco
-		 *	
+		 *
 		 * @param statsPac statistiques de la partie
 		 * @return true si l'utilisateur a appuyé sur la touche échap
 		 * @return false si l'utilisateur a appuyé sur la touche espace

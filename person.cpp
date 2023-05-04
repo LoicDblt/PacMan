@@ -53,6 +53,7 @@ void Person::move(
 			tryToTurnCmp_ = 0;
 			direction_ = wishDirection_;
 		}
+
 		else
 			tryToTurnCmp_--;
 	}
@@ -113,7 +114,7 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity) {
 		}
 	}
 
-	for (int i = 0; i < walls.size(); i++) {
+	for (int i{0}; i < walls.size(); i++) {
 		if (SDL_HasIntersection(&entity, &walls[i]))
 			return true;
 	}
@@ -218,6 +219,7 @@ void Person::intersectionDirection(
 bool Person::checkOutSpawn(SDL_Rect &entity) {
 	if ((entity.y + 31) <= Coordinate::door.y) {
 		this->entityRect_.y = Coordinate::door.y - 32;
+
 		return true;
 	}
 

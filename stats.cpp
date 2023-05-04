@@ -42,7 +42,7 @@ void Stats::writeScore(void) {
 std::vector<unsigned int> Stats::readScores(int numberOfScores) {
 	std::vector<unsigned int> scores;
 	std::ifstream file(Stats::SCORES_FILE);
-	int numberOfLines = 0;
+	int numberOfLines{0};
 
 	// Récupère toutes les valeurs du fichier
 	if (file.good()) {
@@ -65,8 +65,8 @@ std::vector<unsigned int> Stats::readScores(int numberOfScores) {
 	if (numberOfScores > numberOfLines)
 		numberOfScores = numberOfLines;
 
-	std::vector<unsigned int> nHighest = std::vector<unsigned int>(
-		scores.begin(), scores.begin() + numberOfScores);
+	std::vector<unsigned int> nHighest{std::vector<unsigned int>(
+		scores.begin(), scores.begin() + numberOfScores)};
 
 	return nHighest;
 }

@@ -94,7 +94,7 @@ class Ghost : public Person {
 	public:
 		/**
 		 * @brief Centre la sortie des fantômes dans le spawn
-		 * 
+		 *
 		 * @param walls les murs présents sur la carte
 		 * @param tunnels les tunnels présents sur la carte
 		 */
@@ -130,7 +130,7 @@ class Ghost : public Person {
 		/**
 		 * @brief Active le fantôme en lui changeant le status lorsque son
 		 * 		  timer est à 0
-		 * 
+		 *
 		 */
 		void enableGhost(void);
 
@@ -146,7 +146,7 @@ class Ghost : public Person {
 
 		/**
 		 * @brief [TODO] Permet d'aller à des coordonnées donnée
-		 * 
+		 *
 		 * @param x abscisse
 		 * @param y ordonnée
 		 */
@@ -159,9 +159,9 @@ class Ghost : public Person {
 
 		/**
 		 * @brief Retourne la direction opposée à celle donnée
-		 * 
+		 *
 		 * @param direction à inverser
-		 * @return Person::Direction 
+		 * @return Person::Direction
 		 */
 		Person::Direction oppositeDirection(Direction direction);
 };

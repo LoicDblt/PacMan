@@ -106,7 +106,7 @@ class Player : public Person {
 
 		/**
 		 * @brief Vérifie si le joueur est mort
-		 * 
+		 *
 		 * @param statsPac pour écrire le score
 		 * @param interface afficher l'écran de titre si plus de vie
 		 * @return true si le joueur est mort

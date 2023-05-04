@@ -1,26 +1,26 @@
 #include "pacman.h"
 
 // Pointeurs
-SDL_Window* pWindow = nullptr;
-SDL_Surface* winSurf = nullptr;
-SDL_Surface* plancheSprites = nullptr;
+SDL_Window* pWindow{nullptr};
+SDL_Surface* winSurf{nullptr};
+SDL_Surface* plancheSprites{nullptr};
 
 // Carte (mise à l'échelle x4)
-SDL_Rect bg = {4, 104, 672, 864};
+SDL_Rect bg{4, 104, 672, 864};
 
 // Personnages (mise à l'échelle x2)
-SDL_Rect ghost = {34, 134, 32, 32};
-SDL_Rect pac = {34, 134, 32, 32};
+SDL_Rect ghost{34, 134, 32, 32};
+SDL_Rect pac{34, 134, 32, 32};
 
 // Murs
-std::vector<SDL_Rect> walls = Coordinate::walls;
+std::vector<SDL_Rect> walls{Coordinate::walls};
 
 // Tunnels
-std::vector<SDL_Rect> tunnels = Coordinate::tunnels;
+std::vector<SDL_Rect> tunnels{Coordinate::tunnels};
 
 // (Super) Pacgommes
-std::vector<SDL_Rect> dots = Coordinate::dots;
-std::vector<SDL_Rect> energizers = Coordinate::energizers;
+std::vector<SDL_Rect> dots{Coordinate::dots};
+std::vector<SDL_Rect> energizers{Coordinate::energizers};
 
 int count;
 
@@ -43,7 +43,7 @@ void initGame(
 	count = 0;
 
 	// Initialise les murs avec mise à l'échelle
-	for (int i = 0; i < walls.size(); i++) {
+	for (int i{0}; i < walls.size(); i++) {
 		walls[i].x *= 4;
 		walls[i].y = 4 * (walls[i].y) + 100;
 		walls[i].w *= 4;
@@ -51,7 +51,7 @@ void initGame(
 	}
 
 	// Initialise les tunnels avec mise à l'échelle
-	for (int i = 0; i < tunnels.size(); i++) {
+	for (int i{0}; i < tunnels.size(); i++) {
 		tunnels[i].x *= 4;
 		tunnels[i].y = 4 * (tunnels[i].y) + 100;
 		tunnels[i].w *= 4;
@@ -106,7 +106,7 @@ void resetGame(
 ) {
 	// Initialise les Pacgommes
 	dots = Coordinate::dots;
-	for (int i = 0; i < dots.size(); i++) {
+	for (int i{0}; i < dots.size(); i++) {
 		dots[i].x = 4 * (dots[i].x + 1);
 		dots[i].y = 4 * (dots[i].y + 1) + 100;
 		dots[i].w *= 8;
@@ -115,7 +115,7 @@ void resetGame(
 
 	// Initialise les super Pacgommes
 	energizers = Coordinate::energizers;
-	for (int i = 0; i < energizers.size(); i++) {
+	for (int i{0}; i < energizers.size(); i++) {
 		energizers[i].x = 4 * (energizers[i].x + 1);
 		energizers[i].y = 4 * (energizers[i].y + 1) + 100;
 		energizers[i].w *= 4;
@@ -149,13 +149,13 @@ void draw(void) {
 	count = (count + 1) % (2048);
 
 	// Affichage Pacgommes
-	for (int i = 0; i < dots.size(); i++) {
+	for (int i{0}; i < dots.size(); i++) {
 		SDL_BlitScaled(plancheSprites, &Coordinate::dotsTexture, winSurf,
 			&dots[i]);
 	}
 
 	// Affichage Super Pacgommes
-	for (int i = 0; i < energizers.size(); i++) {
+	for (int i{0}; i < energizers.size(); i++) {
 		SDL_BlitScaled(plancheSprites, &Coordinate::energizerTexture, winSurf,
 			&energizers[i]);
 	}
@@ -252,16 +252,16 @@ int main(int argc, char** argv) {
 	 * 2 : Fantôme rose
 	 * 3 : Fantome orange
 	 */
-	Stats statsPac = {0, 0, 0};
+	Stats statsPac{0, 0, 0};
 	initGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3], statsPac);
 
-	SDL_Rect* pacIn = nullptr;
+	SDL_Rect* pacIn{nullptr};
 	SDL_Rect pacBuffer;
-	SDL_Rect* ghostIn = nullptr;
+	SDL_Rect* ghostIn{nullptr};
 	SDL_Rect ghostBuffer;
 
-	Interface interface = {pWindow, winSurf, plancheSprites};
-	bool quit = interface.titleScreen(statsPac);
+	Interface interface{pWindow, winSurf, plancheSprites};
+	bool quit{interface.titleScreen(statsPac)};
 
 	// Boucle principale
 	while (!quit) {
@@ -279,7 +279,7 @@ int main(int argc, char** argv) {
 
 		// Gestion du clavier
 		int nbk;
-		const Uint8* keys = SDL_GetKeyboardState(&nbk);
+		const Uint8* keys{SDL_GetKeyboardState(&nbk)};
 
 		// Quitter
 		if (keys[SDL_SCANCODE_ESCAPE])
@@ -308,7 +308,7 @@ int main(int argc, char** argv) {
 		pacman.checkPelletActive(ghosts, statsPac);
 		pacman.animation(count);
 
-		for (int i = 0; i < ghosts.size(); i++) {
+		for (int i{0}; i < ghosts.size(); i++) {
 			ghosts[i].enableGhost();
 			if (ghosts[i].getOutSpawn())
 				ghosts[i].aleaMove(walls, tunnels);
@@ -341,7 +341,7 @@ int main(int argc, char** argv) {
 		pacIn = &(pacBuffer);
 		SDL_BlitScaled(plancheSprites, pacIn, winSurf, &pacman.getEntityRect());
 
-		for (int i = 0; i < ghosts.size(); i++) {
+		for (int i{0}; i < ghosts.size(); i++) {
 			ghostBuffer = ghosts[i].getEntityPic();
 			ghostIn = &(ghostBuffer);
 			SDL_BlitScaled(plancheSprites, ghostIn, winSurf,
@@ -349,7 +349,7 @@ int main(int argc, char** argv) {
 		}
 
 		// Mise à jour de l'affichage du score et des vies
-		std::vector<int> digits = statsPac.uncomposeNumber(statsPac.getScore());
+		std::vector<int> digits{statsPac.uncomposeNumber(statsPac.getScore())};
 		interface.drawScore(digits);
 		interface.drawLives(pacman.getHelthPoints());
 

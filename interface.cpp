@@ -28,8 +28,8 @@ bool Interface::titleScreen(Stats &statsPac) {
 		this->getSurface(), &Coordinate::posNamcoLogo);
 
 	// Affichage de "SCORE"
-	SDL_Rect positionLettre = Coordinate::alphabetTexture;
-	SDL_Rect positionDigit = Coordinate::numberTexture;
+	SDL_Rect positionLettre{Coordinate::alphabetTexture};
+	SDL_Rect positionDigit{Coordinate::numberTexture};
 
 	for (int i: Coordinate::indexScore) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::alphabet[i],
@@ -38,8 +38,8 @@ bool Interface::titleScreen(Stats &statsPac) {
 	}
 
 	// Affiche du score actuel de la partie
-	int score = statsPac.getScore();
-	std::vector<int> digits = Stats::uncomposeNumber(score);
+	int score{statsPac.getScore()};
+	std::vector<int> digits{Stats::uncomposeNumber(score)};
 	std::reverse(digits.begin(), digits.end());
 
 	// Si le score est nul, on affiche un seul 0
@@ -57,7 +57,7 @@ bool Interface::titleScreen(Stats &statsPac) {
 	positionLettre.x = windowWidth - (positionLettre.x * 2);
 
 	// Affichage du score le plus élevé
-	int highScore = Stats::readScores(1).front();
+	int highScore{static_cast<int>(Stats::readScores(1).front())};
 	digits = Stats::uncomposeNumber(highScore);
 
 	positionDigit = Coordinate::numberTexture;
@@ -70,10 +70,10 @@ bool Interface::titleScreen(Stats &statsPac) {
 	}
 
 	// On part de l'extrémité droite de l'écran, donc on inverse l'ordre
-	std::vector<int> tamponIndexScore = Coordinate::indexScore;
+	std::vector<int> tamponIndexScore{Coordinate::indexScore};
 	std::reverse(tamponIndexScore.begin(), tamponIndexScore.end());
 
-	std::vector<int> tamponIndexHigh = Coordinate::indexHigh;
+	std::vector<int> tamponIndexHigh{Coordinate::indexHigh};
 	std::reverse(tamponIndexHigh.begin(), tamponIndexHigh.end());
 
 		// Score
@@ -112,7 +112,7 @@ bool Interface::titleScreen(Stats &statsPac) {
 	positionDigit = Coordinate::numberTexture;
 	positionDigit.y = windowHeight / 1.75;
 
-	std::vector<unsigned int> scores = Stats::readScores(10);
+	std::vector<unsigned int> scores{Stats::readScores(10)};
 	for (int i: scores) {
 		digits = Stats::uncomposeNumber(i);
 
@@ -133,8 +133,8 @@ bool Interface::titleScreen(Stats &statsPac) {
 	SDL_UpdateWindowSurface(this->getWindow());
 
 	// Attend l'entrée de l'utilisateur
-	bool quit = false;
-	int count = 0;
+	bool quit{false};
+	int count{0};
 	while (!quit) {
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
@@ -150,7 +150,7 @@ bool Interface::titleScreen(Stats &statsPac) {
 
 		// Gestion du clavier
 		int nbk;
-		const Uint8* keys = SDL_GetKeyboardState(&nbk);
+		const Uint8* keys{SDL_GetKeyboardState(&nbk)};
 
 		// Quitter
 		if (keys[SDL_SCANCODE_ESCAPE])
@@ -159,7 +159,7 @@ bool Interface::titleScreen(Stats &statsPac) {
 		// Commence la partie
 		if (keys[SDL_SCANCODE_SPACE]) {
 			// Créé un rectangle rempli, à la taille exacte du score à afficher
-			SDL_Rect rect = {0, 0, windowWidth, windowHeight};
+			SDL_Rect rect{0, 0, windowWidth, windowHeight};
 			drawRectangle(rect);
 
 			return false;
@@ -176,7 +176,7 @@ bool Interface::titleScreen(Stats &statsPac) {
 			positionLettre.y = windowHeight / 2.5;
 
 			// Créé un rectangle rempli, à la taille exacte de la phrase
-			SDL_Rect rect = {
+			SDL_Rect rect{
 				positionLettre.x,
 				positionLettre.y,
 				static_cast<int>(Coordinate::ALPHABET_TEXTURE_WIDTH *
@@ -205,13 +205,13 @@ void Interface::drawScore(std::vector<int> digits) {
 		digits.push_back(0);
 
 	// Créé un rectangle rempli, à la taille exacte du score à afficher
-	SDL_Rect rect = {25, 50,
-		static_cast<int>(Coordinate::ALPHABET_TEXTURE_WIDTH * digits.size()),
+	SDL_Rect rect{25, 50, static_cast<int>(
+		Coordinate::ALPHABET_TEXTURE_WIDTH * digits.size()),
 		Coordinate::numberTexture.h};
 	drawRectangle(rect);
 
 	// Affiche le score
-	SDL_Rect positionDigit = Coordinate::numberTexture;
+	SDL_Rect positionDigit{Coordinate::numberTexture};
 	for (int i: digits) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::number[i],
 			this->getSurface(),	&positionDigit);
@@ -224,11 +224,11 @@ void Interface::drawLives(int healthPoints) {
 	SDL_Rect face{Coordinate::pacL[0]};
 
 	// Créé un rectangle rempli, à la taille exacte du nombre de vies à masquer
-	SDL_Rect rect = {position.x, position.y, (healthPoints + 1) *
+	SDL_Rect rect{position.x, position.y, (healthPoints + 1) *
 		(position.w + 14), position.h};
 	drawRectangle(rect);
 
-	for (int i = 0; i < healthPoints; i++) {
+	for (int i{0}; i < healthPoints; i++) {
 		SDL_BlitScaled(this->getSprites(), &face, this->getSurface(),
 			&position);
 		position.x += 32 + 14;
@@ -236,7 +236,7 @@ void Interface::drawLives(int healthPoints) {
 }
 
 void Interface::drawPushSpace(int windowWidth, int windowHeight) {
-	SDL_Rect positionLettre = Coordinate::alphabetTexture;
+	SDL_Rect positionLettre{Coordinate::alphabetTexture};
 
 	// Affichage de "Press escape key"
 	positionLettre.x = (windowWidth -
@@ -254,7 +254,7 @@ void Interface::drawPushSpace(int windowWidth, int windowHeight) {
 }
 
 void Interface::drawRectangle(SDL_Rect rect) {
-	SDL_Color color = {0, 0, 0, 255};
+	SDL_Color color{0, 0, 0, 255};
 	SDL_Surface* surface = SDL_CreateRGBSurface(0, rect.w, rect.h,
 		32, 0, 0, 0, 0);
 	SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, color.r,

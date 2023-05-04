@@ -99,19 +99,19 @@ void Ghost::aleaMove(
 	//validDirection.remove(previousDirection_);
 
 	// Si à une intersection de 3 chemins minimum
-	int size = validDirection.size();
-	auto iterList = validDirection.begin();
+	int size{static_cast<int>(validDirection.size())};
+	auto iterList{validDirection.begin()};
 
 	if (size == 3) {
-		int nb = aleaRand(0,size-1);
-		std::advance(iterList, nb);
+		int nbr{aleaRand(0, size - 1)};
+		std::advance(iterList, nbr);
 		setWishDirection(*iterList);
 	}
-	
+
 	// Si bloqué cherche une autre direction
 	if (roundCmpt_ == 2) {
-		int nb = aleaRand(1,4);
-		switch (nb) {
+		int nbr{aleaRand(1, 4)};
+		switch (nbr) {
 			case 1:
 				setWishDirection(UP);
 				break;
@@ -136,25 +136,27 @@ void Ghost::aleaMove(
 	}
 	else if (SDL_RectEquals(&previousPosition_, &entityRect_) == SDL_TRUE)
 		roundCmpt_++;
-	
+
 	previousPosition_ = entityRect_;
 	move(walls, tunnels);
 	previousDirection_ = this->getDirection();
 }
 
 int Ghost::aleaRand(int x, int y) {
-	std::random_device rd;							// Nbr aléatoire du hardware
-	std::mt19937 gen(rd());							// Génère une graine
+	std::random_device rdm;							// Nbr aléatoire du hardware
+	std::mt19937 gen(rdm());						// Génère une graine
 	std::uniform_int_distribution<> distr(x, y);	// Défini l'intervalle
 
 	return distr(gen);
 }
 
 void Ghost::goCoordinate(int x, int y) {
-	int selfX = this->entityRect_.x;
-	int selfY = this->entityRect_.y;
+	int selfX{this->entityRect_.x};
+	int selfY{this->entityRect_.y};
+
 	if (x > selfX)
 		this->setDirection(RIGHT);
+
 	else if (x < selfX)
 		this->setDirection(LEFT);
 }

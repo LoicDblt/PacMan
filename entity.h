@@ -33,7 +33,7 @@ class Entity {
 		inline float getX(void) const {
 			return entityRect_.x;
 		}
-	
+
 		inline float getY(void) const {
 			return entityRect_.y;
 		}

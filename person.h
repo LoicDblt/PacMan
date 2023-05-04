@@ -163,7 +163,7 @@ class Person : public Entity {
 
 		/**
 		 * @brief Vérifie si le personnage est sorti de la zone de spawn
-		 * 
+		 *
 		 * @param entity le personnage (ghosts)
 		 * @return true s'il a franchi la porte
 		 * @return false s'il n'a pas franchi la porte
