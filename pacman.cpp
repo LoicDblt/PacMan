@@ -65,34 +65,6 @@ void initGame(
 		Coordinate::pacD
 	);
 
-	red.setAnimation(
-		Coordinate::ghostRedL,
-		Coordinate::ghostRedR,
-		Coordinate::ghostRedU,
-		Coordinate::ghostRedD
-	);
-
-	pink.setAnimation(
-		Coordinate::ghostPinkL,
-		Coordinate::ghostPinkR,
-		Coordinate::ghostPinkU,
-		Coordinate::ghostPinkD
-	);
-
-	blue.setAnimation(
-		Coordinate::ghostBlueL,
-		Coordinate::ghostBlueR,
-		Coordinate::ghostBlueU,
-		Coordinate::ghostBlueD
-	);
-
-	orange.setAnimation(
-		Coordinate::ghostOrangeL,
-		Coordinate::ghostOrangeR,
-		Coordinate::ghostOrangeU,
-		Coordinate::ghostOrangeD
-	);
-
 	resetGame(player, red, blue, pink, orange, statsPac);
 }
 
@@ -123,20 +95,16 @@ void resetGame(
 	}
 
 	// Remet tous les éléments à leur place
+	// Element
 	player.setEntityRect(Coordinate::pacDefaultPos);
 	player.setWishDirection(Ghost::NONE);
 	player.setEntityPic(Coordinate::pacB[0]);
 
-	red.setEntityRect(Coordinate::ghostRedDefaultPos);
-	pink.setEntityRect(Coordinate::ghostPinkDefaultPos);
-	blue.setEntityRect(Coordinate::ghostBlueDefaultPos);
-	orange.setEntityRect(Coordinate::ghostOrangeDefaultPos);
-
-	// Réinitialise le status d'emplacement des fantômes
-	red.setOutSpawn(false);
-	pink.setOutSpawn(false);
-	blue.setOutSpawn(false);
-	orange.setOutSpawn(false);
+	//Ghost
+	red.eated();
+	blue.eated();
+	orange.eated();
+	pink.eated();
 }
 
 void draw(void) {
@@ -284,6 +252,9 @@ int main(int argc, char** argv) {
 		// Quitter
 		if (keys[SDL_SCANCODE_ESCAPE])
 			quit = true;
+
+		if (keys[SDL_SCANCODE_R])
+			resetGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3], statsPac);
 
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT])
