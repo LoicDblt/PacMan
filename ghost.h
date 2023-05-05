@@ -52,6 +52,10 @@ class Ghost : public Person {
 			State status,
 			Name name,
 			bool outSpawn,
+			std::vector<SDL_Rect> up,
+			std::vector<SDL_Rect> down,
+			std::vector<SDL_Rect> left,
+			std::vector<SDL_Rect> right,
 			int timerSpawn
 		);
 

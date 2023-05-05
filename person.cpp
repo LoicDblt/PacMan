@@ -9,23 +9,6 @@ Person::Person(
 	Direction direction,
 	Direction wishDirection,
 	int healthPoints,
-	bool outSpawn
-):
-	Entity{entityRect, entityPicture},
-	speed_{speed},
-	direction_{direction},
-	wishDirection_{wishDirection},
-	healthPoints_{healthPoints},
-	outSpawn_{outSpawn}
-{}
-
-Person::Person(
-	SDL_Rect entityRect,
-	SDL_Rect entityPicture,
-	float speed,
-	Direction direction,
-	Direction wishDirection,
-	int healthPoints,
 	bool outSpawn,
 	std::vector<SDL_Rect> up,
 	std::vector<SDL_Rect> down,
@@ -107,7 +90,7 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity) {
 		if (this->getOutSpawn())
 			return true;
 		else {
-			if (this->checkOutSpawn(entity))
+			if (this->checkOutSpawn())
 				this->setOutSpawn();
 
 			return false;
@@ -216,9 +199,12 @@ void Person::intersectionDirection(
 		validDirection.push_front(Person::LEFT);
 }
 
-bool Person::checkOutSpawn(SDL_Rect &entity) {
-	if ((entity.y + 31) <= Coordinate::door.y) {
-		this->entityRect_.y = Coordinate::door.y - 32;
+bool Person::checkOutSpawn(void) {
+	if (
+		(this->getEntityRect().y + this->getEntityRect().h - 1) <=
+		Coordinate::door.y
+	) {
+		this->entityRect_.y = Coordinate::door.y - this->getEntityRect().h;
 
 		return true;
 	}

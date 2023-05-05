@@ -38,15 +38,6 @@ class Person : public Entity {
 			Direction direction,
 			Direction wishDirection,
 			int healthPoints,
-			bool outSpawn
-		);
-		Person(
-			SDL_Rect entityRect,
-			SDL_Rect entityPicture,
-			float speed,
-			Direction direction,
-			Direction wishDirection,
-			int healthPoints,
 			bool outSpawn,
 			std::vector<SDL_Rect> up,
 			std::vector<SDL_Rect> down,
@@ -164,11 +155,10 @@ class Person : public Entity {
 		/**
 		 * @brief Vérifie si le personnage est sorti de la zone de spawn
 		 *
-		 * @param entity le personnage (fantômes)
 		 * @return true s'il a franchi la porte
 		 * @return false s'il n'a pas franchi la porte
 		 */
-		bool checkOutSpawn(SDL_Rect &entity);
+		bool checkOutSpawn(void);
 };
 
 #endif

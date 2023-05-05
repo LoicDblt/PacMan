@@ -58,41 +58,6 @@ void initGame(
 		tunnels[i].h *= 4;
 	}
 
-	player.setAnimation(
-		Coordinate::pacL,
-		Coordinate::pacR,
-		Coordinate::pacU,
-		Coordinate::pacD
-	);
-
-	red.setAnimation(
-		Coordinate::ghostRedL,
-		Coordinate::ghostRedR,
-		Coordinate::ghostRedU,
-		Coordinate::ghostRedD
-	);
-
-	pink.setAnimation(
-		Coordinate::ghostPinkL,
-		Coordinate::ghostPinkR,
-		Coordinate::ghostPinkU,
-		Coordinate::ghostPinkD
-	);
-
-	blue.setAnimation(
-		Coordinate::ghostBlueL,
-		Coordinate::ghostBlueR,
-		Coordinate::ghostBlueU,
-		Coordinate::ghostBlueD
-	);
-
-	orange.setAnimation(
-		Coordinate::ghostOrangeL,
-		Coordinate::ghostOrangeR,
-		Coordinate::ghostOrangeU,
-		Coordinate::ghostOrangeD
-	);
-
 	resetGame(player, red, blue, pink, orange, statsPac);
 }
 
@@ -184,7 +149,11 @@ int main(int argc, char** argv) {
 		2,
 		Person::NONE,
 		Person::NONE,
-		Player::PAC_HEALTH
+		Player::PAC_HEALTH,
+		Coordinate::pacU,
+		Coordinate::pacD,
+		Coordinate::pacL,
+		Coordinate::pacR
 	};
 
 	std::vector<Ghost> ghosts{
@@ -199,6 +168,10 @@ int main(int argc, char** argv) {
 			Ghost::HUNTER,
 			Ghost::BLINKY,
 			true,
+			Coordinate::ghostRedU,
+			Coordinate::ghostRedD,
+			Coordinate::ghostRedL,
+			Coordinate::ghostRedR,
 			0
 		},
 
@@ -213,6 +186,10 @@ int main(int argc, char** argv) {
 			Ghost::WAIT,
 			Ghost::INKY,
 			false,
+			Coordinate::ghostBlueU,
+			Coordinate::ghostBlueD,
+			Coordinate::ghostBlueL,
+			Coordinate::ghostBlueR,
 			Ghost::TIMER_BLUE
 		},
 
@@ -227,6 +204,10 @@ int main(int argc, char** argv) {
 			Ghost::WAIT,
 			Ghost::PINKY,
 			false,
+			Coordinate::ghostPinkU,
+			Coordinate::ghostPinkD,
+			Coordinate::ghostPinkL,
+			Coordinate::ghostPinkR,
 			Ghost::TIMER_PINK
 		},
 
@@ -241,6 +222,10 @@ int main(int argc, char** argv) {
 			Ghost::WAIT,
 			Ghost::CLYDE,
 			false,
+			Coordinate::ghostOrangeU,
+			Coordinate::ghostOrangeD,
+			Coordinate::ghostOrangeL,
+			Coordinate::ghostOrangeR,
 			Ghost::TIMER_ORANGE
 		}
 	};

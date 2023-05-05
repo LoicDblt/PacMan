@@ -1,5 +1,7 @@
 #include "entity.h"
 
+Entity::~Entity() {}
+
 Entity::Entity(
 	SDL_Rect entityRect,
 	SDL_Rect entityPicture
@@ -7,5 +9,3 @@ Entity::Entity(
 	entityRect_{entityRect},
 	entityPicture_{entityPicture}
 {}
-
-Entity::~Entity() {}

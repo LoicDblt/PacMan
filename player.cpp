@@ -8,7 +8,11 @@ Player::Player(
 	float speed,
 	Direction direction,
 	Direction wishDirection,
-	int healthPoints
+	int healthPoints,
+	std::vector<SDL_Rect> up,
+	std::vector<SDL_Rect> down,
+	std::vector<SDL_Rect> left,
+	std::vector<SDL_Rect> right
 ):
 	Person{
 		entityRect,
@@ -17,9 +21,13 @@ Player::Player(
 		direction,
 		wishDirection,
 		healthPoints,
-		true
+		true,
+		up,
+		down,
+		left,
+		right
 	}
-{};
+{}
 
 bool Player::onElement(
 	std::vector<SDL_Rect> &pac,
