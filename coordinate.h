@@ -12,21 +12,23 @@ class Coordinate {
 		static const int NUMBER_TEXTURE_WIDTH{18};
 
 		/**
-		 * =============== FOND DE CARTE ======================
+		 * @brief =============== FOND DE CARTE ======================
+		 *
 		 */
 		inline static const std::vector<SDL_Rect> backMap{{369, 3, 168, 216},
 			{540, 3, 168, 216}};
 
 
 		/**
-		 * =============== FRUITS =============================
+		 * @brief =============== FRUITS =============================
+		 *
 		 */
 		inline static const std::vector<SDL_Rect> cherry{{289, 257, 14, 14},
 			{289, 237, 14, 14}};
 
 
 		/**
-		 * =============== PERSONNAGES ========================
+		 * @brief =============== PERSONNAGES ========================
 		 * Terminaison des variables :
 		 * b -> "base"
 		 * r -> "right"
@@ -95,7 +97,7 @@ class Coordinate {
 		inline static const SDL_Rect ghostOrangeDefaultPos{
 			360, 504, 32, 32};
 
-		// Coordonnées du fantôme appeuré
+		// Coordonnées du fantôme apeuré
 		inline static const std::vector<SDL_Rect> ghostAfraidBlue{
 			{3, 195, 16, 16}, {20, 195, 16, 16}};
 		inline static const std::vector<SDL_Rect> ghostAfraidWhite{
@@ -103,7 +105,8 @@ class Coordinate {
 
 
 		/**
-		 * =============== MURS ===============================
+		 * @brief =============== MURS ===============================
+		 *
 		 */
 		inline static const std::vector<SDL_Rect> walls{
 			// ============= Murs de bordure =======
@@ -187,13 +190,15 @@ class Coordinate {
 
 
 		/**
-		 * =============== SORTIE SPAWN =======================
+		 * @brief =============== SORTIE SPAWN =======================
+		 *
 		 */
 		inline static const SDL_Rect door{320, 456, 32, 32};
 
 
 		/**
 		 * =============== TUNNELS ============================
+		 *
 		 */
 		inline static const std::vector<SDL_Rect> tunnels{
 			// Droite
@@ -205,7 +210,8 @@ class Coordinate {
 
 
 		/**
-		 * =============== PACGOMME "dots" ====================
+		 * @brief =============== PACGOMME "dots" ====================
+		 *
 		 */
 		inline static const SDL_Rect dotsTexture{4, 81, 2, 2};
 		inline static const std::vector<SDL_Rect> dots{
@@ -433,7 +439,8 @@ class Coordinate {
 		};
 
 		/**
-		 * =============== SUPER PACGOMME "energizer" =========
+		 * @brief =============== SUPER PACGOMME "energizer" =========
+		 *
 		 */
 		inline static const SDL_Rect energizerTexture{9, 79, 7, 7};
 		inline static const std::vector<SDL_Rect> energizers{
@@ -445,7 +452,8 @@ class Coordinate {
 
 
 		/**
-		 * =============== ALPHABET ===========================
+		 * @brief =============== ALPHABET ===========================
+		 *
 		 */
 		inline static const SDL_Rect alphabetTexture{25, 25,
 			ALPHABET_TEXTURE_WIDTH, 18};
@@ -482,7 +490,8 @@ class Coordinate {
 		};
 
 		/**
-		 * =============== CHIFFRES ===========================
+		 * @brief =============== CHIFFRES ===========================
+		 *
 		 */
 		inline static const SDL_Rect numberTexture{25, 50, NUMBER_TEXTURE_WIDTH,
 			18};
@@ -501,7 +510,8 @@ class Coordinate {
 
 
 		/**
-		 * =============== WORDS ==============================
+		 * @brief =============== MOTS ===============================
+		 *
 		 */
 		inline static const std::vector<int> indexScore{18, 2, 14, 17, 4};
 		inline static const std::vector<int> indexHigh{7, 8, 6, 7};
@@ -514,7 +524,8 @@ class Coordinate {
 
 
 		/**
-		 * =============== MENU ===============================
+		 * @brief =============== MENU ===============================
+		 *
 		 */
 		inline static const SDL_Rect pacmanLogo{3, 3, 182, 48};
 		inline static const SDL_Rect posPacmanLogo{67, 100, 546, 144};

@@ -53,8 +53,8 @@ class Stats {
 		}
 
 
-	/* Setters */
-	private:
+	/* Méthodes */
+	public:
 		inline void addDot(void) {
 			dots_++;
 			score_ += DOT;
@@ -65,9 +65,6 @@ class Stats {
 			score_ += ENERGIZER;
 		}
 
-
-	/* Méthodes */
-	public:
 		inline void addGhost(void) {
 			score_ += GHOST * pow(2, this->getGhostsEaten() - 1);
 		}

@@ -80,14 +80,15 @@ class Interface {
 		bool titleScreen(Stats &statsPac);
 
 		/**
-		 * @brief Mets à jour le score pendant la partie
+		 * @brief Mets à jour le score sur l'interface
 		 *
 		 * @param digits score à afficher
 		 */
 		void drawScore(std::vector<int> digits);
 
 		/**
-		 * @brief Affiche le nombre de vies restantes (sous forme de Pac-Man)
+		 * @brief Affiche le nombre de vies restantes (sous forme de Pac-Man
+		 * 		  sous la carte)
 		 *
 		 * @param healthPoints nombre de vies restantes à afficher
 		 */

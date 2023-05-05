@@ -80,16 +80,17 @@ class Ghost : public Person {
 			timerSpawn_ = timerSpawn;
 		}
 
-		inline void decrementTimerSpawn(void) {
-			timerSpawn_--;
-		}
-
 		inline void setOutSpawn(bool inOrOut) {
 			outSpawn_ = inOrOut;
 		}
 
 
 	/* Méthodes */
+	public:
+		inline void decrementTimerSpawn(void) {
+			timerSpawn_--;
+		}
+
 	public:
 		/**
 		 * @brief Initialise un vecteur de fantômes dans leur configuration de
@@ -116,7 +117,7 @@ class Ghost : public Person {
 		);
 
 		/**
-		 * @brief Déplace le fantôme aléatoire sur la carte
+		 * @brief Déplace le fantôme aléatoirement sur la carte
 		 *
 		 * @param walls les murs présents sur la carte
 		 * @param tunnels les tunnels présents sur la carte
@@ -134,7 +135,7 @@ class Ghost : public Person {
 
 		/**
 		 * @brief Replace le fantôme à sa position initiale à la fin de la
-		 * 		  période de power pellet
+		 * 		  période de "power pellet"
 		 *
 		 */
 		void resetStatus(void);
@@ -158,8 +159,8 @@ class Ghost : public Person {
 		/**
 		 * @brief Retourne un nombre aléatoire entre x et y
 		 *
-		 * @param x borne basse
-		 * @param y borne haute
+		 * @param x borne inférieur
+		 * @param y borne supérieur
 		 * @return int le nombre aléatoire
 		 */
 		int aleaRand(int x, int y);

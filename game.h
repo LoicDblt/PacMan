@@ -54,6 +54,13 @@ class Game {
 
 	/* Setters */
 	public:
+		inline void setCount(int count) {
+			count_ = count;
+		}
+
+
+	/* Méthodes */
+	public:
 		inline void resetDots(void) {
 			dots_ = {Coordinate::dots};
 		}
@@ -62,12 +69,6 @@ class Game {
 			energizers_ = {Coordinate::energizers};
 		}
 
-		inline void setCount(int count) {
-			count_ = count;
-		}
-
-
-	/* Méthodes */
 	public:
 		/**
 		 * @brief Initialise le jeu et l'interface

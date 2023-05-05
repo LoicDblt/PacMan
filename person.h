@@ -80,10 +80,6 @@ class Person : public Entity {
 			healthPoints_ = healthPoints;
 		}
 
-		inline void lostHelthPoint(void) {
-			healthPoints_ -= 1;
-		}
-
 		inline void setAnimation(
 			std::vector<SDL_Rect> left,
 			std::vector<SDL_Rect> right,
@@ -96,16 +92,21 @@ class Person : public Entity {
 			down_ = down;
 		}
 
+
+	/* Méthodes */
+	public:
+		inline void lostHelthPoint(void) {
+			healthPoints_ -= 1;
+		}
+
 		inline void setOutSpawn(void) {
 			outSpawn_ = true;
 		}
 
-
-	/* Méthodes */
 	public:
 		/**
-		 * @brief Déplace le personnage si la direction est accessible
-		 * 		  ou le téléporte s'il emprunte un tunnel
+		 * @brief Déplace le personnage si la direction est accessible, ou le
+		 * 		  téléporte s'il emprunte un tunnel
 		 *
 		 * @param walls
 		 * @param tunnels
@@ -125,8 +126,8 @@ class Person : public Entity {
 		 *
 		 * @param walls les murs présents sur la carte
 		 * @param entity le personnage (Pac-Man ou les fantômes)
-		 * @return true si il y a un mur
-		 * @return false si il n'y a pas de mur
+		 * @return true s'il y a un mur
+		 * @return false s'il n'y a pas de mur
 		 */
 		bool checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity);
 

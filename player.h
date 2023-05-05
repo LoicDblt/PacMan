@@ -58,12 +58,13 @@ class Player : public Person {
 			pelletTime_ += pelletTime;
 		}
 
+
+	/* Méthodes */
+	public:
 		inline void addNbrHealthPointsEarned(void) {
 			nbrHealthPointsEarned_ += 1;
 		}
 
-
-	/* Méthodes */
 	public:
 		/**
 		 * @brief Initialise Pac-Man dans sa configuration de base
@@ -73,7 +74,8 @@ class Player : public Person {
 		static Player initPacMan(void);
 
 		/**
-		 * @brief Vérifie si le joueur est sur un élément
+		 * @brief Vérifie si le joueur est sur un élément et lance la mise à
+		 * 		  jour du score
 		 *
 		 * @param pac Pac-Man
 		 * @param statsPac les stats à mettre à jour en fonction des points
@@ -88,10 +90,11 @@ class Player : public Person {
 		);
 
 		/**
-		 * @brief Vérifie si le joueur est sur un dot ou un energizer
+		 * @brief Vérifie si le joueur est sur un élément et passe les fantômes
+		 * 		  en mode apeuré (si sur une super pacgomme)
 		 *
-		 * @param dots les pacgommes
-		 * @param energizers les super pacgommes
+		 * @param dots les pacgommes à vérifier si on est dessus
+		 * @param energizers les super pacgommes à vérifier si on est dessus
 		 * @param statsPac les stats à mettre à jour en fonction des points
 		 * @param ghosts à passer en mode apeuré
 		 */
@@ -105,7 +108,7 @@ class Player : public Person {
 		/**
 		 * @brief Vérifie si le joueur est sur un fantôme
 		 *
-		 * @param ghosts à vérifier et à renvoyer au spawn si en mode apeuré
+		 * @param ghosts à vérifier et à renvoyer au spawn mangé en mode apeuré
 		 * @param statsPac à mettre à jour en fonction des points
 		 * @param interface afficher l'écran de titre si plus de vie
 		 */
@@ -118,17 +121,17 @@ class Player : public Person {
 		/**
 		 * @brief Vérifie si le joueur est encore en mode "pellet"
 		 *
-		 * @param ghost à reset si fin du mode "pellet"
-		 * @param statsPac à reset si fin du mode "pelelet" (pour le coeff) de
-		 * 				   ghosts tués pendant la période
+		 * @param ghost status à reset si fin du mode "pellet"
+		 * @param statsPac nbr de fantômes mangés à reset si fin du mode
+		 * 				   "pellet" (pour le coeff)
 		 */
 		void checkPelletActive(std::vector<Ghost> &ghost, Stats &statsPac);
 
 		/**
-		 * @brief Vérifie si le joueur est mort
+		 * @brief Vérifie si le joueur est mort pour écrire le score
 		 *
-		 * @param statsPac pour écrire le score
-		 * @param interface afficher l'écran de titre si plus de vie
+		 * @param statsPac pour y écrire le score
+		 * @param interface afficher l'écran de titre si plus de points de vie
 		 * @return true si le joueur est mort
 		 * @return false si le joueur n'est pas mort
 		 */
