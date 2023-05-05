@@ -190,7 +190,7 @@ bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) {
 			break;
 
 		default:
-			std::cerr << "Person Direction UNKNOW" << SDL_GetError()
+			std::cerr << "Person direction is unknown" << SDL_GetError()
 				<< std::endl;
 			break;
 	}

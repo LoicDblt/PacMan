@@ -87,18 +87,18 @@ class Coordinate {
 		// Coordonnées du fantôme orange
 		inline const static std::vector<SDL_Rect> ghostOrangeR{{3, 177, 16, 16},
 			{20, 177, 16, 16}};
-		inline const static std::vector<SDL_Rect> ghostOrangeL{{37, 177, 16, 16},
-			{54, 177, 16, 16}};
-		inline const static std::vector<SDL_Rect> ghostOrangeU{{71, 177, 16, 16},
-			{88, 177, 16, 16}};
-		inline const static std::vector<SDL_Rect> ghostOrangeD{{105, 177, 16, 16},
-			{122, 177, 16, 16}};
+		inline const static std::vector<SDL_Rect> ghostOrangeL{
+			{37, 177, 16, 16}, {54, 177, 16, 16}};
+		inline const static std::vector<SDL_Rect> ghostOrangeU{
+			{71, 177, 16, 16}, {88, 177, 16, 16}};
+		inline const static std::vector<SDL_Rect> ghostOrangeD{
+			{105, 177, 16, 16}, {122, 177, 16, 16}};
 		inline const static SDL_Rect ghostOrangeDefaultPos{
 			360, 504, 32, 32};
 
 		// Coordonnées du fantôme appeuré
-		inline const static std::vector<SDL_Rect> ghostAfraidBlue{{3, 195, 16, 16},
-			{20, 195, 16, 16}};
+		inline const static std::vector<SDL_Rect> ghostAfraidBlue{
+			{3, 195, 16, 16}, {20, 195, 16, 16}};
 		inline const static std::vector<SDL_Rect> ghostAfraidWhite{
 			{37, 195, 16, 16}, {54, 195, 16, 16}};
 
@@ -448,8 +448,8 @@ class Coordinate {
 		/**
 		 * =============== ALPHABET ===========================
 		 */
-		inline const static SDL_Rect alphabetTexture{25, 25, ALPHABET_TEXTURE_WIDTH,
-			18};
+		inline const static SDL_Rect alphabetTexture{25, 25,
+			ALPHABET_TEXTURE_WIDTH, 18};
 		inline const static std::vector<SDL_Rect> alphabet{
 			/****** A - O (première colonne) *****/
 			{11, 60, 9, 9},

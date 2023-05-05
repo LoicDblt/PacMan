@@ -3,7 +3,7 @@
 // Pointeurs
 SDL_Window* pWindow{nullptr};
 SDL_Surface* winSurf{nullptr};
-SDL_Surface* plancheSprites{nullptr};
+SDL_Surface* spritesBoard{nullptr};
 
 // Carte (mise à l'échelle x4)
 SDL_Rect bg{4, 104, 672, 864};
@@ -38,7 +38,7 @@ void initGame(
 		Interface::WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
 	winSurf = SDL_GetWindowSurface(pWindow);
-	plancheSprites = SDL_LoadBMP("./pacman_sprites.bmp");
+	spritesBoard = SDL_LoadBMP("./pacman_sprites.bmp");
 
 	count = 0;
 
@@ -140,39 +140,39 @@ void resetGame(
 }
 
 void draw(void) {
-	SDL_SetColorKey(plancheSprites, false, 0);
-	SDL_BlitScaled(plancheSprites, &Coordinate::backMap[0], winSurf, &bg);
+	SDL_SetColorKey(spritesBoard, false, 0);
+	SDL_BlitScaled(spritesBoard, &Coordinate::backMap[0], winSurf, &bg);
 
 	// Couleur transparente
-	SDL_SetColorKey(plancheSprites, true, 0);
+	SDL_SetColorKey(spritesBoard, true, 0);
 
 	count = (count + 1) % (2048);
 
 	// Affichage Pacgommes
 	for (int i{0}; i < dots.size(); i++) {
-		SDL_BlitScaled(plancheSprites, &Coordinate::dotsTexture, winSurf,
+		SDL_BlitScaled(spritesBoard, &Coordinate::dotsTexture, winSurf,
 			&dots[i]);
 	}
 
 	// Affichage Super Pacgommes
 	for (int i{0}; i < energizers.size(); i++) {
-		SDL_BlitScaled(plancheSprites, &Coordinate::energizerTexture, winSurf,
+		SDL_BlitScaled(spritesBoard, &Coordinate::energizerTexture, winSurf,
 			&energizers[i]);
 	}
 
 	// Affichage du "SCORE"
-	SDL_Rect positionLettre{Coordinate::alphabetTexture};
+	SDL_Rect letterPosition{Coordinate::alphabetTexture};
 
 	for (int i: Coordinate::indexScore) {
-		SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i], winSurf,
-			&positionLettre);
-		positionLettre.x += Coordinate::ALPHABET_TEXTURE_WIDTH;
+		SDL_BlitScaled(spritesBoard, &Coordinate::alphabet[i], winSurf,
+			&letterPosition);
+		letterPosition.x += Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
 }
 
 int main(int argc, char** argv) {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		std::cerr << "Echec de l'initialisation de la SDL " << SDL_GetError()
+		std::cerr << "Failed to initialize SDL" << SDL_GetError()
 			<< std::endl;
 		return EXIT_FAILURE;
 	}
@@ -247,10 +247,10 @@ int main(int argc, char** argv) {
 
 	/**
 	 * Index employés :
-	 * 0 : Fantôme rouge
-	 * 1 : Fantôme bleu
-	 * 2 : Fantôme rose
-	 * 3 : Fantome orange
+	 * - 0 : Fantôme rouge
+	 * - 1 : Fantôme bleu
+	 * - 2 : Fantôme rose
+	 * - 3 : Fantome orange
 	 */
 	Stats statsPac{0, 0, 0};
 	initGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3], statsPac);
@@ -260,7 +260,7 @@ int main(int argc, char** argv) {
 	SDL_Rect* ghostIn{nullptr};
 	SDL_Rect ghostBuffer;
 
-	Interface interface{pWindow, winSurf, plancheSprites};
+	Interface interface{pWindow, winSurf, spritesBoard};
 	bool quit{interface.titleScreen(statsPac)};
 
 	// Boucle principale
@@ -301,7 +301,7 @@ int main(int argc, char** argv) {
 		else if (keys[SDL_SCANCODE_DOWN])
 			pacman.setWishDirection(Person::DOWN);
 
-		// On fait bouger PacMan
+		// Fait bouger PacMan
 		pacman.move(walls, tunnels);
 		pacman.checkPostion(dots, energizers, statsPac, ghosts);
 		pacman.checkGhost(ghosts, statsPac, interface);
@@ -319,8 +319,8 @@ int main(int argc, char** argv) {
 
 
 		/**
-		 * Vérifie si Pac-Man et mort et attend une entrée pour recommencer
-		 * la partie
+		 * Vérifie si Pac-Man et mort et attend une entrée de l'utilisateur
+		 * pour recommencer la partie (ou quitter le jeu)
 		 */
 		if (pacman.isDead(statsPac, interface)) {
 			if (interface.titleScreen(statsPac) == false) {
@@ -339,12 +339,12 @@ int main(int argc, char** argv) {
 		// Mets à jour l'affichage de Pac-Man et des fantômes
 		pacBuffer = pacman.getEntityPic();
 		pacIn = &(pacBuffer);
-		SDL_BlitScaled(plancheSprites, pacIn, winSurf, &pacman.getEntityRect());
+		SDL_BlitScaled(spritesBoard, pacIn, winSurf, &pacman.getEntityRect());
 
 		for (int i{0}; i < ghosts.size(); i++) {
 			ghostBuffer = ghosts[i].getEntityPic();
 			ghostIn = &(ghostBuffer);
-			SDL_BlitScaled(plancheSprites, ghostIn, winSurf,
+			SDL_BlitScaled(spritesBoard, ghostIn, winSurf,
 				&ghosts[i].getEntityRect());
 		}
 
