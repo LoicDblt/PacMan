@@ -21,11 +21,13 @@ bool Interface::titleScreen(Stats &statsPac) {
 	drawRectangle(background);
 
 	// Affichage des logos
+	SDL_Rect posPacman{Coordinate::posPacmanLogo};
 	SDL_BlitScaled(this->getSprites(), &Coordinate::pacmanLogo,
-		this->getSurface(), &Coordinate::posPacmanLogo);
+		this->getSurface(), &posPacman);
 
+	SDL_Rect posNamco{Coordinate::posNamcoLogo};
 	SDL_BlitScaled(this->getSprites(), &Coordinate::namcoLogo,
-		this->getSurface(), &Coordinate::posNamcoLogo);
+		this->getSurface(), &posNamco);
 
 	// Affichage de "SCORE"
 	SDL_Rect positionLettre{Coordinate::alphabetTexture};

@@ -154,7 +154,7 @@ class Ghost : public Person {
 
 		/**
 		 * @brief Force la sortie du spawn en mettant wishDirection à UP
-		*/
+		 */
 		void moveOutOfSpawn(void);
 
 		/**

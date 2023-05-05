@@ -161,7 +161,7 @@ void draw(void) {
 	}
 
 	// Affichage du "SCORE"
-	SDL_Rect positionLettre = Coordinate::alphabetTexture;
+	SDL_Rect positionLettre{Coordinate::alphabetTexture};
 
 	for (int i: Coordinate::indexScore) {
 		SDL_BlitScaled(plancheSprites, &Coordinate::alphabet[i], winSurf,
