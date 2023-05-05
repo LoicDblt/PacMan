@@ -24,7 +24,7 @@ class Entity {
 		);
 
 
-	/* Getter */
+	/* Getters */
 	public:
 		inline SDL_Rect getEntityPic(void) const {
 			return entityPicture_;
@@ -43,7 +43,7 @@ class Entity {
 		}
 
 
-	/* Setter */
+	/* Setters */
 	public:
 		inline void setEntityPic(SDL_Rect entityPicture) {
 			entityPicture_ = entityPicture;

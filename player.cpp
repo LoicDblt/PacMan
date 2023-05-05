@@ -27,6 +27,23 @@ Player::Player(
 	}
 {}
 
+/* Public */
+
+Player Player::initPacMan(void) {
+	return Player{
+		Coordinate::pacDefaultPos,
+		Coordinate::pacB[0],
+		2,
+		Person::NONE,
+		Person::NONE,
+		Player::PAC_HEALTH,
+		Coordinate::pacU,
+		Coordinate::pacD,
+		Coordinate::pacL,
+		Coordinate::pacR
+	};
+}
+
 bool Player::onElement(
 	std::vector<SDL_Rect> &pac,
 	Stats &statsPac,
@@ -64,16 +81,6 @@ void Player::checkPostion(
 			);
 		}
 	}
-}
-
-bool Player::isDead(Stats &statsPac, Interface &interface) {
-	if (this->getHelthPoints() == 0) {
-		statsPac.writeScore();
-
-		return true;
-	}
-
-	return false;
 }
 
 void Player::checkGhost(
@@ -121,17 +128,12 @@ void Player::checkPelletActive(std::vector<Ghost> &ghosts, Stats &statsPac) {
 	}
 }
 
-Player Player::initPacMan(void) {
-	return Player{
-		Coordinate::pacDefaultPos,
-		Coordinate::pacB[0],
-		2,
-		Person::NONE,
-		Person::NONE,
-		Player::PAC_HEALTH,
-		Coordinate::pacU,
-		Coordinate::pacD,
-		Coordinate::pacL,
-		Coordinate::pacR
-	};
+bool Player::isDead(Stats &statsPac, Interface &interface) {
+	if (this->getHelthPoints() == 0) {
+		statsPac.writeScore();
+
+		return true;
+	}
+
+	return false;
 }

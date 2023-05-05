@@ -25,6 +25,8 @@ Person::Person(
 	right_{right}
 {}
 
+/* Public */
+
 void Person::move(
 	std::vector<SDL_Rect> &walls,
 	std::vector<SDL_Rect> &tunnels
@@ -82,27 +84,6 @@ void Person::move(
 	}
 }
 
-bool Person::checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity) {
-	// Vérifie si c'est la porte du spawn
-	if (SDL_HasIntersection(&entity, &Coordinate::door)) {
-		if (this->getOutSpawn())
-			return true;
-		else {
-			if (this->checkOutSpawn())
-				this->setOutSpawn();
-
-			return false;
-		}
-	}
-
-	for (int i{0}; i < walls.size(); i++) {
-		if (SDL_HasIntersection(&entity, &walls[i]))
-			return true;
-	}
-
-	return false;
-}
-
 void Person::animation(int count) {
 	if (count % 5 == 0) {
 		if (tmpAnimation_ == 1)
@@ -131,6 +112,29 @@ void Person::animation(int count) {
 		default:
 			break;
 	}
+}
+
+/* Private */
+
+bool Person::checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity) {
+	// Vérifie si c'est la porte du spawn
+	if (SDL_HasIntersection(&entity, &Coordinate::door)) {
+		if (this->getOutSpawn())
+			return true;
+		else {
+			if (this->checkOutSpawn())
+				this->setOutSpawn();
+
+			return false;
+		}
+	}
+
+	for (int i{0}; i < walls.size(); i++) {
+		if (SDL_HasIntersection(&entity, &walls[i]))
+			return true;
+	}
+
+	return false;
 }
 
 bool Person::checkDirection(std::vector<SDL_Rect> &walls, Direction direction) {

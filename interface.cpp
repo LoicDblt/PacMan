@@ -10,6 +10,7 @@ Interface::Interface(
 	sprites_{sprites}
 {}
 
+/* Public */
 bool Interface::titleScreen(Stats &statsPac) {
 	int windowWidth, windowHeight;
 	SDL_GetWindowSize(this->getWindow(), &windowWidth, &windowHeight);
@@ -234,6 +235,8 @@ void Interface::drawLives(int healthPoints) {
 		position.x += 32 + 14;
 	}
 }
+
+/* Private */
 
 void Interface::drawPushSpace(int windowWidth, int windowHeight) {
 	SDL_Rect letterPosition{Coordinate::alphabetTexture};

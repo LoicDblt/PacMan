@@ -10,6 +10,8 @@ Stats::Stats(
 	score_{score}
 {}
 
+/* Public */
+
 void Stats::updateScore(int earnedPoints) {
 	switch (earnedPoints) {
 		case DOT:
@@ -26,14 +28,6 @@ void Stats::updateScore(int earnedPoints) {
 
 		default:
 			break;
-	}
-}
-
-void Stats::writeScore(void) {
-	std::ofstream scoresFile(Stats::SCORES_FILE, std::ios_base::app);
-	if (scoresFile.is_open()) {
-		scoresFile << this->getScore() << std::endl;
-		scoresFile.close();
 	}
 }
 
@@ -67,6 +61,14 @@ std::vector<unsigned int> Stats::readScores(int numberOfScores) {
 		scores.begin(), scores.begin() + numberOfScores)};
 
 	return nHighest;
+}
+
+void Stats::writeScore(void) {
+	std::ofstream scoresFile(Stats::SCORES_FILE, std::ios_base::app);
+	if (scoresFile.is_open()) {
+		scoresFile << this->getScore() << std::endl;
+		scoresFile.close();
+	}
 }
 
 std::vector<int> Stats::uncomposeNumber(int number) {

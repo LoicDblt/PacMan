@@ -10,10 +10,11 @@
 class Interface {
 	/* Variables et constantes */
 	public:
+		inline static const std::string SPRITE_FILE{"./pacman_sprites.bmp"};
+
 		static const int WINDOW_WIDTH{680};
 		static const int WINDOW_HEIGHT{1022};
 		static const int DELAY{16};
-		inline static const std::string SPRITE_FILE{"./pacman_sprites.bmp"};
 
 	private:
 		SDL_Window* window_ = nullptr;

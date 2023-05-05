@@ -10,13 +10,12 @@
 class Stats {
 	/* Variables et constantes */
 	public:
+		inline static const std::string SCORES_FILE{"scores.txt"};
+
 		static const int DOT{10};
 		static const int ENERGIZER{50};
 		static const int CHERRY{100};
 		static const int GHOST{200};
-
-	public:
-		inline static const std::string SCORES_FILE{"scores.txt"};
 
 	private:
 		int dots_{0};
@@ -100,17 +99,17 @@ class Stats {
 		static std::vector<unsigned int> readScores(int numberOfScores);
 
 		/**
+		 * @brief Ecrit le score dans le fichier des scores
+		 */
+		void writeScore(void);
+
+		/**
 		 * @brief Décompose un nombre en un vecteur de chiffres
 		 *
 		 * @param number chiffre à décomposer
 		 * @return std::vector<int> vecteur des chiffres composant le nombre
 		 */
 		static std::vector<int> uncomposeNumber(int number);
-
-		/**
-		 * @brief Ecrit le score dans le fichier des scores
-		 */
-		void writeScore(void);
 };
 
 #endif

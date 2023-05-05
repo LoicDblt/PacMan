@@ -47,7 +47,7 @@ class Person : public Entity {
 		);
 
 
-	/* Getter */
+	/* Getters */
 	public:
 		inline Direction getDirection(void) const {
 			return direction_;
@@ -62,7 +62,7 @@ class Person : public Entity {
 		}
 
 
-	/* Setter */
+	/* Setters */
 	public:
 		inline void setEntityRect(SDL_Rect entityRect) {
 			entityRect_ = entityRect;

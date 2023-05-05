@@ -11,7 +11,6 @@ class Coordinate {
 		static const int ALPHABET_TEXTURE_WIDTH{18};
 		static const int NUMBER_TEXTURE_WIDTH{18};
 
-	public:
 		/**
 		 * =============== FOND DE CARTE ======================
 		 */

@@ -35,6 +35,7 @@ Ghost::Ghost(
 	timerSpawn_{timerSpawn}
 {}
 
+/* Public */
 
 std::vector<Ghost> Ghost::initGhosts(void) {
 	return std::vector<Ghost>{
@@ -112,33 +113,6 @@ std::vector<Ghost> Ghost::initGhosts(void) {
 	};
 }
 
-Person::Direction Ghost::oppositeDirection(Direction direction) {
-	Direction ret = Person::NONE;
-	switch (direction) {
-		case Person::UP:
-			ret = Person::DOWN;
-			break;
-
-		case Person::DOWN:
-			ret = Person::UP;
-			break;
-
-		case Person::LEFT:
-			ret = Person::RIGHT;
-			break;
-
-		case Person::RIGHT:
-			ret = Person::LEFT;
-			break;
-
-		default:
-			ret = Person::NONE;
-			break;
-	}
-
-	return ret;
-}
-
 void Ghost::moveOutOfSpawn(
 	std::vector<SDL_Rect> &walls,
 	std::vector<SDL_Rect> &tunnels
@@ -212,25 +186,6 @@ void Ghost::aleaMove(
 	previousPosition_ = entityRect_;
 	move(walls, tunnels);
 	previousDirection_ = this->getDirection();
-}
-
-int Ghost::aleaRand(int x, int y) {
-	std::random_device rdm;							// Nbr aléatoire du hardware
-	std::mt19937 gen(rdm());						// Génère une graine
-	std::uniform_int_distribution<> distr(x, y);	// Défini l'intervalle
-
-	return distr(gen);
-}
-
-void Ghost::goCoordinate(int x, int y) {
-	int selfX{this->entityRect_.x};
-	int selfY{this->entityRect_.y};
-
-	if (x > selfX)
-		this->setDirection(RIGHT);
-
-	else if (x < selfX)
-		this->setDirection(LEFT);
 }
 
 void Ghost::eated(void) {
@@ -313,4 +268,52 @@ void Ghost::enableGhost(void) {
 		this->setStatus(HUNTER);
 	else
 		this->decrementTimerSpawn();
+}
+
+/* Private */
+
+Person::Direction Ghost::oppositeDirection(Direction direction) {
+	Direction ret = Person::NONE;
+	switch (direction) {
+		case Person::UP:
+			ret = Person::DOWN;
+			break;
+
+		case Person::DOWN:
+			ret = Person::UP;
+			break;
+
+		case Person::LEFT:
+			ret = Person::RIGHT;
+			break;
+
+		case Person::RIGHT:
+			ret = Person::LEFT;
+			break;
+
+		default:
+			ret = Person::NONE;
+			break;
+	}
+
+	return ret;
+}
+
+int Ghost::aleaRand(int x, int y) {
+	std::random_device rdm;							// Nbr aléatoire du hardware
+	std::mt19937 gen(rdm());						// Génère une graine
+	std::uniform_int_distribution<> distr(x, y);	// Défini l'intervalle
+
+	return distr(gen);
+}
+
+void Ghost::goCoordinate(int x, int y) {
+	int selfX{this->entityRect_.x};
+	int selfY{this->entityRect_.y};
+
+	if (x > selfX)
+		this->setDirection(RIGHT);
+
+	else if (x < selfX)
+		this->setDirection(LEFT);
 }

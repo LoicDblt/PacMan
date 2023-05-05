@@ -10,15 +10,16 @@
 class Game {
 	/* Variables et constantes */
 	public:
-		inline static const SDL_Rect BACKGROUND{4, 104, 672, 864};
 		inline static const std::string GAME_NAME{"Pac-Man"};
 
+		inline static const SDL_Rect BACKGROUND{4, 104, 672, 864};
+
 	private:
-		int count_{0};
-		std::vector<SDL_Rect> walls_{Coordinate::walls};
-		std::vector<SDL_Rect> tunnels_{Coordinate::tunnels};
 		std::vector<SDL_Rect> dots_{Coordinate::dots};
 		std::vector<SDL_Rect> energizers_{Coordinate::energizers};
+		std::vector<SDL_Rect> tunnels_{Coordinate::tunnels};
+		std::vector<SDL_Rect> walls_{Coordinate::walls};
+		int count_{0};
 
 
 	/* Constructeurs et destructeur */
@@ -29,18 +30,6 @@ class Game {
 
 	/* Getters */
 	public:
-		inline int getCount(void) const {
-			return count_;
-		}
-
-		inline std::vector<SDL_Rect>& getWalls(void) {
-			return walls_;
-		}
-
-		inline std::vector<SDL_Rect>& getTunnels(void) {
-			return tunnels_;
-		}
-
 		inline std::vector<SDL_Rect>& getDots(void) {
 			return dots_;
 		}
@@ -50,12 +39,21 @@ class Game {
 		}
 
 
-	/* Setters */
-	public:
-		inline void setCount(int count) {
-			count_ = count;
+		inline std::vector<SDL_Rect>& getTunnels(void) {
+			return tunnels_;
 		}
 
+		inline std::vector<SDL_Rect>& getWalls(void) {
+			return walls_;
+		}
+
+		inline int getCount(void) const {
+			return count_;
+		}
+
+
+	/* Setters */
+	public:
 		inline void resetDots(void) {
 			dots_ = {Coordinate::dots};
 		}
@@ -63,6 +61,11 @@ class Game {
 		inline void resetEnergizers(void) {
 			energizers_ = {Coordinate::energizers};
 		}
+
+		inline void setCount(int count) {
+			count_ = count;
+		}
+
 
 	/* Méthodes */
 	public:

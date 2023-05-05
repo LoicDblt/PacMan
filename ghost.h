@@ -9,14 +9,9 @@
 class Ghost : public Person {
 	/* Variables et constantes */
 	public:
-		/**
-		 * Etats possibles pour les fantômes :
-		 * - HUNTER : chasse Pac-Man
-		 * - PREY : fuit Pac-Man
-		 * - WAIT : attend de sortir du spawn
-		 */
 		enum State {HUNTER, PREY, WAIT};
 		enum Name {BLINKY, PINKY, INKY, CLYDE};
+
 		static const int TIMER_DEAD = 312;
 		static const int TIMER_PINK = 312;
 		static const int TIMER_BLUE = 624;
@@ -153,6 +148,14 @@ class Ghost : public Person {
 
 	private:
 		/**
+		 * @brief Retourne la direction opposée à celle donnée
+		 *
+		 * @param direction à inverser
+		 * @return Person::Direction
+		 */
+		Person::Direction oppositeDirection(Direction direction);
+
+		/**
 		 * @brief Retourne un nombre aléatoire entre x et y
 		 *
 		 * @param x borne basse
@@ -168,14 +171,6 @@ class Ghost : public Person {
 		 * @param y ordonnée
 		 */
 		void goCoordinate(int x, int y);
-
-		/**
-		 * @brief Retourne la direction opposée à celle donnée
-		 *
-		 * @param direction à inverser
-		 * @return Person::Direction
-		 */
-		Person::Direction oppositeDirection(Direction direction);
 };
 
 #endif
