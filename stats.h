@@ -17,6 +17,8 @@ class Stats {
 		static const int CHERRY{100};
 		static const int GHOST{200};
 
+		static const int GIVE_LIFE{10000};
+
 	private:
 		int dots_{0};
 		int energizers_{0};

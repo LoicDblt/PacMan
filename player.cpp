@@ -54,6 +54,15 @@ bool Player::onElement(
 			pac.erase(pac.begin() + i);
 			statsPac.updateScore(element);
 
+			// Ajoute une vie tous les 10000 points
+			if (
+				statsPac.getScore() >
+				(Stats::GIVE_LIFE * (this->getNbrHealthPointsEarned() + 1)) == 1
+			) {
+				this->setHelthPoints(this->getHelthPoints() + 1);
+				this->addNbrHealthPointsEarned();
+			}
+
 			return true;
 		}
 	}

@@ -20,6 +20,7 @@ class Player : public Person {
 
 	private:
 		int pelletTime_{0};
+		int nbrHealthPointsEarned_{0};
 
 
 	/* Constructeurs et destructeur */
@@ -46,11 +47,19 @@ class Player : public Person {
 			return pelletTime_;
 		}
 
+		inline int getNbrHealthPointsEarned(void) const {
+			return nbrHealthPointsEarned_;
+		}
+
 
 	/* Setters */
 	public:
 		inline void setPelletTime(int pelletTime) {
 			pelletTime_ += pelletTime;
+		}
+
+		inline void addNbrHealthPointsEarned(void) {
+			nbrHealthPointsEarned_ += 1;
 		}
 
 
