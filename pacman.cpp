@@ -26,10 +26,7 @@ int count;
 
 void initGame(
 	Player &player,
-	Ghost &red,
-	Ghost &blue,
-	Ghost &pink,
-	Ghost &orange,
+	std::vector<Ghost> &ghosts,
 	Stats &statsPac
 ) {
 	// Créé la fenêtre de jeu
@@ -58,17 +55,17 @@ void initGame(
 		tunnels[i].h *= 4;
 	}
 
-	resetGame(player, red, blue, pink, orange, statsPac);
+	resetGame(player, ghosts, statsPac);
 }
 
 void resetGame(
 	Player &player,
-	Ghost &red,
-	Ghost &blue,
-	Ghost &pink,
-	Ghost &orange,
+	std::vector<Ghost> &ghosts,
 	Stats &statsPac
 ) {
+	// Intialise le compteur
+	count = 0;
+
 	// Initialise les Pacgommes
 	dots = Coordinate::dots;
 	for (int i{0}; i < dots.size(); i++) {
@@ -87,21 +84,9 @@ void resetGame(
 		energizers[i].h *= 4;
 	}
 
-	// Réinitialise tous les personnages à leur place
-	player.setEntityRect(Coordinate::pacDefaultPos);
-	player.setWishDirection(Ghost::NONE);
-	player.setEntityPic(Coordinate::pacB[0]);
-
-	red.setEntityRect(Coordinate::ghostRedDefaultPos);
-	pink.setEntityRect(Coordinate::ghostPinkDefaultPos);
-	blue.setEntityRect(Coordinate::ghostBlueDefaultPos);
-	orange.setEntityRect(Coordinate::ghostOrangeDefaultPos);
-
-	// Réinitialise le status d'emplacement des fantômes
-	red.setOutSpawn(false);
-	pink.setOutSpawn(false);
-	blue.setOutSpawn(false);
-	orange.setOutSpawn(false);
+	// Réinitialise les personnages à leur état d'origine
+	player = Player::initPacMan();
+	ghosts = Ghost::initGhosts();
 }
 
 void draw(void) {
@@ -142,103 +127,12 @@ int main(int argc, char** argv) {
 		return EXIT_FAILURE;
 	}
 
-	// Pac-Man
-	Player pacman{
-		Coordinate::pacDefaultPos,
-		Coordinate::pacB[0],
-		2,
-		Person::NONE,
-		Person::NONE,
-		Player::PAC_HEALTH,
-		Coordinate::pacU,
-		Coordinate::pacD,
-		Coordinate::pacL,
-		Coordinate::pacR
-	};
+	// Créé les personnages dans leur état par défaut
+	Player pacman{Player::initPacMan()};
+	std::vector<Ghost> ghosts{Ghost::initGhosts()};
 
-	std::vector<Ghost> ghosts{
-		// Fantôme rouge
-		{
-			Coordinate::ghostRedDefaultPos,
-			Coordinate::ghostRedL[0],
-			1,
-			Person::LEFT,
-			Person::LEFT,
-			1,
-			Ghost::HUNTER,
-			Ghost::BLINKY,
-			true,
-			Coordinate::ghostRedU,
-			Coordinate::ghostRedD,
-			Coordinate::ghostRedL,
-			Coordinate::ghostRedR,
-			0
-		},
-
-		// Fantôme bleu
-		{
-			Coordinate::ghostBlueDefaultPos,
-			Coordinate::ghostBlueU[0],
-			1,
-			Person::UP,
-			Person::UP,
-			1,
-			Ghost::WAIT,
-			Ghost::INKY,
-			false,
-			Coordinate::ghostBlueU,
-			Coordinate::ghostBlueD,
-			Coordinate::ghostBlueL,
-			Coordinate::ghostBlueR,
-			Ghost::TIMER_BLUE
-		},
-
-		// Fantôme rose
-		{
-			Coordinate::ghostPinkDefaultPos,
-			Coordinate::ghostPinkD[0],
-			1,
-			Person::DOWN,
-			Person::UP,
-			1,
-			Ghost::WAIT,
-			Ghost::PINKY,
-			false,
-			Coordinate::ghostPinkU,
-			Coordinate::ghostPinkD,
-			Coordinate::ghostPinkL,
-			Coordinate::ghostPinkR,
-			Ghost::TIMER_PINK
-		},
-
-		// Fantôme orange
-		{
-			Coordinate::ghostOrangeDefaultPos,
-			Coordinate::ghostOrangeU[0],
-			1,
-			Person::UP,
-			Person::UP,
-			1,
-			Ghost::WAIT,
-			Ghost::CLYDE,
-			false,
-			Coordinate::ghostOrangeU,
-			Coordinate::ghostOrangeD,
-			Coordinate::ghostOrangeL,
-			Coordinate::ghostOrangeR,
-			Ghost::TIMER_ORANGE
-		}
-	};
-
-	/**
-	 * Index employés :
-	 * - 0 : Fantôme rouge
-	 * - 1 : Fantôme bleu
-	 * - 2 : Fantôme rose
-	 * - 3 : Fantome orange
-	 */
 	Stats statsPac{0, 0, 0};
-	initGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3], statsPac);
+	initGame(pacman, ghosts, statsPac);
 
 	SDL_Rect* pacIn{nullptr};
 	SDL_Rect pacBuffer;
@@ -271,7 +165,7 @@ int main(int argc, char** argv) {
 			quit = true;
 
 		if (keys[SDL_SCANCODE_R])
-			resetGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3], statsPac);
+			resetGame(pacman, ghosts, statsPac);
 
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT])
@@ -304,7 +198,6 @@ int main(int argc, char** argv) {
 				ghosts[i].moveOutOfSpawn(walls, tunnels);
 			ghosts[i].animation(count);
 		}
-
 
 		/**
 		 * Vérifie si Pac-Man et mort et attend une entrée de l'utilisateur
@@ -343,8 +236,7 @@ int main(int argc, char** argv) {
 
 		// Vérifie si le niveau est terminé
 		if (dots.empty() && energizers.empty()) {
-			resetGame(pacman, ghosts[0], ghosts[1], ghosts[2], ghosts[3],
-				statsPac);
+			resetGame(pacman, ghosts, statsPac);
 		}
 
 		SDL_UpdateWindowSurface(pWindow);

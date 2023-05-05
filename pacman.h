@@ -17,18 +17,12 @@
  * @brief Initialise le jeu et l'interface
  *
  * @param player Pac-Man
- * @param red fantôme rouge
- * @param blue fantôme bleu
- * @param pink fantôme rose
- * @param orange fantôme orange
+ * @param ghosts vecteur de fantômes
  * @param statsPac les stats à afficher
  */
 void initGame(
 	Player &player,
-	Ghost &red,
-	Ghost &blue,
-	Ghost &pink,
-	Ghost &orange,
+	std::vector<Ghost> &ghosts,
 	Stats &statsPac
 );
 
@@ -36,18 +30,12 @@ void initGame(
  * @brief Replace les dots, energizers, ghosts à leur position d'origine
  *
  * @param player Pac-Man
- * @param red fantôme rouge
- * @param blue fantôme bleu
- * @param pink fantôme rose
- * @param orange fantôme orange
+ * @param ghosts vecteur de fantômes
  * @param statsPac les stats à afficher
  */
 void resetGame(
 	Player &Player,
-	Ghost &red,
-	Ghost &blue,
-	Ghost &pink,
-	Ghost &orange,
+	std::vector<Ghost> &ghosts,
 	Stats &statsPac
 );
 

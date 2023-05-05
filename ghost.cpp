@@ -37,6 +37,83 @@ Ghost::Ghost(
 	timerSpawn_{timerSpawn}
 {}
 
+
+std::vector<Ghost> Ghost::initGhosts(void) {
+	return std::vector<Ghost>{
+		// Fantôme rouge
+		{
+			Coordinate::ghostRedDefaultPos,
+			Coordinate::ghostRedL[0],
+			1,
+			Person::LEFT,
+			Person::LEFT,
+			1,
+			Ghost::HUNTER,
+			Ghost::BLINKY,
+			true,
+			Coordinate::ghostRedU,
+			Coordinate::ghostRedD,
+			Coordinate::ghostRedL,
+			Coordinate::ghostRedR,
+			0
+		},
+
+		// Fantôme bleu
+		{
+			Coordinate::ghostBlueDefaultPos,
+			Coordinate::ghostBlueU[0],
+			1,
+			Person::UP,
+			Person::UP,
+			1,
+			Ghost::WAIT,
+			Ghost::INKY,
+			false,
+			Coordinate::ghostBlueU,
+			Coordinate::ghostBlueD,
+			Coordinate::ghostBlueL,
+			Coordinate::ghostBlueR,
+			Ghost::TIMER_BLUE
+		},
+
+		// Fantôme rose
+		{
+			Coordinate::ghostPinkDefaultPos,
+			Coordinate::ghostPinkD[0],
+			1,
+			Person::DOWN,
+			Person::UP,
+			1,
+			Ghost::WAIT,
+			Ghost::PINKY,
+			false,
+			Coordinate::ghostPinkU,
+			Coordinate::ghostPinkD,
+			Coordinate::ghostPinkL,
+			Coordinate::ghostPinkR,
+			Ghost::TIMER_PINK
+		},
+
+		// Fantôme orange
+		{
+			Coordinate::ghostOrangeDefaultPos,
+			Coordinate::ghostOrangeU[0],
+			1,
+			Person::UP,
+			Person::UP,
+			1,
+			Ghost::WAIT,
+			Ghost::CLYDE,
+			false,
+			Coordinate::ghostOrangeU,
+			Coordinate::ghostOrangeD,
+			Coordinate::ghostOrangeL,
+			Coordinate::ghostOrangeR,
+			Ghost::TIMER_ORANGE
+		}
+	};
+}
+
 void Ghost::moveOutOfSpawn(void) {
 	if (this->getX() == Coordinate::ghostPinkDefaultPos.x)
 		this->setWishDirection(Person::UP);

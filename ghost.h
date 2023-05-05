@@ -97,6 +97,19 @@ class Ghost : public Person {
 	/* Méthodes */
 	public:
 		/**
+		 * @brief Initialise un vecteur de fantômes dans leur configuration de
+		 * 		  base
+		 * 
+		 * @return std::vector<Ghost> vecteur des 4 fantômes initialisés
+		 * 		   Index employés :
+		 * 		   - 0 : Blinky
+		 * 		   - 1 : Inky
+		 * 		   - 2 : Pinky
+		 * 		   - 3 : Clyde
+		 */
+		static std::vector<Ghost> initGhosts(void);
+
+		/**
 		 * @brief Centre la sortie des fantômes dans le spawn
 		 *
 		 * @param walls les murs présents sur la carte

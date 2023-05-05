@@ -122,3 +122,18 @@ void Player::checkPelletActive(std::vector<Ghost> &ghosts, Stats &statsPac) {
 		}
 	}
 }
+
+Player Player::initPacMan(void) {
+	return Player{
+		Coordinate::pacDefaultPos,
+		Coordinate::pacB[0],
+		2,
+		Person::NONE,
+		Person::NONE,
+		Player::PAC_HEALTH,
+		Coordinate::pacU,
+		Coordinate::pacD,
+		Coordinate::pacL,
+		Coordinate::pacR
+	};
+}

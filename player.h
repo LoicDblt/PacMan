@@ -57,6 +57,13 @@ class Player : public Person {
 	/* Méthodes */
 	public:
 		/**
+		 * @brief Initialise Pac-Man dans sa configuration de base
+		 * 
+		 * @return la classe Player intialisée pour PacMan
+		 */
+		static Player initPacMan(void);
+
+		/**
 		 * @brief Vérifie si le joueur est sur un élément
 		 *
 		 * @param pac Pac-Man
