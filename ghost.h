@@ -40,8 +40,8 @@ class Ghost : public Person {
 
 	/* Constructeurs et destructeur */
 	public:
-		Ghost() = default;
-		~Ghost();
+		Ghost(void) = default;
+		~Ghost(void) = default;
 		Ghost(
 			SDL_Rect entityRect,
 			SDL_Rect entityPicture,
@@ -168,11 +168,6 @@ class Ghost : public Person {
 		 * @param y ordonnée
 		 */
 		void goCoordinate(int x, int y);
-
-		/**
-		 * @brief Force la sortie du spawn en mettant wishDirection à UP
-		 */
-		void moveOutOfSpawn(void);
 
 		/**
 		 * @brief Retourne la direction opposée à celle donnée

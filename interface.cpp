@@ -1,7 +1,5 @@
 #include "interface.h"
 
-Interface::~Interface() {}
-
 Interface::Interface(
 	SDL_Window* window,
 	SDL_Surface* surface,

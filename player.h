@@ -24,8 +24,8 @@ class Player : public Person {
 
 	/* Constructeurs et destructeur */
 	public:
-		Player() = default;
-		~Player();
+		Player(void) = default;
+		~Player(void) = default;
 		Player(
 			SDL_Rect entityRect,
 			SDL_Rect entityPicture,

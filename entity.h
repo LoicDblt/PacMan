@@ -16,12 +16,12 @@ class Entity {
 
 	/* Constructeurs et destructeur */
 	public:
-		Entity() = default;
+		Entity(void) = default;
+		~Entity(void) = default;
 		Entity(
 			SDL_Rect entityRect,
 			SDL_Rect entityPicture
 		);
-		~Entity();
 
 
 	/* Getter */

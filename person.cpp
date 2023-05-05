@@ -1,7 +1,5 @@
 #include "person.h"
 
-Person::~Person() {};
-
 Person::Person(
 	SDL_Rect entityRect,
 	SDL_Rect entityPicture,

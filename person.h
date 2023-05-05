@@ -31,6 +31,7 @@ class Person : public Entity {
 	/* Constructeurs et destructeur */
 	public:
 		Person() = default;
+		~Person() = default;
 		Person(
 			SDL_Rect entityRect,
 			SDL_Rect entityPicture,
@@ -44,7 +45,6 @@ class Person : public Entity {
 			std::vector<SDL_Rect> left,
 			std::vector<SDL_Rect> right
 		);
-		~Person();
 
 
 	/* Getter */

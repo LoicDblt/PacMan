@@ -1,7 +1,5 @@
 #include "stats.h"
 
-Stats::~Stats() {}
-
 Stats::Stats(
 	int dots,
 	int energizers,

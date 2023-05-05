@@ -27,13 +27,13 @@ class Stats {
 
 	/* Constructeurs et destructeur */
 	public:
-		Stats() = default;
+		Stats(void) = default;
+		~Stats(void) = default;
 		Stats(
 			int dots,
 			int energizers,
 			int score
 		);
-		~Stats();
 
 
 	/* Getters */

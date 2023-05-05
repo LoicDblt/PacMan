@@ -1,7 +1,5 @@
 #include "player.h"
 
-Player::~Player() {};
-
 Player::Player(
 	SDL_Rect entityRect,
 	SDL_Rect entityPicture,

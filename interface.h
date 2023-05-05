@@ -13,6 +13,7 @@ class Interface {
 		static const int WINDOW_WIDTH{680};
 		static const int WINDOW_HEIGHT{1022};
 		static const int DELAY{16};
+		inline static const std::string SPRITE_FILE{"./pacman_sprites.bmp"};
 
 	private:
 		SDL_Window* window_ = nullptr;
@@ -22,13 +23,13 @@ class Interface {
 
 	/* Constructeurs et destructeur */
 	public:
-		Interface() = default;
+		Interface(void) = default;
+		~Interface(void) = default;
 		Interface(
 			SDL_Window* window,
 			SDL_Surface* surfuace,
 			SDL_Surface* sprites
 		);
-		~Interface();
 
 
 	/* Getters */
@@ -43,6 +44,21 @@ class Interface {
 
 		inline SDL_Surface* getSprites(void) const {
 			return sprites_;
+		}
+
+
+	/* Setters */
+	public:
+		inline void setWindow(SDL_Window* window) {
+			window_ = window;
+		}
+
+		inline void setSurface(SDL_Surface* surface) {
+			surface_ = surface;
+		}
+
+		inline void setSprites(SDL_Surface* sprites) {
+			sprites_ = sprites;
 		}
 
 

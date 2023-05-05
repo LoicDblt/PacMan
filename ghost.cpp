@@ -1,7 +1,5 @@
 #include "ghost.h"
 
-Ghost::~Ghost() {};
-
 Ghost::Ghost(
 	SDL_Rect entityRect,
 	SDL_Rect entityPicture,
@@ -113,17 +111,6 @@ std::vector<Ghost> Ghost::initGhosts(void) {
 		}
 	};
 }
-
-void Ghost::moveOutOfSpawn(void) {
-	if (this->getX() == Coordinate::ghostPinkDefaultPos.x)
-		this->setWishDirection(Person::UP);
-
-	else if (this->getX() < Coordinate::ghostPinkDefaultPos.x)
-		this->setWishDirection(Person::RIGHT);
-
-	else
-		this->setWishDirection(Person::LEFT);
-};
 
 Person::Direction Ghost::oppositeDirection(Direction direction) {
 	Direction ret = Person::NONE;
