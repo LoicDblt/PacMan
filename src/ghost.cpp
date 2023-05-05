@@ -1,4 +1,4 @@
-#include "ghost.h"
+#include "ghost.hpp"
 
 Ghost::Ghost(
 	SDL_Rect entityRect,

@@ -1,4 +1,4 @@
-# Créé le dossier build s'il n'existait pas
+# Créé le dossier build s'il n'existe pas
 mkdir -p build
 cd build
 

@@ -5,8 +5,8 @@
 #include <iostream>
 #include <list>
 
-#include "coordinate.h"
-#include "entity.h"
+#include "coordinate.hpp"
+#include "entity.hpp"
 
 class Person : public Entity {
 	/* Variables et constantes */

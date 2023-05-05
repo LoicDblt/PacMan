@@ -4,8 +4,8 @@
 #include <algorithm>
 #include <fstream>
 
-#include "coordinate.h"
-#include "stats.h"
+#include "coordinate.hpp"
+#include "stats.hpp"
 
 class Interface {
 	/* Variables et constantes */

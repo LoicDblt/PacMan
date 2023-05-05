@@ -1,11 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "coordinate.h"
-#include "ghost.h"
-#include "interface.h"
-#include "person.h"
-#include "stats.h"
+#include "coordinate.hpp"
+#include "ghost.hpp"
+#include "interface.hpp"
+#include "person.hpp"
+#include "stats.hpp"
 
 class Player : public Person {
 	/* Variables et constantes */

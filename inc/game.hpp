@@ -1,11 +1,11 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "coordinate.h"
-#include "ghost.h"
-#include "interface.h"
-#include "player.h"
-#include "stats.h"
+#include "coordinate.hpp"
+#include "ghost.hpp"
+#include "interface.hpp"
+#include "player.hpp"
+#include "stats.hpp"
 
 class Game {
 	/* Variables et constantes */

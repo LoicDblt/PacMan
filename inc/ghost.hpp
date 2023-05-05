@@ -3,8 +3,8 @@
 
 #include <random>
 
-#include "coordinate.h"
-#include "person.h"
+#include "coordinate.hpp"
+#include "person.hpp"
 
 class Ghost : public Person {
 	/* Variables et constantes */

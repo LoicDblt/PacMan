@@ -1,4 +1,4 @@
-#include "stats.h"
+#include "stats.hpp"
 
 Stats::Stats(
 	int dots,

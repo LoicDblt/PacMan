@@ -1,4 +1,4 @@
-#include "person.h"
+#include "person.hpp"
 
 Person::Person(
 	SDL_Rect entityRect,

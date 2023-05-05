@@ -1,4 +1,4 @@
-#include "interface.h"
+#include "interface.hpp"
 
 Interface::Interface(
 	SDL_Window* window,
