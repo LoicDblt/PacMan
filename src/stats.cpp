@@ -51,14 +51,21 @@ std::vector<unsigned int> Stats::readScores(int numberOfScores) {
 			}
 		}
 	}
+	else {
+		std::ofstream file(Stats::SCORES_FILE);
+		if (file.is_open())
+			file.close();
+	}
+
+	if (numberOfLines == 0) {
+		scores.push_back(0);
+		return scores;
+	}
 
 	std::sort(scores.begin(), scores.end(), std::greater<unsigned int>());
 
-	if (numberOfScores > numberOfLines)
-		numberOfScores = numberOfLines;
-
 	std::vector<unsigned int> nHighest{std::vector<unsigned int>(
-		scores.begin(), scores.begin() + numberOfScores)};
+		scores.begin(), scores.begin() + numberOfLines)};
 
 	return nHighest;
 }
@@ -77,6 +84,9 @@ std::vector<int> Stats::uncomposeNumber(int number) {
 		digits.push_back(number % 10);
 		number /= 10;
 	}
+
+	if (digits.size() == 0)
+		digits.push_back(0);
 
 	return digits;
 }

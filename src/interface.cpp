@@ -43,9 +43,6 @@ bool Interface::titleScreen(Stats &statsPac) {
 	std::vector<int> digits{Stats::uncomposeNumber(score)};
 	std::reverse(digits.begin(), digits.end());
 
-	// Si le score est nul, on affiche un seul 0
-	if (digits.size() == 0)
-		digits.push_back(0);
 
 	for (int i: digits) {
 		SDL_BlitScaled(this->getSprites(), &Coordinate::number[i],
@@ -121,10 +118,17 @@ bool Interface::titleScreen(Stats &statsPac) {
 			(digits.size() / 2.0 * Coordinate::NUMBER_TEXTURE_WIDTH)) -
 			Coordinate::NUMBER_TEXTURE_WIDTH;
 
-		for (int j: digits) {
-			SDL_BlitScaled(this->getSprites(), &Coordinate::number[j],
+		// Affiche un tiret si aucun score
+		if (i == 0 && scores.size() == 1) {
+			SDL_BlitScaled(this->getSprites(), &Coordinate::hyphen,
 				this->getSurface(), &digitPosition);
-			digitPosition.x -= Coordinate::NUMBER_TEXTURE_WIDTH;
+		}
+		else {
+			for (int j: digits) {
+				SDL_BlitScaled(this->getSprites(), &Coordinate::number[j],
+					this->getSurface(), &digitPosition);
+				digitPosition.x -= Coordinate::NUMBER_TEXTURE_WIDTH;
+			}
 		}
 
 		digitPosition.y += Coordinate::NUMBER_TEXTURE_WIDTH;
@@ -200,10 +204,6 @@ bool Interface::titleScreen(Stats &statsPac) {
 void Interface::drawScore(std::vector<int> digits) {
 	// Inverse le vecteur pour l'afficher dans le bon sens
 	std::reverse(digits.begin(), digits.end());
-
-	// Si le score est nul, on affiche quand même 0
-	if (digits.size() == 0)
-		digits.push_back(0);
 
 	// Créé un rectangle rempli, à la taille exacte du score à afficher
 	SDL_Rect rect{25, 50, static_cast<int>(
