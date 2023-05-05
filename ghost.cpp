@@ -166,6 +166,7 @@ void Ghost::eated(void) {
 	this->resetStatus();
 	this->setStatus(WAIT);
 	this->setTimerSpawn(Ghost::TIMER_DEAD);
+	this->setOutSpawn(false);
 
 	switch (this->getName()) {
 		case BLINKY:
