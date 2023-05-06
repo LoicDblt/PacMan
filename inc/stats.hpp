@@ -4,8 +4,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <SDL.h>
-#include <vector>
+#include <math.h>
 
 class Stats {
 	/* Variables et constantes */
