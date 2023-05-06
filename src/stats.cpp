@@ -15,15 +15,19 @@ Stats::Stats(
 void Stats::updateScore(int earnedPoints) {
 	switch (earnedPoints) {
 		case DOT:
-			this->addDot();
+			this->addDotEatenScore();
 			break;
 
 		case ENERGIZER:
-			this->addEnergizer();
+			this->addEnergizerEatenScore();
 			break;
 
 		case GHOST:
-			this->addGhost();
+			this->addGhostScore();
+			break;
+
+		case CHERRY:
+			this->addCherryScore();
 			break;
 
 		default:
@@ -65,7 +69,7 @@ std::vector<unsigned int> Stats::readScores(int numberOfScores) {
 	std::sort(scores.begin(), scores.end(), std::greater<unsigned int>());
 
 	std::vector<unsigned int> nHighest{std::vector<unsigned int>(
-		scores.begin(), scores.begin() + numberOfLines)};
+		scores.begin(), scores.begin() + numberOfScores)};
 
 	return nHighest;
 }

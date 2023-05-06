@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include <iostream>
+#include <random>
 #include <vector>
 #include <SDL.h>
 
@@ -48,6 +49,18 @@ class Entity {
 		inline void setEntityPic(SDL_Rect entityPicture) {
 			entityPicture_ = entityPicture;
 		}
+
+
+	/* Méthode */
+	public:
+		/**
+		 * @brief Retourne un nombre aléatoire entre x et y
+		 *
+		 * @param x borne inférieur
+		 * @param y borne supérieur
+		 * @return int le nombre aléatoire
+		 */
+		static int randGenInterval(int x, int y);
 };
 
 #endif

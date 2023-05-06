@@ -10,6 +10,7 @@ class Coordinate {
 	public:
 		static const int ALPHABET_TEXTURE_WIDTH{18};
 		static const int NUMBER_TEXTURE_WIDTH{18};
+		inline static const SDL_Rect NONE_FRUIT{0, 0, 0, 0};
 
 		/**
 		 * @brief =============== FOND DE CARTE ======================

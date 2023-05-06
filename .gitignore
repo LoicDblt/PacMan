@@ -1,5 +1,10 @@
+# Dossiers par défaut
 .DS_Store
 .vscode
-bin
+
+# Dossier contenant les fichiers de build
 build
+
+# Fichiers de base du jeu
+PacMan
 scores.txt

@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "coordinate.hpp"
+#include "entity.hpp"
 #include "ghost.hpp"
 #include "interface.hpp"
 #include "player.hpp"
@@ -19,6 +20,7 @@ class Game {
 		std::vector<SDL_Rect> energizers_{Coordinate::energizers};
 		std::vector<SDL_Rect> tunnels_{Coordinate::tunnels};
 		std::vector<SDL_Rect> walls_{Coordinate::walls};
+		SDL_Rect fruit_{Coordinate::NONE_FRUIT};
 		int count_{0};
 
 
@@ -51,11 +53,24 @@ class Game {
 			return count_;
 		}
 
+		inline int getRandomFruitIndex(void) const {
+			if (dots_.size() == 0)
+				return -1;
+			return Entity::randGenInterval(0, dots_.size() - 1);
+		}
+
+		inline SDL_Rect& getFruit(void) {
+			return fruit_;
+		}
 
 	/* Setters */
 	public:
 		inline void setCount(int count) {
 			count_ = count;
+		}
+
+		inline void setFruit(SDL_Rect fruit) {
+			fruit_ = fruit;
 		}
 
 
@@ -86,7 +101,8 @@ class Game {
 		);
 
 		/**
-		 * @brief Replace les dots, energizers, ghosts à leur position d'origine
+		 * @brief Replace les pacgommes, super pacgommes et ghosts à leur
+		 * 		  position d'origine
 		 *
 		 * @param player Pac-Man
 		 * @param ghosts vecteur de fantômes
@@ -104,6 +120,12 @@ class Game {
 		 * @param interface l'interface du jeu
 		 */
 		void draw(Interface &interface);
+
+		/**
+		 * @brief Génère un fruit à une position aléatoire en prenant la place
+		 *  	  d'une pacgommme
+		 */
+		void genFruit(void);
 };
 
 #endif

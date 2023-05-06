@@ -141,6 +141,9 @@ bool Interface::titleScreen(Stats &statsPac) {
 	bool quit{false};
 	int count{0};
 	while (!quit) {
+		if (count > 2048)
+			count = 0;
+
 		SDL_Event event;
 		while (!quit && SDL_PollEvent(&event)) {
 			switch (event.type) {

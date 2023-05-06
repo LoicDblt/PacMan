@@ -1,8 +1,6 @@
 #ifndef GHOST_H
 #define GHOST_H
 
-#include <random>
-
 #include "coordinate.hpp"
 #include "person.hpp"
 

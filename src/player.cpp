@@ -45,14 +45,14 @@ Player Player::initPacMan(void) {
 }
 
 bool Player::onElement(
-	std::vector<SDL_Rect> &pac,
+	std::vector<SDL_Rect> &element,
 	Stats &statsPac,
-	int element
+	int score
 ) {
-	for (int i{0}; i < pac.size(); i++) {
-		if (SDL_HasIntersection(&this->getEntityRect(), &pac[i])) {
-			pac.erase(pac.begin() + i);
-			statsPac.updateScore(element);
+	for (int i{0}; i < element.size(); i++) {
+		if (SDL_HasIntersection(&this->getEntityRect(), &element[i])) {
+			element.erase(element.begin() + i);
+			statsPac.updateScore(score);
 
 			// Ajoute une vie tous les 10000 points
 			if (
@@ -73,10 +73,19 @@ bool Player::onElement(
 void Player::checkPostion(
 	std::vector<SDL_Rect> &dots,
 	std::vector<SDL_Rect> &energizers,
+	SDL_Rect &fruit,
 	Stats &statsPac,
 	std::vector<Ghost> &ghosts
 ) {
+	// Pac gommes
 	onElement(dots, statsPac, Stats::DOT);
+
+	// Fruits
+	std::vector<SDL_Rect> buffFruit{fruit};
+	if (onElement(buffFruit, statsPac, Stats::CHERRY))
+		fruit = Coordinate::NONE_FRUIT;
+
+	// Energizers
 	if (onElement(energizers, statsPac, Stats::ENERGIZER)) {
 		this->setPelletTime(TIMER_PELLET);
 

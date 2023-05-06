@@ -39,40 +39,55 @@ class Stats {
 
 	/* Getters */
 	public:
-		inline int getDots(void) const {
+		inline int getDotsEaten(void) const {
 			return dots_;
 		}
-		inline int getEnergizers(void) const {
+
+		inline int getEnergizersEaten(void) const {
 			return energizers_;
 		}
-		inline int getScore(void) const {
-			return score_;
-		}
+
 		inline int getGhostsEaten(void) const {
 			return ghostsEaten_;
+		}
+
+		inline int getScore(void) const {
+			return score_;
 		}
 
 
 	/* Méthodes */
 	public:
-		inline void addDot(void) {
+		inline void addDotEatenScore(void) {
 			dots_++;
 			score_ += DOT;
 		}
 
-		inline void addEnergizer(void) {
+		inline void addEnergizerEatenScore(void) {
 			energizers_++;
 			score_ += ENERGIZER;
 		}
 
-		inline void addGhost(void) {
+		inline void addGhostScore(void) {
 			score_ += GHOST * pow(2, this->getGhostsEaten() - 1);
+		}
+
+		inline void addCherryScore(void) {
+			score_ += CHERRY;
 		}
 
 		inline void addGhostsEaten(void) {
 			ghostsEaten_++;
 			if (this->getGhostsEaten() > 4)
 				std::cerr << "Error: ghostsEaten_ > 4" << std::endl;
+		}
+
+			inline void resetDotsEaten(void) {
+			dots_ = 0;
+		}
+	
+		inline void resetEnergizersEaten(void) {
+			energizers_ = 0;
 		}
 
 		inline void resetGhostsEaten(void) {

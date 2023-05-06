@@ -77,30 +77,32 @@ class Player : public Person {
 		 * @brief Vérifie si le joueur est sur un élément et lance la mise à
 		 * 		  jour du score
 		 *
-		 * @param pac Pac-Man
+		 * @param element à vérifier si on est dessus
 		 * @param statsPac les stats à mettre à jour en fonction des points
-		 * @param element pacgommes ou super pacgommes
+		 * @param score à ajouter en cas de collision
 		 * @return true si le joueur est sur un élément
 		 * @return false si le joueur n'est pas sur un élément
 		 */
 		bool onElement(
-			std::vector<SDL_Rect> &pac,
+			std::vector<SDL_Rect> &element,
 			Stats &statsPac,
-			int element
+			int score
 		);
 
 		/**
 		 * @brief Vérifie si le joueur est sur un élément et passe les fantômes
 		 * 		  en mode apeuré (si sur une super pacgomme)
 		 *
-		 * @param dots les pacgommes à vérifier si on est dessus
-		 * @param energizers les super pacgommes à vérifier si on est dessus
+		 * @param dots les pacgommes à vérifier si l'on est dessus
+		 * @param energizers les super pacgommes à vérifier si l'on est dessus
+		 * @param fruit le fruit à vérifier si l'on est dessus
 		 * @param statsPac les stats à mettre à jour en fonction des points
 		 * @param ghosts à passer en mode apeuré
 		 */
 		void checkPostion(
 			std::vector<SDL_Rect> &dots,
 			std::vector<SDL_Rect> &energizers,
+			SDL_Rect &fruit,
 			Stats &statsPac,
 			std::vector<Ghost> &ghosts
 		);
