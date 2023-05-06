@@ -43,9 +43,12 @@ int main(int argc, char** argv) {
 		const Uint8* keys{SDL_GetKeyboardState(&nbk)};
 
 		// Quitter
-		if (keys[SDL_SCANCODE_ESCAPE])
+		if (keys[SDL_SCANCODE_ESCAPE]) {
 			quit = true;
+			statsPac.writeScore();
+		}
 
+		// [DEBUG] Réinitialisation de la partie
 		if (keys[SDL_SCANCODE_R])
 			game.resetGame(pacman, ghosts, statsPac);
 
@@ -84,7 +87,7 @@ int main(int argc, char** argv) {
 
 		/**
 		 * Vérifie si Pac-Man et mort et attend une entrée de l'utilisateur
-		 * pour recommencer la partie (ou quitter le jeu)
+		 * pour recommencer la partie, ou quitter le jeu
 		 */
 		if (pacman.isDead(statsPac, interface)) {
 			if (interface.titleScreen(statsPac) == false) {
@@ -100,8 +103,10 @@ int main(int argc, char** argv) {
 		// Détermine un emplacement pour la cerise
 		if (
 			SDL_RectEquals(&game.getFruit(), &Coordinate::NONE_FRUIT) &&
-			statsPac.getDotsEaten() == 70 ||
-			statsPac.getDotsEaten() == 170
+			(
+				statsPac.getDotsEaten() == 70 ||
+				statsPac.getDotsEaten() == 170
+			)
 		)
 			game.genFruit();
 

@@ -26,7 +26,6 @@ class Ghost : public Person {
 
 		// Etat du fantôme
 		State status_{WAIT};
-		bool outSpawn_{false};
 		Name name_;
 		int timerSpawn_{0};
 
@@ -78,15 +77,12 @@ class Ghost : public Person {
 			timerSpawn_ = timerSpawn;
 		}
 
-		inline void setOutSpawn(bool inOrOut) {
-			outSpawn_ = inOrOut;
-		}
-
 
 	/* Méthodes */
 	public:
-		inline void decrementTimerSpawn(void) {
-			timerSpawn_--;
+		void decrementTimerSpawn(void) {
+			if (this->timerSpawn_ > 0)
+				timerSpawn_--;
 		}
 
 	public:
