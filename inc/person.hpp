@@ -1,7 +1,6 @@
 #ifndef PERSON_H
 #define PERSON_H
 
-#include <cstdlib>
 #include <iostream>
 #include <list>
 
@@ -80,6 +79,10 @@ class Person : public Entity {
 			healthPoints_ = healthPoints;
 		}
 
+		inline void setOutSpawn(bool outSpawn) {
+			outSpawn_ = outSpawn;
+		}
+
 		inline void setAnimation(
 			std::vector<SDL_Rect> left,
 			std::vector<SDL_Rect> right,
@@ -90,10 +93,6 @@ class Person : public Entity {
 			right_ = right;
 			up_ = up;
 			down_ = down;
-		}
-
-		inline void setOutSpawn(void) {
-			outSpawn_ = true;
 		}
 
 

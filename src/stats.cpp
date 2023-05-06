@@ -65,6 +65,8 @@ std::vector<unsigned int> Stats::readScores(int numberOfScores) {
 		scores.push_back(0);
 		return scores;
 	}
+	else if (numberOfLines < numberOfScores)
+		numberOfScores = numberOfLines;
 
 	std::sort(scores.begin(), scores.end(), std::greater<unsigned int>());
 

@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+/* Public */
+
 void Game::initGame(
 	Player &player,
 	std::vector<Ghost> &ghosts,
@@ -89,7 +91,6 @@ void Game::draw(Interface &interface) {
 	// Affichage du fruit
 	SDL_BlitScaled(interface.getSprites(), &Coordinate::cherry[0],
 		interface.getSurface(), &this->getFruit());
-
 
 	// Affichage Super Pacgommes
 	for (int i{0}; i < this->getEnergizers().size(); i++) {

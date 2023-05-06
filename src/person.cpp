@@ -123,7 +123,7 @@ bool Person::checkWalls(std::vector<SDL_Rect> &walls, SDL_Rect &entity) {
 			return true;
 		else {
 			if (this->checkOutSpawn())
-				this->setOutSpawn();
+				this->setOutSpawn(true);
 
 			return false;
 		}

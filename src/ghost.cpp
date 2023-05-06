@@ -117,7 +117,7 @@ void Ghost::moveOutOfSpawn(
 	std::vector<SDL_Rect> &walls,
 	std::vector<SDL_Rect> &tunnels
 ) {
-	if (this->getStatus() == HUNTER) {
+	if (this->getTimerSpawn() == 0) {
 		if (this->getX() == Coordinate::ghostPinkDefaultPos.x)
 			this->setWishDirection(Person::UP);
 
@@ -198,6 +198,13 @@ void Ghost::eated(void) {
 	switch (this->getName()) {
 		case BLINKY:
 			this->setEntityRect(Coordinate::ghostRedDefaultPos);
+			this->setDirection(LEFT);
+			this->setOutSpawn(true);
+			break;
+
+		case INKY:
+			this->setEntityRect(Coordinate::ghostBlueDefaultPos);
+			this->setDirection(UP);
 			break;
 
 		case PINKY:
@@ -205,12 +212,9 @@ void Ghost::eated(void) {
 			this->setDirection(DOWN);
 			break;
 
-		case INKY:
-			this->setEntityRect(Coordinate::ghostBlueDefaultPos);
-			break;
-
 		case CLYDE:
 			this->setEntityRect(Coordinate::ghostOrangeDefaultPos);
+			this->setDirection(UP);
 			break;
 
 		default:
