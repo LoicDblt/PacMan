@@ -149,14 +149,14 @@ void Ghost::aleaMove(
 	auto iterList{validDirection.begin()};
 
 	if (size == 3) {
-		int nbr{aleaRand(0, size - 1)};
+		int nbr{Entity::randGenInterval(0, size - 1)};
 		std::advance(iterList, nbr);
 		setWishDirection(*iterList);
 	}
 
 	// Si bloqué cherche une autre direction
 	if (roundCmpt_ == 2) {
-		int nbr{aleaRand(1, 4)};
+		int nbr{Entity::randGenInterval(1, 4)};
 		switch (nbr) {
 			case 1:
 				setWishDirection(UP);
@@ -297,14 +297,6 @@ Person::Direction Ghost::oppositeDirection(Direction direction) {
 	}
 
 	return ret;
-}
-
-int Ghost::aleaRand(int x, int y) {
-	std::random_device rdm;							// Nbr aléatoire du hardware
-	std::mt19937 gen(rdm());						// Génère une graine
-	std::uniform_int_distribution<> distr(x, y);	// Défini l'intervalle
-
-	return distr(gen);
 }
 
 void Ghost::goCoordinate(int x, int y) {

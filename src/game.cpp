@@ -62,6 +62,11 @@ void Game::resetGame(
 	// Réinitialise les personnages à leur état d'origine
 	player = Player::initPacMan();
 	ghosts = Ghost::initGhosts();
+
+	// Réinitialise les statistiques
+	statsPac.resetDotsEaten();
+	statsPac.resetEnergizersEaten();
+	statsPac.resetGhostsEaten();
 }
 
 void Game::draw(Interface &interface) {
@@ -81,6 +86,11 @@ void Game::draw(Interface &interface) {
 			interface.getSurface(), &this->getDots()[i]);
 	}
 
+	// Affichage du fruit
+	SDL_BlitScaled(interface.getSprites(), &Coordinate::cherry[0],
+		interface.getSurface(), &this->getFruit());
+
+
 	// Affichage Super Pacgommes
 	for (int i{0}; i < this->getEnergizers().size(); i++) {
 		SDL_BlitScaled(interface.getSprites(), &Coordinate::energizerTexture,
@@ -95,4 +105,19 @@ void Game::draw(Interface &interface) {
 			interface.getSurface(), &letterPosition);
 		letterPosition.x += Coordinate::ALPHABET_TEXTURE_WIDTH;
 	}
+}
+
+void Game::genFruit(void) {
+	int fruitIndex = Entity::randGenInterval(0,
+		this->getDots().size() - 1);
+
+	// Mets à l'échelle
+	SDL_Rect buffFruit = this->getDots()[fruitIndex];
+	buffFruit.x -= buffFruit.w + 4;
+	buffFruit.y -= buffFruit.h + 4;
+	buffFruit.w *= 4;
+	buffFruit.h *= 4;
+	this->setFruit(buffFruit);
+
+	this->getDots().erase(this->getDots().begin() + fruitIndex);
 }

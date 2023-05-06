@@ -67,8 +67,8 @@ int main(int argc, char** argv) {
 
 		// Fait bouger PacMan
 		pacman.move(game.getWalls(), game.getTunnels());
-		pacman.checkPostion(game.getDots(), game.getEnergizers(), statsPac,
-			ghosts);
+		pacman.checkPostion(game.getDots(), game.getEnergizers(),
+			game.getFruit(), statsPac, ghosts);
 		pacman.checkGhost(ghosts, statsPac, interface);
 		pacman.checkPelletActive(ghosts, statsPac);
 		pacman.animation(game.getCount());
@@ -96,6 +96,14 @@ int main(int argc, char** argv) {
 				continue;
 			}
 		}
+
+		// Détermine un emplacement pour la cerise
+		if (
+			SDL_RectEquals(&game.getFruit(), &Coordinate::NONE_FRUIT) &&
+			statsPac.getDotsEaten() == 70 ||
+			statsPac.getDotsEaten() == 170
+		)
+			game.genFruit();
 
 		// Affichage du fond
 		game.draw(interface);

@@ -92,15 +92,15 @@ class Person : public Entity {
 			down_ = down;
 		}
 
+		inline void setOutSpawn(void) {
+			outSpawn_ = true;
+		}
+
 
 	/* Méthodes */
 	public:
 		inline void lostHelthPoint(void) {
 			healthPoints_ -= 1;
-		}
-
-		inline void setOutSpawn(void) {
-			outSpawn_ = true;
 		}
 
 	public:
