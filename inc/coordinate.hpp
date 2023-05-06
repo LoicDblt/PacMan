@@ -1,7 +1,6 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
-#include <list>
 #include <SDL.h>
 #include <vector>
 

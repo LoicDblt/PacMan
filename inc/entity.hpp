@@ -1,9 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <iostream>
 #include <random>
-#include <vector>
 #include <SDL.h>
 
 class Entity {

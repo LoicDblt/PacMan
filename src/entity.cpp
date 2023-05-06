@@ -8,6 +8,8 @@ Entity::Entity(
 	entityPicture_{entityPicture}
 {}
 
+/* Public */
+
 int Entity::randGenInterval(int x, int y) {
 	std::random_device rdm;							// Nbr aléatoire du hardware
 	std::mt19937 gen(rdm());						// Génère une graine

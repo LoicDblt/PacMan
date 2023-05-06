@@ -1,5 +1,7 @@
 #include "game.hpp"
 
+/* Public */
+
 void Game::initGame(
 	Player &player,
 	std::vector<Ghost> &ghosts,
