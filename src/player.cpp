@@ -77,7 +77,7 @@ void Player::checkPostion(
 	Stats &statsPac,
 	std::vector<Ghost> &ghosts
 ) {
-	// Pacgommes
+	// Pac-gommes
 	onElement(dots, statsPac, Stats::DOT);
 
 	// Fruits
@@ -85,7 +85,7 @@ void Player::checkPostion(
 	if (onElement(buffFruit, statsPac, Stats::CHERRY))
 		fruit = Coordinate::NONE_FRUIT;
 
-	// Super pacgommes
+	// Super pac-gommes
 	if (onElement(energizers, statsPac, Stats::ENERGIZER)) {
 		this->setPelletTime(TIMER_PELLET);
 

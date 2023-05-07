@@ -43,7 +43,7 @@ void Game::resetGame(
 	// Intialise le compteur
 	this->setCount(0);
 
-	// Initialise les Pacgommes
+	// Initialise les pac-gommes
 	this->resetDots();
 	for (int i{0}; i < this->getDots().size(); i++) {
 		this->getDots()[i].x = 4 * (this->getDots()[i].x + 1);
@@ -52,7 +52,7 @@ void Game::resetGame(
 		this->getDots()[i].h *= 8;
 	}
 
-	// Initialise les super Pacgommes
+	// Initialise les super pac-gommes
 	this->resetEnergizers();
 	for (int i{0}; i < this->getEnergizers().size(); i++) {
 		this->getEnergizers()[i].x = 4 * (this->getEnergizers()[i].x + 1);
@@ -82,7 +82,7 @@ void Game::draw(Interface &interface) {
 
 	this->setCount((this->getCount() + 1) % (2048));
 
-	// Affichage Pacgommes
+	// Affichage pac-gommes
 	for (int i{0}; i < this->getDots().size(); i++) {
 		SDL_BlitScaled(interface.getSprites(), &Coordinate::dotsTexture,
 			interface.getSurface(), &this->getDots()[i]);
@@ -92,7 +92,7 @@ void Game::draw(Interface &interface) {
 	SDL_BlitScaled(interface.getSprites(), &Coordinate::cherry[0],
 		interface.getSurface(), &this->getFruit());
 
-	// Affichage Super Pacgommes
+	// Affichage super pac-gommes
 	for (int i{0}; i < this->getEnergizers().size(); i++) {
 		SDL_BlitScaled(interface.getSprites(), &Coordinate::energizerTexture,
 			interface.getSurface(), &this->getEnergizers()[i]);

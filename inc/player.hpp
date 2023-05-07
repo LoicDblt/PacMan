@@ -92,10 +92,10 @@ class Player : public Person {
 
 		/**
 		 * @brief Vérifie si le joueur est sur un élément et passe les fantômes
-		 * 		  en mode apeuré (si sur une super pacgomme)
+		 * 		  en mode apeuré si Pac-Man est sur une super pac-gomme
 		 *
-		 * @param dots les pacgommes à vérifier si l'on est dessus
-		 * @param energizers les super pacgommes à vérifier si l'on est dessus
+		 * @param dots les pac-gommes à vérifier si l'on est dessus
+		 * @param energizers les super pac-gommes à vérifier si l'on est dessus
 		 * @param fruit le fruit à vérifier si l'on est dessus
 		 * @param statsPac les stats à mettre à jour en fonction des points
 		 * @param ghosts à passer en mode apeuré
@@ -111,7 +111,8 @@ class Player : public Person {
 		/**
 		 * @brief Vérifie si le joueur est sur un fantôme
 		 *
-		 * @param ghosts à vérifier et à renvoyer au spawn mangé en mode apeuré
+		 * @param ghosts à vérifier et à renvoyer au spawn, si mangé en mode
+		 * 				 apeuré
 		 * @param statsPac à mettre à jour en fonction des points
 		 * @param interface afficher l'écran de titre si plus de vie
 		 */

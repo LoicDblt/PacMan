@@ -101,7 +101,7 @@ class Game {
 		);
 
 		/**
-		 * @brief Replace les pacgommes, super pacgommes et ghosts à leur
+		 * @brief Replace les pac-gommes, super pac-gommes et fantômes à leur
 		 * 		  position d'origine
 		 *
 		 * @param player Pac-Man

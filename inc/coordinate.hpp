@@ -197,7 +197,7 @@ class Coordinate {
 
 
 		/**
-		 * =============== TUNNELS ============================
+		 * @brief =============== TUNNELS ============================
 		 *
 		 */
 		inline static const std::vector<SDL_Rect> tunnels{
@@ -210,7 +210,7 @@ class Coordinate {
 
 
 		/**
-		 * @brief =============== PACGOMME "dots" ====================
+		 * @brief =============== PAC-GOMME "dots" ===================
 		 *
 		 */
 		inline static const SDL_Rect dotsTexture{4, 81, 2, 2};
@@ -439,7 +439,7 @@ class Coordinate {
 		};
 
 		/**
-		 * @brief =============== SUPER PACGOMME "energizer" =========
+		 * @brief =============== SUPER PAC-GOMME "energizer" ========
 		 *
 		 */
 		inline static const SDL_Rect energizerTexture{9, 79, 7, 7};

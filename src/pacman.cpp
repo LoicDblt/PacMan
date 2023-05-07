@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
 
 		if (keys[SDL_SCANCODE_R]){
 			game.resetGame(pacman, ghosts, statsPac);
-			std::cout << "DEBUG: Reset Game" << std::endl;
+			std::cout << ">>> [DEBUG] Forced game reset" << std::endl;
 		}
 
 		// Droite
