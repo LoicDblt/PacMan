@@ -29,14 +29,14 @@ Player::Player(
 
 /* Public */
 
-Player Player::initPacMan(void) {
+Player Player::initPacMan(int healthPoints) {
 	return Player{
 		Coordinate::pacDefaultPos,
 		Coordinate::pacB[0],
 		2,
 		Person::NONE,
 		Person::NONE,
-		Player::PAC_HEALTH,
+		healthPoints,
 		Coordinate::pacU,
 		Coordinate::pacD,
 		Coordinate::pacL,

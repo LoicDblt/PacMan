@@ -60,7 +60,7 @@ void Game::resetGame(
 	}
 
 	// Réinitialise les personnages à leur état d'origine
-	player = Player::initPacMan();
+	player = Player::initPacMan(player.getHelthPoints());
 	ghosts = Ghost::initGhosts();
 
 	// Réinitialise les statistiques

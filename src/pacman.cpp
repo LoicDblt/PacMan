@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
 	Interface interface{};
 
 	// Créé les personnages dans leur état par défaut
-	Player pacman{Player::initPacMan()};
+	Player pacman{Player::initPacMan(Player::PAC_HEALTH)};
 	std::vector<Ghost> ghosts{Ghost::initGhosts()};
 
 	Stats statsPac{0, 0, 0};
