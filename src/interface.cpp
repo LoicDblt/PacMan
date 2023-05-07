@@ -11,6 +11,7 @@ Interface::Interface(
 {}
 
 /* Public */
+
 bool Interface::titleScreen(Stats &statsPac) {
 	int windowWidth, windowHeight;
 	SDL_GetWindowSize(this->getWindow(), &windowWidth, &windowHeight);

@@ -21,7 +21,6 @@ int main(int argc, char** argv) {
 	SDL_Rect pacBuffer;
 	SDL_Rect* ghostIn{nullptr};
 	SDL_Rect ghostBuffer;
-
 	bool quit{interface.titleScreen(statsPac)};
 
 	// Boucle principale
@@ -48,9 +47,10 @@ int main(int argc, char** argv) {
 			statsPac.writeScore();
 		}
 
-		// [DEBUG] Réinitialisation de la partie
-		if (keys[SDL_SCANCODE_R])
+		if (keys[SDL_SCANCODE_R]){
 			game.resetGame(pacman, ghosts, statsPac);
+			std::cout << "DEBUG: Reset Game" << std::endl;
+		}
 
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT])
