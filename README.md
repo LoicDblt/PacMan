@@ -3,8 +3,8 @@
 Ce projet réalisé dans le cadre de l'unité d'enseignement de programmation
 avancé, a pour but d'implémenter le jeu Pac-Man.  
 Pour cela, nous avons dû utiliser la librairie SDL2, mais également mettre en
-pratique le plus de possibilités offertes par C++, tout en maintenant un aspect
-objet.
+pratique le plus de possibilités offertes par C++, tout en tirant parti de
+l'aspect objet offert par le langage.
 
 # Compilation
 

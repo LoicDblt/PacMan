@@ -509,10 +509,12 @@ class Coordinate {
 		};
 
 
-		/** 
+		/**
 		 * @brief =============== SYMBOLE =============================
-		*/
+		 *
+		 */
 		inline static const SDL_Rect hyphen{83, 52, 9, 9};
+
 
 		/**
 		 * @brief =============== MOTS ===============================

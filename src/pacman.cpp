@@ -47,11 +47,6 @@ int main(int argc, char** argv) {
 			statsPac.writeScore();
 		}
 
-		if (keys[SDL_SCANCODE_R]){
-			game.resetGame(pacman, ghosts, statsPac);
-			std::cout << ">>> [DEBUG] Forced game reset" << std::endl;
-		}
-
 		// Droite
 		else if (keys[SDL_SCANCODE_RIGHT])
 			pacman.setWishDirection(Person::RIGHT);
@@ -68,7 +63,7 @@ int main(int argc, char** argv) {
 		else if (keys[SDL_SCANCODE_DOWN])
 			pacman.setWishDirection(Person::DOWN);
 
-		// Fait bouger PacMan
+		// Fait bouger Pac-Man
 		pacman.move(game.getWalls(), game.getTunnels());
 		pacman.checkPostion(game.getDots(), game.getEnergizers(),
 			game.getFruit(), statsPac, ghosts);
@@ -86,7 +81,7 @@ int main(int argc, char** argv) {
 		}
 
 		/**
-		 * Vérifie si Pac-Man et mort et attend une entrée de l'utilisateur
+		 * Vérifie si Pac-Man est mort et attend une entrée de l'utilisateur
 		 * pour recommencer la partie, ou quitter le jeu
 		 */
 		if (pacman.isDead(statsPac, interface)) {
@@ -126,7 +121,7 @@ int main(int argc, char** argv) {
 				interface.getSurface(), &ghosts[i].getEntityRect());
 		}
 
-		// Mise à jour de l'affichage du score et des vies
+		// Mets à jour l'affichage du score et les vies
 		std::vector<int> digits{statsPac.uncomposeNumber(statsPac.getScore())};
 		interface.drawScore(digits);
 		interface.drawLives(pacman.getHelthPoints());

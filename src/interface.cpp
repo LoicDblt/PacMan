@@ -16,7 +16,7 @@ bool Interface::titleScreen(Stats &statsPac) {
 	int windowWidth, windowHeight;
 	SDL_GetWindowSize(this->getWindow(), &windowWidth, &windowHeight);
 
-	// Reset le background
+	// Réinitialise le fond
 	SDL_Rect background{0, 0, windowWidth, windowHeight};
 	drawRectangle(background);
 

@@ -70,7 +70,7 @@ class Player : public Person {
 		 * @brief Initialise Pac-Man dans sa configuration de base
 		 * 
 		 * @param healthPoints les points de vie que Pac-Man aura
-		 * @return la classe Player intialisée pour PacMan
+		 * @return la classe Player intialisée pour Pac-Man
 		 */
 		static Player initPacMan(int healthPoints);
 
